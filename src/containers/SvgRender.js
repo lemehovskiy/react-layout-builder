@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Vector from './Vector';
+import Handler from './Handler';
 
 class SvgRender extends React.Component {
 
@@ -11,11 +12,15 @@ class SvgRender extends React.Component {
     }
 
     render() {
-
         return (
-            <svg width='800' height='500'>
-                <Vector/>
-            </svg>
+            <div className="container">
+                <svg width='800' height='500'>
+                    {this.props.objects.map(function(object){
+                        return <Vector key={object.id} object={object}/>
+                    })}
+                </svg>
+                <Handler/>
+            </div>
         )
     }
 }
