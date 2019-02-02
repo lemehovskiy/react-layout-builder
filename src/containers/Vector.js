@@ -1,6 +1,7 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import EditModeHelper from './EditModeHelper.js';
 
 import {
     updateHandlerObjectIndex
@@ -15,33 +16,55 @@ class Vector extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            onHoverMode: false,
+            onSelectMode: false
+        }
     }
 
     onMouseOver() {
-        this.props.updateHandlerObjectIndex(this.props.object.id);
+        this.setState({
+            onHoverMode: true
+        })
     }
 
     onMouseOut() {
-        this.props.updateHandlerObjectIndex(null);
+        this.setState({
+            onHoverMode: false
+        })
+    }
+
+    onMouseClick() {
+        this.setState({
+            onSelectMode: true
+        })
     }
 
     render() {
         return (
-            <rect
-                width={this.props.object.width}
-                height={this.props.object.height}
-                x={this.props.object.x}
-                y={this.props.object.y}
-                onMouseOver={this.onMouseOver.bind(this)}
-                onMouseOut={this.onMouseOut.bind(this)}
-            />
+            <g>
+                <rect
+                    width={this.props.object.width}
+                    height={this.props.object.height}
+                    x={this.props.object.x}
+                    y={this.props.object.y}
+                    onMouseOver={this.onMouseOver.bind(this)}
+                    onMouseOut={this.onMouseOut.bind(this)}
+                    onClick={this.onMouseClick.bind(this)}
+                    cursor="move"
+                />
+
+                {this.state.onSelectMode ? <EditModeHelper width={this.props.object.width}
+                                                           height={this.props.object.height}
+                                                           x={this.props.object.x}
+                                                           y={this.props.object.y}/> : ''}
+            </g>
         )
     }
 }
 
-const mapStateToProps = ({ svgRender }) => ({
-
-})
+const mapStateToProps = ({svgRender}) => ({})
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
