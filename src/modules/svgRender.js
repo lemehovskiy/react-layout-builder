@@ -2,7 +2,8 @@ export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
 export const UPDATE_MOUSE_COORDINATES = 'svgRender/UPDATE_MOUSE_COORDINATES';
 export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
 export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
-export const UPDATE_SELECTED_OBJECTS = 'svgRender/UPDATE_SELECTED_OBJECTS';
+export const UPDATE_OBJECT_SELECT_STATE = 'svgRender/UPDATE_OBJECT_SELECT_STATE';
+export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
 
 
 const initialState = {
@@ -75,13 +76,19 @@ export default (state = initialState, action) => {
                 ...state,
                 editStartPoint: {x: action.x, y: action.y}
             }
-        case UPDATE_SELECTED_OBJECTS:
+        case UPDATE_OBJECT_SELECT_STATE:
 
             updatedItems = state.objects.map(item => {
-                if (item.id === action.payload) {
-                    return {...item, selected: !item.selected}
+                if (item.id === action.payload.id) {
+                    return {...item, selected: action.payload.switchTo}
                 }
                 return item
+            })
+            return {...state, objects: updatedItems}
+
+        case DESELECT_ALL_OBJECTS:
+            updatedItems = state.objects.map(item => {
+                return {...item, selected: false}
             })
             return {...state, objects: updatedItems}
 
@@ -134,12 +141,22 @@ export const setEditStartPoint = (x, y) => {
     }
 }
 
-export const updateSelectedObjects = (id) => {
+export const updateObjectSelectState = (id) => {
     return dispatch => {
         dispatch({
-            type: UPDATE_SELECTED_OBJECTS,
-            payload: id
+            type: UPDATE_OBJECT_SELECT_STATE,
+            payload: {
+                id: id,
+                switchTo: true
+            }
         })
+    }
+}
 
+export const deselectAllObjects = () => {
+    return dispatch => {
+        dispatch({
+            type: DESELECT_ALL_OBJECTS,
+        })
     }
 }

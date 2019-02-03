@@ -6,7 +6,8 @@ import Handler from './Handler';
 
 import {
     updateMouseCoordinates,
-    updateEditMode
+    updateEditMode,
+    deselectAllObjects
 } from '../../src/modules/svgRender'
 
 
@@ -24,12 +25,17 @@ class SvgRender extends React.Component {
         this.props.updateEditMode(null);
     }
 
+    onClick(event){
+        if(event.target === event.currentTarget) {
+            this.props.deselectAllObjects();
+        }
+    }
+
     render() {
-        console.log(this.props);
 
         return (
             <div className="container">
-                <svg width='800' height='500' onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}>
+                <svg width='800' height='500' onClick={this.onClick.bind(this)} onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}>
                     {this.props.objects.map(function(object){
                         return <Vector key={object.id} object={object}/>
                     })}
@@ -47,7 +53,8 @@ const mapStateToProps = ({svgRender}) => ({
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
             updateMouseCoordinates,
-            updateEditMode
+            updateEditMode,
+            deselectAllObjects
         },
         dispatch
     )

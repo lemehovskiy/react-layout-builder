@@ -7,7 +7,8 @@ import {
     updateHandlerObjectIndex,
     updateEditMode,
     setEditStartPoint,
-    updateSelectedObjects
+    updateObjectSelectState,
+    deselectAllObjects
 } from '../../src/modules/svgRender'
 
 
@@ -26,8 +27,11 @@ class Vector extends React.Component {
     }
 
 
-    onMouseClick() {
-        this.props.updateSelectedObjects(this.props.object.id)
+    onMouseClick(event) {
+        if (!event.shiftKey) {
+            this.props.deselectAllObjects();
+        }
+        this.props.updateObjectSelectState(this.props.object.id, true)
         this.setState({
             onSelectMode: true
         })
@@ -67,7 +71,8 @@ const mapDispatchToProps = dispatch =>
             updateHandlerObjectIndex,
             updateEditMode,
             setEditStartPoint,
-            updateSelectedObjects
+            updateObjectSelectState,
+            deselectAllObjects
         },
         dispatch
     )
