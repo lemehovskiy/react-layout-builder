@@ -51,7 +51,6 @@ class Vector extends React.Component {
                     height={this.props.object.height}
                     x={this.props.object.x}
                     y={this.props.object.y}
-                    onClick={this.onMouseClick.bind(this)}
                     cursor="move"
                     onMouseDown={this.onMouseDown.bind(this)}
                     onMouseUp={this.onMouseUp.bind(this)}
