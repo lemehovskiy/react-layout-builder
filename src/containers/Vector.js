@@ -8,7 +8,8 @@ import {
     updateEditMode,
     setEditStartPoint,
     updateObjectSelectState,
-    deselectAllObjects
+    deselectAllObjects,
+    setEditStartPositionOffset
 } from '../../src/modules/svgRender'
 
 
@@ -27,12 +28,11 @@ class Vector extends React.Component {
     }
 
     onMouseDown(e) {
-        if (!e.shiftKey) {
-            this.props.deselectAllObjects();
-        }
+
         this.props.updateObjectSelectState(this.props.object.id, true)
 
         this.props.setEditStartPoint(e.clientX, e.clientY)
+        this.props.setEditStartPositionOffset(e.clientX, e.clientY);
         this.props.updateEditMode('drag')
     }
 
@@ -66,7 +66,8 @@ const mapDispatchToProps = dispatch =>
             updateEditMode,
             setEditStartPoint,
             updateObjectSelectState,
-            deselectAllObjects
+            deselectAllObjects,
+            setEditStartPositionOffset
         },
         dispatch
     )

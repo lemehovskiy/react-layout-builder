@@ -38,7 +38,7 @@ class SvgRender extends React.Component {
             this.props.objects.forEach(function(object){
                 if (object.selected) {
                     console.log(object.id);
-                    self.props.moveObject(object.id, e.clientX, e.clientY);
+                    self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
                 }
             })
 

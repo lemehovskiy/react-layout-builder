@@ -5,6 +5,7 @@ export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
 export const UPDATE_OBJECT_SELECT_STATE = 'svgRender/UPDATE_OBJECT_SELECT_STATE';
 export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
 export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
+export const SET_EDIT_START_POSITION_OFFSET = 'svgRender/SET_EDIT_START_POSITION_OFFSET';
 
 
 const initialState = {
@@ -102,6 +103,21 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
+        case SET_EDIT_START_POSITION_OFFSET:
+            updatedItems = state.objects.map(item => {
+                if (item.selected) {
+                    return {
+                        ...item,
+                        editStartPositionOffset: {
+                            x: action.payload.x - item.x,
+                            y: action.payload.y - item.y
+                        }
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
+
         default:
             return state
     }
@@ -177,6 +193,18 @@ export const moveObject = (id, x, y) => {
             type: MOVE_OBJECT,
             payload: {
                 id: id,
+                x: x,
+                y: y
+            }
+        })
+    }
+}
+
+export const setEditStartPositionOffset = (x, y) => {
+    return dispatch => {
+        dispatch({
+            type: SET_EDIT_START_POSITION_OFFSET,
+            payload: {
                 x: x,
                 y: y
             }
