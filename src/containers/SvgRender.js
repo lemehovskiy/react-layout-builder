@@ -20,16 +20,6 @@ class SvgRender extends React.Component {
 
     }
 
-    startDrag(){
-        let selectedObjects = this.props.objects.map(function(item){
-            if (item.selected) return item;
-        })
-
-        this.setState({
-            selectedObjects: selectedObjects
-        })
-    }
-
     onMouseMove(e){
         let self = this;
 
@@ -37,7 +27,6 @@ class SvgRender extends React.Component {
 
             this.props.objects.forEach(function(object){
                 if (object.selected) {
-                    console.log(object.id);
                     self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
                 }
             })
