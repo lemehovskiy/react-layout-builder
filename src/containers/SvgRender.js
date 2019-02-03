@@ -7,7 +7,8 @@ import Handler from './Handler';
 import {
     updateMouseCoordinates,
     updateEditMode,
-    deselectAllObjects
+    deselectAllObjects,
+    moveObject
 } from '../../src/modules/svgRender'
 
 
@@ -15,10 +16,34 @@ class SvgRender extends React.Component {
 
     constructor(props) {
         super(props);
+
+
+    }
+
+    startDrag(){
+        let selectedObjects = this.props.objects.map(function(item){
+            if (item.selected) return item;
+        })
+
+        this.setState({
+            selectedObjects: selectedObjects
+        })
     }
 
     onMouseMove(e){
-        this.props.updateMouseCoordinates(e.clientX, e.clientY)
+        let self = this;
+
+        if (this.props.editMode === 'drag') {
+
+            this.props.objects.forEach(function(object){
+                if (object.selected) {
+                    console.log(object.id);
+                    self.props.moveObject(object.id, e.clientX, e.clientY);
+                }
+            })
+
+            this.props.updateMouseCoordinates(e.clientX, e.clientY)
+        }
     }
 
     onMouseUp(){
@@ -47,14 +72,17 @@ class SvgRender extends React.Component {
 }
 
 const mapStateToProps = ({svgRender}) => ({
-    objects: svgRender.objects
+    objects: svgRender.objects,
+    editMode: svgRender.editMode,
+    editStartPoint: svgRender.editStartPoint,
 })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
             updateMouseCoordinates,
             updateEditMode,
-            deselectAllObjects
+            deselectAllObjects,
+            moveObject
         },
         dispatch
     )

@@ -16,28 +16,22 @@ class Vector extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            onHoverMode: false,
-            onSelectMode: false,
-            onDragMode: false,
-            x: this.props.object.x,
-            y: this.props.object.y
-        }
     }
 
 
-    onMouseClick(event) {
-        if (!event.shiftKey) {
+    onMouseClick(e) {
+        if (!e.shiftKey) {
             this.props.deselectAllObjects();
         }
         this.props.updateObjectSelectState(this.props.object.id, true)
-        this.setState({
-            onSelectMode: true
-        })
     }
 
     onMouseDown(e) {
+        if (!e.shiftKey) {
+            this.props.deselectAllObjects();
+        }
+        this.props.updateObjectSelectState(this.props.object.id, true)
+
         this.props.setEditStartPoint(e.clientX, e.clientY)
         this.props.updateEditMode('drag')
     }
@@ -48,8 +42,8 @@ class Vector extends React.Component {
                 <rect
                     width={this.props.object.width}
                     height={this.props.object.height}
-                    x={this.state.x}
-                    y={this.state.y}
+                    x={this.props.object.x}
+                    y={this.props.object.y}
                     onClick={this.onMouseClick.bind(this)}
                     cursor="move"
                     onMouseDown={this.onMouseDown.bind(this)}

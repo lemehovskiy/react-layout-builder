@@ -4,6 +4,7 @@ export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
 export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
 export const UPDATE_OBJECT_SELECT_STATE = 'svgRender/UPDATE_OBJECT_SELECT_STATE';
 export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
+export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
 
 
 const initialState = {
@@ -92,6 +93,15 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
+        case MOVE_OBJECT:
+            updatedItems = state.objects.map(item => {
+                if (item.id === action.payload.id) {
+                    return {...item, x: action.payload.x, y: action.payload.y}
+                }
+                return item;
+            })
+            return {...state, objects: updatedItems}
+
         default:
             return state
     }
@@ -157,6 +167,19 @@ export const deselectAllObjects = () => {
     return dispatch => {
         dispatch({
             type: DESELECT_ALL_OBJECTS,
+        })
+    }
+}
+
+export const moveObject = (id, x, y) => {
+    return dispatch => {
+        dispatch({
+            type: MOVE_OBJECT,
+            payload: {
+                id: id,
+                x: x,
+                y: y
+            }
         })
     }
 }
