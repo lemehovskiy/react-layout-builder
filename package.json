@@ -11,8 +11,10 @@
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
+    "immutable": "^4.0.0-rc.12",
     "prettier": "1.16.3",
-    "react-scripts": "2.1.3"
+    "react-scripts": "2.1.3",
+    "redux-immutable": "^4.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.14",

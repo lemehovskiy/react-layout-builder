@@ -4,12 +4,11 @@ import {connect} from 'react-redux'
 import EditModeHelper from './EditModeHelper.js';
 
 import {
-    updateHandlerObjectIndex
+    updateHandlerObjectIndex,
+    updateEditMode,
+    setEditStartPoint,
+    updateSelectedObjects
 } from '../../src/modules/svgRender'
-
-import {
-    increment
-} from '../../src/modules/counter'
 
 
 class Vector extends React.Component {
@@ -19,26 +18,24 @@ class Vector extends React.Component {
 
         this.state = {
             onHoverMode: false,
-            onSelectMode: false
+            onSelectMode: false,
+            onDragMode: false,
+            x: this.props.object.x,
+            y: this.props.object.y
         }
     }
 
-    onMouseOver() {
-        this.setState({
-            onHoverMode: true
-        })
-    }
-
-    onMouseOut() {
-        this.setState({
-            onHoverMode: false
-        })
-    }
 
     onMouseClick() {
+        this.props.updateSelectedObjects(this.props.object.id)
         this.setState({
             onSelectMode: true
         })
+    }
+
+    onMouseDown(e) {
+        this.props.setEditStartPoint(e.clientX, e.clientY)
+        this.props.updateEditMode('drag')
     }
 
     render() {
@@ -47,15 +44,14 @@ class Vector extends React.Component {
                 <rect
                     width={this.props.object.width}
                     height={this.props.object.height}
-                    x={this.props.object.x}
-                    y={this.props.object.y}
-                    onMouseOver={this.onMouseOver.bind(this)}
-                    onMouseOut={this.onMouseOut.bind(this)}
+                    x={this.state.x}
+                    y={this.state.y}
                     onClick={this.onMouseClick.bind(this)}
                     cursor="move"
+                    onMouseDown={this.onMouseDown.bind(this)}
                 />
 
-                {this.state.onSelectMode ? <EditModeHelper width={this.props.object.width}
+                {this.props.object.selected ? <EditModeHelper width={this.props.object.width}
                                                            height={this.props.object.height}
                                                            x={this.props.object.x}
                                                            y={this.props.object.y}/> : ''}
@@ -69,7 +65,9 @@ const mapStateToProps = ({svgRender}) => ({})
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
             updateHandlerObjectIndex,
-            increment
+            updateEditMode,
+            setEditStartPoint,
+            updateSelectedObjects
         },
         dispatch
     )
