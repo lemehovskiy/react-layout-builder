@@ -4,12 +4,14 @@ import {bindActionCreators} from 'redux'
 import Vector from './Vector';
 import Handler from './Handler';
 import SelectTool from './SelectTool';
+import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
 
 
 import {
     updateEditMode,
     deselectAllObjects,
-    moveObject
+    moveObject,
+    setObjectsSelectState
 } from '../../src/modules/svgRender'
 
 class SvgRender extends React.Component {
@@ -18,11 +20,23 @@ class SvgRender extends React.Component {
 
         this.state = {
             selectToolActive: false,
+            selectToolStartPoint: {
+                x: null,
+                y: null
+            },
             mousePosition: {
                 x: null,
                 y: null
             },
             svgOffset: {
+                x: null,
+                y: null
+            },
+            selectToolSize: {
+                x: null,
+                y: null
+            },
+            selectToolPosition: {
                 x: null,
                 y: null
             }
@@ -51,44 +65,94 @@ class SvgRender extends React.Component {
             })
         }
 
-        if (this.props.editMode == 'selectTool') {
-            this.setState({
-                mousePosition: {
-                    x: e.clientX,
-                    y: e.clientY
-                }
-            })
+        if (this.props.editMode === 'selectTool') {
+            this.updateSelectToolData({x: e.clientX, y: e.clientY});
         }
     }
 
-    onMouseUp() {
-        
-        
-        
-        
+    onMouseUp(e) {
+        if (this.props.editMode === 'selectTool') {
+            this.handleSelectTool();
+        }
+
         this.props.updateEditMode(null);
     }
 
     onMouseDown(e) {
         if (e.target === e.currentTarget) {
+            this.setSelectStartPosition({x: e.clientX, y: e.clientY});
+            this.updateSelectToolData({x: e.clientX, y: e.clientY});
             this.props.updateEditMode('selectTool');
-            this.setState({
-                selectToolStartPoint: {
-                    x: e.clientX - this.state.svgOffset.x,
-                    y: e.clientY - this.state.svgOffset.y
-                },
-                mousePosition: {
-                    x: e.clientX,
-                    y: e.clientY
-                }
-            })
         }
     }
 
-    onClick(e) {
-        if (e.target === e.currentTarget) {
-            this.props.deselectAllObjects();
+    setSelectStartPosition(mousePosition){
+        this.setState({
+            selectToolStartPoint: {x: mousePosition.x - this.state.svgOffset.x, y: mousePosition.y - this.state.svgOffset.y}
+        })
+    }
+
+    handleSelectTool(){
+        let self = this;
+
+        this.resetSelectToolData();
+
+        let selectedObjectIds = [];
+
+        this.props.objects.forEach(function(object){
+            if (checkRectRectCollision({
+                        x: object.x,
+                        y: object.y,
+                        width: object.width,
+                        height: object.height
+                    },
+                    {
+                        x: self.state.selectToolPosition.x,
+                        y: self.state.selectToolPosition.y,
+                        width: self.state.selectToolSize.width,
+                        height: self.state.selectToolSize.height
+                    }))
+            {
+                selectedObjectIds.push(object.id);
+            }
+        })
+
+        this.props.deselectAllObjects();
+
+        if (selectedObjectIds.length) {
+            this.props.setObjectsSelectState(selectedObjectIds)
         }
+    }
+
+    resetSelectToolData(){
+        this.setState({
+            selectToolStartPoint: {x: null, y: null},
+            selectToolSize: {x: null, y: null}
+        });
+    }
+
+    updateSelectToolData(mousePosition){
+        if (this.state.selectToolStartPoint.x === null) return;
+
+        const selectToolSize = getSelectToolSize(
+            this.state.selectToolStartPoint,
+            mousePosition,
+            this.state.svgOffset
+        );
+        console.log(selectToolSize);
+
+        this.setState({
+            selectToolSize: selectToolSize
+        })
+        const selectToolPosition = getSelectToolPosition(
+            this.state.selectToolStartPoint,
+            mousePosition,
+            this.state.svgOffset,
+            selectToolSize
+        );
+        this.setState({
+            selectToolPosition: selectToolPosition
+        })
     }
 
     render() {
@@ -103,9 +167,9 @@ class SvgRender extends React.Component {
 
 
                     {this.props.editMode == 'selectTool' ? <SelectTool
-                                                               mousePosition={this.state.mousePosition}
-                                                               svgOffset={this.state.svgOffset}
-                                                               selectToolStartPoint={this.state.selectToolStartPoint}/> : ''}
+                        selectToolPosition={this.state.selectToolPosition}
+                        selectToolSize={this.state.selectToolSize}
+                        /> : ''}
                 </svg>
                 <Handler/>
             </div>
@@ -123,7 +187,8 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators({
             updateEditMode,
             deselectAllObjects,
-            moveObject
+            moveObject,
+            setObjectsSelectState
         },
         dispatch
     )

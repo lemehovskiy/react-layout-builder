@@ -1,7 +1,7 @@
 export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
 export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
 export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
-export const UPDATE_OBJECT_SELECT_STATE = 'svgRender/UPDATE_OBJECT_SELECT_STATE';
+export const SET_OBJECTS_SELECT_STATE = 'svgRender/UPDATE_OBJECTS_SELECT_STATE';
 export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
 export const DESELECT_ALL_OBJECTS_EXEPT = 'svgRender/DESELECT_ALL_OBJECTS_EXEPT';
 export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
@@ -72,11 +72,11 @@ export default (state = initialState, action) => {
                 ...state,
                 editStartPoint: {x: action.x, y: action.y}
             }
-        case UPDATE_OBJECT_SELECT_STATE:
-
+        case SET_OBJECTS_SELECT_STATE:
             updatedItems = state.objects.map(item => {
-                if (item.id === action.payload.id) {
-                    return {...item, selected: action.payload.switchTo}
+                if (action.payload.ids.includes(item.id)) {
+                    console.log(action.payload.switchTo || true);
+                    return {...item, selected: action.payload.switchTo || true}
                 }
                 return item
             })
@@ -170,12 +170,12 @@ export const setEditStartPoint = (x, y) => {
     }
 }
 
-export const updateObjectSelectState = (id) => {
+export const setObjectsSelectState = (ids) => {
     return dispatch => {
         dispatch({
-            type: UPDATE_OBJECT_SELECT_STATE,
+            type: SET_OBJECTS_SELECT_STATE,
             payload: {
-                id: id,
+                ids: ids,
                 switchTo: true
             }
         })

@@ -7,7 +7,7 @@ import {
     updateHandlerObjectIndex,
     updateEditMode,
     setEditStartPoint,
-    updateObjectSelectState,
+    setObjectsSelectState,
     deselectAllObjects,
     setEditStartPositionOffset,
     deselectAllObjectsExept
@@ -37,13 +37,14 @@ class Vector extends React.Component {
             this.props.deselectAllObjects();
         }
 
-        this.props.updateObjectSelectState(this.props.object.id, true)
+        this.props.setObjectsSelectState([this.props.object.id], true)
         this.props.setEditStartPoint(e.clientX, e.clientY)
         this.props.setEditStartPositionOffset(e.clientX, e.clientY);
         this.props.updateEditMode('drag')
     }
 
     render() {
+        console.log(this.props.object.selected);
         return (
             <g>
                 <rect
@@ -74,7 +75,7 @@ const mapDispatchToProps = dispatch =>
             updateHandlerObjectIndex,
             updateEditMode,
             setEditStartPoint,
-            updateObjectSelectState,
+            setObjectsSelectState,
             deselectAllObjects,
             setEditStartPositionOffset,
             deselectAllObjectsExept
