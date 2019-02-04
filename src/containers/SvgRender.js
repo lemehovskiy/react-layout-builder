@@ -7,7 +7,6 @@ import SelectTool from './SelectTool';
 
 
 import {
-    updateMouseCoordinates,
     updateEditMode,
     deselectAllObjects,
     moveObject
@@ -18,6 +17,7 @@ class SvgRender extends React.Component {
         super(props);
 
         this.state = {
+            selectToolActive: false,
             mousePosition: {
                 x: null,
                 y: null
@@ -51,9 +51,7 @@ class SvgRender extends React.Component {
             })
         }
 
-        if (this.state.selectToolActive) {
-
-            console.log('asdfasdf');
+        if (this.props.editMode == 'selectTool') {
             this.setState({
                 mousePosition: {
                     x: e.clientX,
@@ -66,7 +64,6 @@ class SvgRender extends React.Component {
     onMouseUp() {
         this.props.updateEditMode(null);
         this.setState({
-            selectToolActive: false,
             selectToolSize: {
                 width: null,
                 height: null
@@ -76,8 +73,8 @@ class SvgRender extends React.Component {
 
     onMouseDown(e) {
         if (e.target === e.currentTarget) {
+            this.props.updateEditMode('selectTool');
             this.setState({
-                selectToolActive: true,
                 selectToolStartPoint: {
                     x: e.clientX - this.state.svgOffset.x,
                     y: e.clientY - this.state.svgOffset.y
@@ -107,7 +104,7 @@ class SvgRender extends React.Component {
                     })}
 
 
-                    {this.state.selectToolActive ? <SelectTool selectToolActive={this.state.selectToolActive}
+                    {this.props.editMode == 'selectTool' ? <SelectTool
                                                                mousePosition={this.state.mousePosition}
                                                                svgOffset={this.state.svgOffset}
                                                                selectToolStartPoint={this.state.selectToolStartPoint}/> : ''}
@@ -126,7 +123,6 @@ const mapStateToProps = ({svgRender}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            updateMouseCoordinates,
             updateEditMode,
             deselectAllObjects,
             moveObject

@@ -11,11 +11,11 @@ class SelectTool extends Component {
         let selectToolSize = getSelectToolSize(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset);
 
         let selectToolPosition = getSelectToolPosition(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset, selectToolSize);
-        
-        
+
+
         return (
             <g>
-                {this.props.selectToolActive ? <rect
+                {this.props.editMode == 'selectTool' ? <rect
                     strokeWidth="1"
                     stroke="#6298F9"
                     fill="rgba(98, 152, 249, 0.3)"
@@ -32,6 +32,7 @@ class SelectTool extends Component {
 
 
 const mapStateToProps = ({svgRender}) => ({
+    editMode: svgRender.editMode,
 })
 
 const mapDispatchToProps = dispatch =>
@@ -43,7 +44,7 @@ const mapDispatchToProps = dispatch =>
 
 
 export default connect(
-    null,
+    mapStateToProps,
     null
 )(SelectTool)
 

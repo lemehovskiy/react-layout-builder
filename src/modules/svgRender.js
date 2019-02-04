@@ -61,14 +61,6 @@ export default (state = initialState, action) => {
                 ...state,
                 handlerObjectIndex: action.index
             }
-        case UPDATE_MOUSE_COORDINATES:
-            return {
-                ...state,
-                mousePosition: {
-                    x: action.x,
-                    y: action.y
-                }
-            }
         case UPDATE_EDIT_MODE:
             return {
                 ...state,
@@ -96,8 +88,6 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case DESELECT_ALL_OBJECTS_EXEPT:
-
-            console.log('000');
             updatedItems = state.objects.map(item => {
                 if (item.id === action.payload) {
                     return item;
@@ -105,7 +95,6 @@ export default (state = initialState, action) => {
                 return {...item, selected: false}
             })
 
-            console.log(updatedItems)
             return {...state, objects: updatedItems}
 
         case MOVE_OBJECT:
@@ -147,18 +136,6 @@ export const updateHandlerObjectIndex = (index) => {
 
     }
 }
-
-export const updateMouseCoordinates = (x, y) => {
-    return dispatch => {
-        dispatch({
-            type: UPDATE_MOUSE_COORDINATES,
-            x: x,
-            y: y
-        })
-
-    }
-}
-
 
 export const updateEditMode = (mode) => {
     return dispatch => {
