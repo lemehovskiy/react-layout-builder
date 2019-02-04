@@ -1,5 +1,4 @@
 export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
-export const UPDATE_MOUSE_COORDINATES = 'svgRender/UPDATE_MOUSE_COORDINATES';
 export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
 export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
 export const UPDATE_OBJECT_SELECT_STATE = 'svgRender/UPDATE_OBJECT_SELECT_STATE';
@@ -7,6 +6,8 @@ export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
 export const DESELECT_ALL_OBJECTS_EXEPT = 'svgRender/DESELECT_ALL_OBJECTS_EXEPT';
 export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
 export const SET_EDIT_START_POSITION_OFFSET = 'svgRender/SET_EDIT_START_POSITION_OFFSET';
+export const SET_SELECT_TOOL_POPERTIES = 'svgRender/SET_EDIT_START_POSITION_OFFSET';
+
 
 
 const initialState = {
@@ -121,6 +122,17 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
+        case SET_SELECT_TOOL_POPERTIES:
+            return {
+                ...state,
+                selectTool: {
+                    x: action.payload.x,
+                    y: action.payload.y,
+                    width: action.payload.width,
+                    height: action.payload.height
+                }
+            }
+
         default:
             return state
     }
@@ -208,6 +220,20 @@ export const setEditStartPositionOffset = (x, y) => {
             payload: {
                 x: x,
                 y: y
+            }
+        })
+    }
+}
+
+export const setSelectToolProperties = (x, y, width, height) => {
+    return dispatch => {
+        dispatch({
+            type: SET_SELECT_TOOL_POPERTIES,
+            payload: {
+                x: x,
+                y: y,
+                width: width,
+                height: height
             }
         })
     }

@@ -62,6 +62,10 @@ class SvgRender extends React.Component {
     }
 
     onMouseUp() {
+        
+        
+        
+        
         this.props.updateEditMode(null);
     }
 

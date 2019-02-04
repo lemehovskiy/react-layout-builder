@@ -8,7 +8,7 @@ export const getSelectToolPosition = (startPoint, mouse, svgOffset, size) => {
     }
 }
 
-export const getSelectToolSize  = (startPoint, mouse, svgOffset) => {
+export const getSelectToolSize = (startPoint, mouse, svgOffset) => {
     const width = Math.abs(mouse.x - svgOffset.x - startPoint.x);
     const height = Math.abs(mouse.y - svgOffset.y - startPoint.y);
 
@@ -16,4 +16,12 @@ export const getSelectToolSize  = (startPoint, mouse, svgOffset) => {
         width: width,
         height: height
     }
+}
+
+
+export const checkRectRectCollision = (rect1, rect2) => {
+    return rect1.x + rect1.width >= rect2.x &&
+        rect1.x <= rect2.x + rect2.width &&
+        rect1.y + rect1.height >= rect2.y &&
+        rect1.y <= rect2.y + rect2.height;
 }
