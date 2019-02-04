@@ -5,11 +5,6 @@ import {connect} from 'react-redux'
 import SvgRender from '../SvgRender';
 
 class LayoutBuilder extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
 
         return (

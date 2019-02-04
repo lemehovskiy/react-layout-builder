@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Vector from './Vector';
-import Handler from './Handler';
 import SelectTool from './SelectTool';
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
 
@@ -158,7 +157,7 @@ class SvgRender extends React.Component {
     render() {
         return (
             <div className="container">
-                <svg className="svgRender" ref="svgRender" width='800' height='500' onClick={this.onClick.bind(this)}
+                <svg className="svgRender" ref="svgRender" width='800' height='500'
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
@@ -166,12 +165,11 @@ class SvgRender extends React.Component {
                     })}
 
 
-                    {this.props.editMode == 'selectTool' ? <SelectTool
+                    {this.props.editMode === 'selectTool' ? <SelectTool
                         selectToolPosition={this.state.selectToolPosition}
                         selectToolSize={this.state.selectToolSize}
                         /> : ''}
                 </svg>
-                <Handler/>
             </div>
         )
     }

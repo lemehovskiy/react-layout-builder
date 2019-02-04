@@ -15,15 +15,9 @@ import {
 
 
 class Vector extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-    }
-
     onMouseUp(e) {
         console.log('onMouseUp');
-        let objectMoved = this.props.editStartPoint.x != e.clientX || this.props.editStartPoint.y != e.clientY;
+        let objectMoved = this.props.editStartPoint.x !== e.clientX || this.props.editStartPoint.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
             this.props.deselectAllObjectsExept(this.props.object.id);

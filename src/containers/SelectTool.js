@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 
 class SelectTool extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <g>

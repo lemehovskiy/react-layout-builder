@@ -1,24 +1,7 @@
 import React from 'react'
-// import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-// import {
-//     updateHandlerObjectIndex
-// } from '../../src/modules/svgRender'
-//
-// import {
-//     increment
-// } from '../../src/modules/counter'
-
-
 class EditModeHelper extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
 
         const helperConfig =
