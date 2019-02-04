@@ -9,8 +9,6 @@ export const getSelectToolPosition = (startPoint, mouse, svgOffset, size) => {
 }
 
 export const getSelectToolSize  = (startPoint, mouse, svgOffset) => {
-
-    console.log(mouse);
     const width = Math.abs(mouse.x - svgOffset.x - startPoint.x);
     const height = Math.abs(mouse.y - svgOffset.y - startPoint.y);
 
