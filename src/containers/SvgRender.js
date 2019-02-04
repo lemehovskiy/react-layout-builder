@@ -63,12 +63,6 @@ class SvgRender extends React.Component {
 
     onMouseUp() {
         this.props.updateEditMode(null);
-        this.setState({
-            selectToolSize: {
-                width: null,
-                height: null
-            }
-        })
     }
 
     onMouseDown(e) {
@@ -96,7 +90,7 @@ class SvgRender extends React.Component {
     render() {
         return (
             <div className="container">
-                <svg ref="svgRender" width='800' height='500' onClick={this.onClick.bind(this)}
+                <svg className="svgRender" ref="svgRender" width='800' height='500' onClick={this.onClick.bind(this)}
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {

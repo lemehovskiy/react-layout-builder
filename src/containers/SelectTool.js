@@ -8,10 +8,8 @@ class SelectTool extends Component {
         super(props);
     }
     render() {
-        let selectToolSize = getSelectToolSize(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset);
-
-        let selectToolPosition = getSelectToolPosition(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset, selectToolSize);
-
+        const selectToolSize = getSelectToolSize(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset);
+        const selectToolPosition = getSelectToolPosition(this.props.selectToolStartPoint, this.props.mousePosition, this.props.svgOffset, selectToolSize);
 
         return (
             <g>
@@ -32,7 +30,7 @@ class SelectTool extends Component {
 
 
 const mapStateToProps = ({svgRender}) => ({
-    editMode: svgRender.editMode,
+    editMode: svgRender.editMode
 })
 
 const mapDispatchToProps = dispatch =>
