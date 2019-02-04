@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Vector from './Vector';
 import Handler from './Handler';
+import SelectTool from './SelectTool';
 
-import {getSelectToolSize, getSelectToolPosition} from './actions/selectTool';
 
 import {
     updateMouseCoordinates,
@@ -18,22 +18,13 @@ class SvgRender extends React.Component {
         super(props);
 
         this.state = {
+            mousePosition: {
+                x: null,
+                y: null
+            },
             svgOffset: {
                 x: null,
                 y: null
-            },
-            selectToolActive: false,
-            selectToolStartPoint: {
-                x: null,
-                y: null
-            },
-            selectToolPosition: {
-                x: null,
-                y: null
-            },
-            selectToolSize: {
-                width: null,
-                height: null
             }
         }
     }
@@ -61,19 +52,12 @@ class SvgRender extends React.Component {
         }
 
         if (this.state.selectToolActive) {
-            let mousePosition = {x: e.clientX, y: e.clientY};
 
-            let selectToolSize = getSelectToolSize(this.state.selectToolStartPoint, mousePosition, this.state.svgOffset);
-            let selectToolPosition = getSelectToolPosition(this.state.selectToolStartPoint, mousePosition, this.state.svgOffset, selectToolSize);
-
+            console.log('asdfasdf');
             this.setState({
-                selectToolSize: {
-                    width: selectToolSize.width,
-                    height: selectToolSize.height
-                },
-                selectToolPosition: {
-                    x: selectToolPosition.x,
-                    y: selectToolPosition.y
+                mousePosition: {
+                    x: e.clientX,
+                    y: e.clientY
                 }
             })
         }
@@ -84,8 +68,8 @@ class SvgRender extends React.Component {
         this.setState({
             selectToolActive: false,
             selectToolSize: {
-                width: 0,
-                height: 0
+                width: null,
+                height: null
             }
         })
     }
@@ -97,6 +81,10 @@ class SvgRender extends React.Component {
                 selectToolStartPoint: {
                     x: e.clientX - this.state.svgOffset.x,
                     y: e.clientY - this.state.svgOffset.y
+                },
+                mousePosition: {
+                    x: e.clientX,
+                    y: e.clientY
                 }
             })
         }
@@ -118,16 +106,11 @@ class SvgRender extends React.Component {
                         return <Vector key={object.id} object={object}/>
                     })}
 
-                    {this.state.selectToolActive ? <rect
-                        strokeWidth="1"
-                        stroke="#6298F9"
-                        fill="rgba(98, 152, 249, 0.3)"
-                        opacity="0.3"
-                        x={this.state.selectToolPosition.x}
-                        y={this.state.selectToolPosition.y}
-                        width={this.state.selectToolSize.width}
-                        height={this.state.selectToolSize.height}
-                    /> : ''}
+
+                    {this.state.selectToolActive ? <SelectTool selectToolActive={this.state.selectToolActive}
+                                                               mousePosition={this.state.mousePosition}
+                                                               svgOffset={this.state.svgOffset}
+                                                               selectToolStartPoint={this.state.selectToolStartPoint}/> : ''}
                 </svg>
                 <Handler/>
             </div>
@@ -138,7 +121,7 @@ class SvgRender extends React.Component {
 const mapStateToProps = ({svgRender}) => ({
     objects: svgRender.objects,
     editMode: svgRender.editMode,
-    editStartPoint: svgRender.editStartPoint,
+    editStartPoint: svgRender.editStartPoint
 })
 
 const mapDispatchToProps = dispatch =>
