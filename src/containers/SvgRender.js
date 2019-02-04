@@ -4,6 +4,8 @@ import {bindActionCreators} from 'redux'
 import Vector from './Vector';
 import Handler from './Handler';
 
+import {getSelectToolSize, getSelectToolPosition} from './actions/selectTool';
+
 import {
     updateMouseCoordinates,
     updateEditMode,
@@ -36,7 +38,7 @@ class SvgRender extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const getBoundingClientRect = this.refs.svgRender.getBoundingClientRect();
 
         this.setState({
@@ -59,30 +61,22 @@ class SvgRender extends React.Component {
         }
 
         if (this.state.selectToolActive) {
-            
-            const width = Math.abs(e.clientX - this.state.svgOffset.x - this.state.selectToolStartPoint.x);
-            const height = Math.abs(e.clientY - this.state.svgOffset.y - this.state.selectToolStartPoint.y);
-            const x = e.clientX - this.state.svgOffset.x > this.state.selectToolStartPoint.x ? this.state.selectToolStartPoint.x : this.state.selectToolStartPoint.x - width;
-            const y = e.clientY - this.state.svgOffset.y > this.state.selectToolStartPoint.y ? this.state.selectToolStartPoint.y : this.state.selectToolStartPoint.y - height;
+            let mousePosition = {x: e.clientX, y: e.clientY};
 
-            console.log('e.clientY - ' + e.clientY);
-            console.log('this.state.selectToolStartPoint.y - ' + this.state.selectToolStartPoint.y);
-            console.log(y);
+            let selectToolSize = getSelectToolSize(this.state.selectToolStartPoint, mousePosition, this.state.svgOffset);
+            let selectToolPosition = getSelectToolPosition(this.state.selectToolStartPoint, mousePosition, this.state.svgOffset, selectToolSize);
 
-            
             this.setState({
                 selectToolSize: {
-                    width: width,
-                    height: height
+                    width: selectToolSize.width,
+                    height: selectToolSize.height
                 },
                 selectToolPosition: {
-                    x: x,
-                    y: y
+                    x: selectToolPosition.x,
+                    y: selectToolPosition.y
                 }
             })
         }
-
-
     }
 
     onMouseUp() {
