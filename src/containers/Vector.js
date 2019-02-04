@@ -6,7 +6,7 @@ import EditModeHelper from './EditModeHelper.js';
 import {
     updateHandlerObjectIndex,
     updateEditMode,
-    setEditStartPoint,
+    setMouseStartPosition,
     setObjectsSelectState,
     deselectAllObjects,
     setEditStartPositionOffset,
@@ -17,7 +17,7 @@ import {
 class Vector extends React.Component {
     onMouseUp(e) {
         console.log('onMouseUp');
-        let objectMoved = this.props.editStartPoint.x !== e.clientX || this.props.editStartPoint.y !== e.clientY;
+        let objectMoved = this.props.mouseStartPosition.x !== e.clientX || this.props.mouseStartPosition.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
             this.props.deselectAllObjectsExept(this.props.object.id);
@@ -32,13 +32,14 @@ class Vector extends React.Component {
         }
 
         this.props.setObjectsSelectState([this.props.object.id], true)
-        this.props.setEditStartPoint(e.clientX, e.clientY)
+        this.props.setMouseStartPosition(e.clientX, e.clientY)
+
+        //TODO rename setEditStartPositionOffset to setObjectEditStartPosition
         this.props.setEditStartPositionOffset(e.clientX, e.clientY);
         this.props.updateEditMode('drag')
     }
 
     render() {
-        console.log(this.props.object.selected);
         return (
             <g>
                 <rect
@@ -51,24 +52,26 @@ class Vector extends React.Component {
                     onMouseUp={this.onMouseUp.bind(this)}
                 />
 
-                {this.props.object.selected ? <EditModeHelper width={this.props.object.width}
-                                                              height={this.props.object.height}
-                                                              x={this.props.object.x}
-                                                              y={this.props.object.y}/> : ''}
+                {this.props.object.selected ? <EditModeHelper
+                    objectID={this.props.object.id}
+                    width={this.props.object.width}
+                    height={this.props.object.height}
+                    x={this.props.object.x}
+                    y={this.props.object.y}/> : ''}
             </g>
         )
     }
 }
 
 const mapStateToProps = ({svgRender}) => ({
-    editStartPoint: svgRender.editStartPoint
+    mouseStartPosition: svgRender.mouseStartPosition
 })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
             updateHandlerObjectIndex,
             updateEditMode,
-            setEditStartPoint,
+            setMouseStartPosition,
             setObjectsSelectState,
             deselectAllObjects,
             setEditStartPositionOffset,

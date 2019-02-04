@@ -1,8 +1,30 @@
 import React from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
+import {
+    resizeObject,
+    setMouseStartPosition,
+    updateEditMode,
+    setObjectMode,
+    saveEditObjectInitState
+} from '../../src/modules/svgRender'
+
+
 class EditModeHelper extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    onDotMouseDown(e){
+        this.props.setObjectMode(this.props.objectID, 'resize');
+        this.props.updateEditMode('resize');
+        this.props.saveEditObjectInitState(this.props.objectID);
+        this.props.setMouseStartPosition(e.clientX, e.clientY);
+    }
+
     render() {
+        let self = this;
 
         const helperConfig =
             {
@@ -72,27 +94,30 @@ class EditModeHelper extends React.Component {
 
 
                 {helperConfig.dots.map(function (dot) {
-                    return <circle key={dot.name} cx={dot.x} cy={dot.y} fill="#34B7EF" r="5"/>
+                    return <circle key={dot.name} name={dot.name} cx={dot.x} cy={dot.y} fill="#34B7EF" r="5" style={{cursor: dot.name + '-resize'}} onMouseDown={self.onDotMouseDown.bind(self)}/>
                 })}
 
             </g>
         )
     }
 }
-
+//
 // const mapStateToProps = ({ svgRender }) => ({
 //
 // })
-//
-// const mapDispatchToProps = dispatch =>
-//     bindActionCreators({
-//             updateHandlerObjectIndex,
-//             increment
-//         },
-//         dispatch
-//     )
+
+const mapDispatchToProps = dispatch =>
+    bindActionCreators({
+            resizeObject,
+            setMouseStartPosition,
+            updateEditMode,
+            setObjectMode,
+            saveEditObjectInitState
+        },
+        dispatch
+    )
 
 export default connect(
     null,
-    null
+    mapDispatchToProps
 )(EditModeHelper)

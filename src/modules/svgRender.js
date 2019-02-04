@@ -1,13 +1,14 @@
 export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
 export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
-export const SET_EDIT_START_POINT = 'svgRender/SET_EDIT_START_POINT';
+export const SET_MOUSE_START_POSITION = 'svgRender/SET_MOUSE_START_POSITION';
 export const SET_OBJECTS_SELECT_STATE = 'svgRender/UPDATE_OBJECTS_SELECT_STATE';
 export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
 export const DESELECT_ALL_OBJECTS_EXEPT = 'svgRender/DESELECT_ALL_OBJECTS_EXEPT';
 export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
 export const SET_EDIT_START_POSITION_OFFSET = 'svgRender/SET_EDIT_START_POSITION_OFFSET';
-export const SET_SELECT_TOOL_POPERTIES = 'svgRender/SET_EDIT_START_POSITION_OFFSET';
-
+export const RESIZE_OBJECT = 'svgRender/RESIZE_OBJECT';
+export const SET_OBJECT_MODE = 'svgRender/SET_OBJECT_MODE';
+export const SAVE_EDIT_OBJECT_INIT_STATE = 'svgRender/SAVE_EDIT_OBJECT_INIT_STATE';
 
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
         x: null,
         y: null
     },
-    editStartPoint: {
+    mouseStartPosition: {
         x: null,
         y: null
     },
@@ -50,7 +51,8 @@ const initialState = {
             "y": 50,
             "selected": false
         }
-    ]
+    ],
+    editObjectInitState: null
 };
 
 export default (state = initialState, action) => {
@@ -67,15 +69,14 @@ export default (state = initialState, action) => {
                 ...state,
                 editMode: action.mode
             }
-        case SET_EDIT_START_POINT:
+        case SET_MOUSE_START_POSITION:
             return {
                 ...state,
-                editStartPoint: {x: action.x, y: action.y}
+                mouseStartPosition: {x: action.x, y: action.y}
             }
         case SET_OBJECTS_SELECT_STATE:
             updatedItems = state.objects.map(item => {
                 if (action.payload.ids.includes(item.id)) {
-                    console.log(action.payload.switchTo || true);
                     return {...item, selected: action.payload.switchTo || true}
                 }
                 return item
@@ -122,16 +123,43 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
-        case SET_SELECT_TOOL_POPERTIES:
-            return {
-                ...state,
-                selectTool: {
-                    x: action.payload.x,
-                    y: action.payload.y,
-                    width: action.payload.width,
-                    height: action.payload.height
+
+        case RESIZE_OBJECT:
+            updatedItems = state.objects.map(item => {
+
+                console.log(item.id);
+                if (item.id === action.payload.id) {
+                    return {
+                        ...item,
+                        x: action.payload.x,
+                        y: action.payload.y,
+                        width: action.payload.width,
+                        height: action.payload.height
+                    }
                 }
-            }
+                return item;
+            })
+            return {...state, objects: updatedItems}
+
+        case SET_OBJECT_MODE:
+            updatedItems = state.objects.map(item => {
+                if (item.id === action.payload.id) {
+                    return {...item, mode: action.payload.mode}
+                }
+                return item;
+            })
+            return {...state, objects: updatedItems}
+
+        case SAVE_EDIT_OBJECT_INIT_STATE:
+            let updatedItem = null;
+            state.objects.forEach(item => {
+                if (item.id === action.payload.id) {
+                    updatedItem = item;
+                }
+            })
+
+
+            return {...state, editObjectInitState: updatedItem}
 
         default:
             return state
@@ -159,10 +187,10 @@ export const updateEditMode = (mode) => {
     }
 }
 
-export const setEditStartPoint = (x, y) => {
+export const setMouseStartPosition = (x, y) => {
     return dispatch => {
         dispatch({
-            type: SET_EDIT_START_POINT,
+            type: SET_MOUSE_START_POSITION,
             x: x,
             y: y
         })
@@ -225,15 +253,40 @@ export const setEditStartPositionOffset = (x, y) => {
     }
 }
 
-export const setSelectToolProperties = (x, y, width, height) => {
+
+export const resizeObject = (id, x, y, width, height) => {
     return dispatch => {
         dispatch({
-            type: SET_SELECT_TOOL_POPERTIES,
+            type: RESIZE_OBJECT,
             payload: {
+                id: id,
                 x: x,
                 y: y,
                 width: width,
                 height: height
+            }
+        })
+    }
+}
+
+export const setObjectMode = (id, mode) => {
+    return dispatch => {
+        dispatch({
+            type: SET_OBJECT_MODE,
+            payload: {
+                id: id,
+                mode: mode
+            }
+        })
+    }
+}
+
+export const saveEditObjectInitState = (id) => {
+    return dispatch => {
+        dispatch({
+            type: SAVE_EDIT_OBJECT_INIT_STATE,
+            payload: {
+                id: id
             }
         })
     }

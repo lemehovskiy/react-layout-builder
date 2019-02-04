@@ -10,7 +10,8 @@ import {
     updateEditMode,
     deselectAllObjects,
     moveObject,
-    setObjectsSelectState
+    setObjectsSelectState,
+    resizeObject
 } from '../../src/modules/svgRender'
 
 class SvgRender extends React.Component {
@@ -60,6 +61,21 @@ class SvgRender extends React.Component {
             this.props.objects.forEach(function (object) {
                 if (object.selected) {
                     self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
+                }
+            })
+        }
+
+        if (this.props.editMode === 'resize') {
+            console.log(self.props.editObjectInitState);
+            this.props.objects.forEach(function (object) {
+                if (object.mode === 'resize') {
+                    self.props.resizeObject(
+                        object.id,
+                        object.x,
+                        object.y,
+                        object.width,
+                        self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y)
+                    );
                 }
             })
         }
@@ -138,7 +154,6 @@ class SvgRender extends React.Component {
             mousePosition,
             this.state.svgOffset
         );
-        console.log(selectToolSize);
 
         this.setState({
             selectToolSize: selectToolSize
@@ -178,7 +193,8 @@ class SvgRender extends React.Component {
 const mapStateToProps = ({svgRender}) => ({
     objects: svgRender.objects,
     editMode: svgRender.editMode,
-    editStartPoint: svgRender.editStartPoint
+    mouseStartPosition: svgRender.mouseStartPosition,
+    editObjectInitState: svgRender.editObjectInitState
 })
 
 const mapDispatchToProps = dispatch =>
@@ -186,7 +202,8 @@ const mapDispatchToProps = dispatch =>
             updateEditMode,
             deselectAllObjects,
             moveObject,
-            setObjectsSelectState
+            setObjectsSelectState,
+            resizeObject
         },
         dispatch
     )
