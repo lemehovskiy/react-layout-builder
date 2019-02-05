@@ -43,7 +43,6 @@ class Vector extends React.Component {
     }
 
     render() {
-        console.log(this.props.object);
         return (
             <g>
                 <rect

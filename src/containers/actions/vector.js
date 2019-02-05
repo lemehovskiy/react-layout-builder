@@ -7,7 +7,6 @@ export const getTransformMatrix = ({rotate, x, y, width, height}) => {
 }
 
 export const getObjectAttributes = (object) => {
-    console.log(object);
     return {
         transform: getTransformMatrix(object)
     };

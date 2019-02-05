@@ -120,6 +120,9 @@ class SvgRender extends React.Component {
         else if (this.props.editMode === 'resize') {
             this.props.resetObjectMode();
         }
+        else if (this.props.editMode === 'rotate') {
+            this.props.resetObjectMode();
+        }
 
 
         this.props.updateEditMode(null);
