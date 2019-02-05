@@ -66,15 +66,33 @@ class SvgRender extends React.Component {
         }
 
         if (this.props.editMode === 'resize') {
-            console.log(self.props.editObjectInitState);
+
+            let direction = this.props.resizeToolDirection;
             this.props.objects.forEach(function (object) {
                 if (object.mode === 'resize') {
+                    let objectX = object.x;
+                    let objectY = object.y;
+                    let objectWidth = object.width;
+                    let objectHeight = object.height;
+
+                    if (direction === 's') {
+                        let targetHeight = self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
+                        objectY = targetHeight > 0 ? self.props.editObjectInitState.y : self.props.editObjectInitState.y - Math.abs(targetHeight);
+                        objectHeight = Math.abs(self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y));
+                    }
+
+                    else if (direction === 'n') {
+                        let targetHeight = self.props.editObjectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
+                        objectY = targetHeight > 0 ? self.props.editObjectInitState.y - (targetHeight - self.props.editObjectInitState.height) : objectY;
+                        objectHeight = Math.abs(self.props.editObjectInitState.height - (e.clientY - self.props.mouseStartPosition.y));
+                    }
+
                     self.props.resizeObject(
                         object.id,
-                        object.x,
-                        object.y,
-                        object.width,
-                        self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y)
+                        objectX,
+                        objectY,
+                        objectWidth,
+                        objectHeight
                     );
                 }
             })
@@ -190,11 +208,12 @@ class SvgRender extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender}) => ({
+const mapStateToProps = ({svgRender, resizeTool}) => ({
     objects: svgRender.objects,
     editMode: svgRender.editMode,
     mouseStartPosition: svgRender.mouseStartPosition,
-    editObjectInitState: svgRender.editObjectInitState
+    editObjectInitState: svgRender.editObjectInitState,
+    resizeToolDirection: resizeTool.resizeDirection
 })
 
 const mapDispatchToProps = dispatch =>

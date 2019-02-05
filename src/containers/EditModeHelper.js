@@ -10,6 +10,9 @@ import {
     saveEditObjectInitState
 } from '../../src/modules/svgRender'
 
+import {
+    setResizeDirection
+} from '../../src/modules/resizeTool'
 
 class EditModeHelper extends React.Component {
     constructor(props) {
@@ -21,6 +24,7 @@ class EditModeHelper extends React.Component {
         this.props.updateEditMode('resize');
         this.props.saveEditObjectInitState(this.props.objectID);
         this.props.setMouseStartPosition(e.clientX, e.clientY);
+        this.props.setResizeDirection(e.target.getAttribute('name'))
     }
 
     render() {
@@ -112,7 +116,8 @@ const mapDispatchToProps = dispatch =>
             setMouseStartPosition,
             updateEditMode,
             setObjectMode,
-            saveEditObjectInitState
+            saveEditObjectInitState,
+            setResizeDirection
         },
         dispatch
     )

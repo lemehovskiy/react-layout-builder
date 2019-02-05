@@ -126,8 +126,6 @@ export default (state = initialState, action) => {
 
         case RESIZE_OBJECT:
             updatedItems = state.objects.map(item => {
-
-                console.log(item.id);
                 if (item.id === action.payload.id) {
                     return {
                         ...item,
