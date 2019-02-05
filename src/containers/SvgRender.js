@@ -83,25 +83,26 @@ class SvgRender extends React.Component {
 
                     switch (direction) {
                         case 's':
-                            progress = objectInitState.height + (e.clientY - mouseStartPosition.y);
-                            objectY = progress > 0 ? objectInitState.y : objectInitState.y - Math.abs(progress);
-                            objectHeight = Math.abs(objectInitState.height + (e.clientY - mouseStartPosition.y));
+                            progress = e.clientY - mouseStartPosition.y;
+                            changeValue = objectInitState.height + progress;
+                            objectY = changeValue > 0 ? objectInitState.y : objectInitState.y - Math.abs(changeValue);
+                            objectHeight = Math.abs(changeValue);
                             break;
                         case 'n':
-                            progress = objectInitState.height - (e.clientY - mouseStartPosition.y);
-                            changeValue = objectInitState.height - (e.clientY - mouseStartPosition.y);
-                            objectY = progress > 0 ? objectInitState.y - (progress - objectInitState.height) : objectInitState.y + objectInitState.height;
+                            progress = e.clientY - mouseStartPosition.y;
+                            changeValue = objectInitState.height - progress;
+                            objectY = changeValue > 0 ? objectInitState.y - (changeValue - objectInitState.height) : objectInitState.y + objectInitState.height;
                             objectHeight = Math.abs(changeValue);
                             break;
                         case 'e':
-                            progress = (objectInitState.width + e.clientX - mouseStartPosition.x) - objectInitState.width;
+                            progress = e.clientX - mouseStartPosition.x;
                             changeValue = objectInitState.width + progress;
                             objectX = changeValue < 0 ? objectInitState.x - Math.abs(changeValue) : objectInitState.x;
                             objectWidth = Math.abs(changeValue);
                             break;
                         case 'w':
-                            progress = e.clientX - self.props.mouseStartPosition.x
-                            changeValue = objectInitState.width - (e.clientX - mouseStartPosition.x)
+                            progress = e.clientX - mouseStartPosition.x;
+                            changeValue = objectInitState.width - progress;
                             objectX = changeValue > 0 ? objectInitState.x + progress : objectInitState.x + objectInitState.width;
                             objectWidth = Math.abs(changeValue);
                             break;
