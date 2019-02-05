@@ -70,21 +70,33 @@ class SvgRender extends React.Component {
             let direction = this.props.resizeToolDirection;
             this.props.objects.forEach(function (object) {
                 if (object.mode === 'resize') {
+
+                    let objectInitState = self.props.editObjectInitState;
+
                     let objectX = object.x;
                     let objectY = object.y;
                     let objectWidth = object.width;
                     let objectHeight = object.height;
 
                     if (direction === 's') {
-                        let targetHeight = self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
-                        objectY = targetHeight > 0 ? self.props.editObjectInitState.y : self.props.editObjectInitState.y - Math.abs(targetHeight);
-                        objectHeight = Math.abs(self.props.editObjectInitState.height + (e.clientY - self.props.mouseStartPosition.y));
+                        let targetHeight = objectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
+                        objectY = targetHeight > 0 ? objectInitState.y : objectInitState.y - Math.abs(targetHeight);
+                        objectHeight = Math.abs(objectInitState.height + (e.clientY - self.props.mouseStartPosition.y));
                     }
 
                     else if (direction === 'n') {
-                        let targetHeight = self.props.editObjectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
-                        objectY = targetHeight > 0 ? self.props.editObjectInitState.y - (targetHeight - self.props.editObjectInitState.height) : objectY;
-                        objectHeight = Math.abs(self.props.editObjectInitState.height - (e.clientY - self.props.mouseStartPosition.y));
+                        let progress = objectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
+                        let absoluteProgress = objectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
+
+                        objectY = progress > 0 ? objectInitState.y - (progress - objectInitState.height) : objectInitState.y + objectInitState.height;
+                        objectHeight = Math.abs(absoluteProgress);
+                    }
+
+                    else if (direction === 'e') {
+                        let progress = (objectInitState.width + e.clientX - self.props.mouseStartPosition.x) - objectInitState.width;
+                        let absoluteProgress = objectInitState.width + progress;
+                        objectX = absoluteProgress < 0 ? objectInitState.x - Math.abs(absoluteProgress) : objectInitState.x;
+                        objectWidth = Math.abs(absoluteProgress);
                     }
 
                     self.props.resizeObject(
