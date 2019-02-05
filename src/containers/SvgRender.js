@@ -79,8 +79,8 @@ class SvgRender extends React.Component {
                     let objectHeight = object.height;
 
                     if (direction === 's') {
-                        let targetHeight = objectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
-                        objectY = targetHeight > 0 ? objectInitState.y : objectInitState.y - Math.abs(targetHeight);
+                        let progress = objectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
+                        objectY = progress > 0 ? objectInitState.y : objectInitState.y - Math.abs(progress);
                         objectHeight = Math.abs(objectInitState.height + (e.clientY - self.props.mouseStartPosition.y));
                     }
 
