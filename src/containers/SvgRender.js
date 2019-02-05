@@ -5,6 +5,7 @@ import Vector from './Vector';
 import SelectTool from './SelectTool';
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
 import {getObjectResizeValues} from './actions/resizeTool';
+import {getObjectRotateValue} from './actions/rootateTool.js';
 
 
 import {
@@ -13,7 +14,8 @@ import {
     moveObject,
     setObjectsSelectState,
     resizeObject,
-    resetObjectMode
+    resetObjectMode,
+    rotateObject
 } from '../../src/modules/svgRender'
 
 class SvgRender extends React.Component {
@@ -68,26 +70,42 @@ class SvgRender extends React.Component {
             })
         }
 
-        if (this.props.editMode === 'resize') {
-            
+        else if (this.props.editMode === 'resize') {
             this.props.objects.forEach(function (object) {
                 if (object.mode === 'resize') {
                     let updatedValues = getObjectResizeValues(
                         {x: e.clientX, y: e.clientY},
-                        self.props.resizeToolDirection, 
-                        self.props.editObjectInitState, 
-                        self.props.mouseStartPosition, 
+                        self.props.resizeToolDirection,
+                        self.props.editObjectInitState,
+                        self.props.mouseStartPosition,
                         {x: object.x, y: object.y, width: object.width, height: object.height}
                     );
 
                     self.props.resizeObject({
-                        id: object.id,
-                        ...updatedValues
+                            id: object.id,
+                            ...updatedValues
                         }
                     );
                 }
             })
         }
+
+        else if (this.props.editMode === 'rotate') {
+            this.props.objects.forEach(function (object) {
+                if (object.mode === 'rotate') {
+
+                    let mouse = {x: e.clientX, y: e.clientY},
+                        mouseStartPosition = self.props.mouseStartPosition;
+
+                    self.props.rotateObject({
+                            id: object.id,
+                            rotate: getObjectRotateValue({mouse, mouseStartPosition, object})
+                        }
+                    );
+                }
+            })
+        }
+
 
         if (this.props.editMode === 'selectTool') {
             this.updateSelectToolData({x: e.clientX, y: e.clientY});
@@ -221,7 +239,8 @@ const mapDispatchToProps = dispatch =>
             moveObject,
             setObjectsSelectState,
             resizeObject,
-            resetObjectMode
+            resetObjectMode,
+            rotateObject
         },
         dispatch
     )

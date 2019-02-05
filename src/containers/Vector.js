@@ -3,6 +3,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import EditModeHelper from './EditModeHelper.js';
 
+import {getObjectAttributes} from './actions/vector.js';
+
 import {
     updateHandlerObjectIndex,
     updateEditMode,
@@ -12,6 +14,7 @@ import {
     setEditStartPositionOffset,
     deselectAllObjectsExept
 } from '../../src/modules/svgRender'
+
 
 
 class Vector extends React.Component {
@@ -40,9 +43,11 @@ class Vector extends React.Component {
     }
 
     render() {
+        console.log(this.props.object);
         return (
             <g>
                 <rect
+                    {...getObjectAttributes(this.props.object)}
                     width={this.props.object.width}
                     height={this.props.object.height}
                     x={this.props.object.x}
@@ -53,11 +58,7 @@ class Vector extends React.Component {
                 />
 
                 {this.props.object.selected ? <EditModeHelper
-                    objectID={this.props.object.id}
-                    width={this.props.object.width}
-                    height={this.props.object.height}
-                    x={this.props.object.x}
-                    y={this.props.object.y}/> : ''}
+                    object={this.props.object}/> : ''}
             </g>
         )
     }

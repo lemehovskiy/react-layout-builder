@@ -10,6 +10,7 @@ export const RESIZE_OBJECT = 'svgRender/RESIZE_OBJECT';
 export const SET_OBJECT_MODE = 'svgRender/SET_OBJECT_MODE';
 export const SAVE_EDIT_OBJECT_INIT_STATE = 'svgRender/SAVE_EDIT_OBJECT_INIT_STATE';
 export const RESET_OBJECT_MODE = 'svgRender/RESET_OBJECT_MODE';
+export const ROTATE_OBJECT = 'svgRender/ROTATE_OBJECT';
 
 
 const initialState = {
@@ -126,7 +127,6 @@ export default (state = initialState, action) => {
 
 
         case RESIZE_OBJECT:
-            console.log(action);
             updatedItems = state.objects.map(item => {
                 if (item.id === action.payload.id) {
                     return {
@@ -157,8 +157,6 @@ export default (state = initialState, action) => {
                     updatedItem = item;
                 }
             })
-
-
             return {...state, editObjectInitState: updatedItem}
         
         case RESET_OBJECT_MODE:
@@ -166,7 +164,16 @@ export default (state = initialState, action) => {
                 return {...item, mode: null}
             })
             return {...state, objects: updatedItems}
-        
+
+        case ROTATE_OBJECT:
+            updatedItems = state.objects.map(item => {
+                if (item.id === action.payload.id) {
+                    return {...item, rotate: action.payload.rotate}
+                }
+
+                return item
+            })
+            return {...state, objects: updatedItems}
         default:
             return state
     }
@@ -296,6 +303,15 @@ export const resetObjectMode = () => {
     return dispatch => {
         dispatch({
             type: RESET_OBJECT_MODE
+        })
+    }
+}
+
+export const rotateObject = ({id, rotate}) => {
+    return dispatch => {
+        dispatch({
+            type: ROTATE_OBJECT,
+            payload: {id, rotate}
         })
     }
 }
