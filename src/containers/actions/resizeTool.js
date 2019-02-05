@@ -13,7 +13,7 @@ function getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition) 
 
 function getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition) {
     progress = mouse.y - mouseStartPosition.y;
-        changeValue = objectInitState.height - progress;
+    changeValue = objectInitState.height - progress;
     returnVal.y = changeValue > 0 ? objectInitState.y - (changeValue - objectInitState.height) : objectInitState.y + objectInitState.height;
     returnVal.height = Math.abs(changeValue);
 
@@ -52,6 +52,22 @@ export const getObjectResizeValues = (mouse, direction, objectInitState, mouseSt
             updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
             break;
         case 'w':
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
+            break;
+        case 'ne':
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition));
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
+            break;
+        case 'se':
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition));
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
+            break;
+        case 'sw':
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition));
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
+            break;
+        case 'nw':
+            updatedObject = Object.assign(updatedObject, getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition));
             updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
             break;
     }
