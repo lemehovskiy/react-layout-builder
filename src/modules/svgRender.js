@@ -126,6 +126,7 @@ export default (state = initialState, action) => {
 
 
         case RESIZE_OBJECT:
+            console.log(action);
             updatedItems = state.objects.map(item => {
                 if (item.id === action.payload.id) {
                     return {
@@ -259,17 +260,11 @@ export const setEditStartPositionOffset = (x, y) => {
 }
 
 
-export const resizeObject = (id, x, y, width, height) => {
+export const resizeObject = (props) => {
     return dispatch => {
         dispatch({
             type: RESIZE_OBJECT,
-            payload: {
-                id: id,
-                x: x,
-                y: y,
-                width: width,
-                height: height
-            }
+            payload: props
         })
     }
 }

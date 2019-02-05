@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import Vector from './Vector';
 import SelectTool from './SelectTool';
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
+import {getObjectResizeValues} from './actions/resizeTool';
 
 
 import {
@@ -56,6 +57,7 @@ class SvgRender extends React.Component {
     }
 
     onMouseMove(e) {
+
         let self = this;
 
         if (this.props.editMode === 'drag') {
@@ -67,53 +69,21 @@ class SvgRender extends React.Component {
         }
 
         if (this.props.editMode === 'resize') {
-
-            let direction = this.props.resizeToolDirection;
+            
             this.props.objects.forEach(function (object) {
                 if (object.mode === 'resize') {
+                    let updatedValues = getObjectResizeValues(
+                        {x: e.clientX, y: e.clientY},
+                        self.props.resizeToolDirection, 
+                        self.props.editObjectInitState, 
+                        self.props.mouseStartPosition, 
+                        {x: object.x, y: object.y, width: object.width, height: object.height}
+                    );
 
-                    let objectInitState = self.props.editObjectInitState,
-                        mouseStartPosition = self.props.mouseStartPosition,
-                        objectX = object.x,
-                        objectY = object.y,
-                        objectWidth = object.width,
-                        objectHeight = object.height,
-                        progress = null,
-                        changeValue = null;
-
-                    switch (direction) {
-                        case 's':
-                            progress = e.clientY - mouseStartPosition.y;
-                            changeValue = objectInitState.height + progress;
-                            objectY = changeValue > 0 ? objectInitState.y : objectInitState.y - Math.abs(changeValue);
-                            objectHeight = Math.abs(changeValue);
-                            break;
-                        case 'n':
-                            progress = e.clientY - mouseStartPosition.y;
-                            changeValue = objectInitState.height - progress;
-                            objectY = changeValue > 0 ? objectInitState.y - (changeValue - objectInitState.height) : objectInitState.y + objectInitState.height;
-                            objectHeight = Math.abs(changeValue);
-                            break;
-                        case 'e':
-                            progress = e.clientX - mouseStartPosition.x;
-                            changeValue = objectInitState.width + progress;
-                            objectX = changeValue < 0 ? objectInitState.x - Math.abs(changeValue) : objectInitState.x;
-                            objectWidth = Math.abs(changeValue);
-                            break;
-                        case 'w':
-                            progress = e.clientX - mouseStartPosition.x;
-                            changeValue = objectInitState.width - progress;
-                            objectX = changeValue > 0 ? objectInitState.x + progress : objectInitState.x + objectInitState.width;
-                            objectWidth = Math.abs(changeValue);
-                            break;
-                    }
-
-                    self.props.resizeObject(
-                        object.id,
-                        objectX,
-                        objectY,
-                        objectWidth,
-                        objectHeight
+                    self.props.resizeObject({
+                        id: object.id,
+                        ...updatedValues
+                        }
                     );
                 }
             })
@@ -123,6 +93,7 @@ class SvgRender extends React.Component {
             this.updateSelectToolData({x: e.clientX, y: e.clientY});
         }
     }
+
 
     onMouseUp(e) {
         if (this.props.editMode === 'selectTool') {
