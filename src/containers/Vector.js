@@ -19,7 +19,6 @@ import {
 
 class Vector extends React.Component {
     onMouseUp(e) {
-        console.log('onMouseUp');
         let objectMoved = this.props.mouseStartPosition.x !== e.clientX || this.props.mouseStartPosition.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
@@ -29,7 +28,6 @@ class Vector extends React.Component {
 
 
     onMouseDown(e) {
-        console.log('mouseDown');
         if (!e.shiftKey && !this.props.object.selected) {
             this.props.deselectAllObjects();
         }
@@ -45,21 +43,11 @@ class Vector extends React.Component {
     render() {
         return (
             <g>
-                <rect
-                    {...getObjectAttributes(this.props.object)}
-                    width={this.props.object.width}
-                    height={this.props.object.height}
-                    x={this.props.object.x}
-                    y={this.props.object.y}
-                    cursor="move"
-                    onMouseDown={this.onMouseDown.bind(this)}
-                    onMouseUp={this.onMouseUp.bind(this)}
-                />
-
-                {this.props.object.selected ? <EditModeHelper
-                    object={this.props.object}/> : ''}
+                {this.props.children}
+                {this.onMouseUp}
+                {this.onMouseDown}
             </g>
-        )
+        );
     }
 }
 

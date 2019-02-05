@@ -6,6 +6,7 @@ import SelectTool from './SelectTool';
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
 import {getObjectResizeValues} from './actions/resizeTool';
 import {getObjectRotateValue} from './actions/rootateTool.js';
+import Rectangle from './Rectangle';
 
 
 import {
@@ -213,7 +214,7 @@ class SvgRender extends React.Component {
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
-                        return <Vector key={object.id} object={object}/>
+                        return <Rectangle key={object.id} object={object}/>
                     })}
 
 
