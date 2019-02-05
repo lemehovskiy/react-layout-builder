@@ -9,6 +9,7 @@ export const SET_EDIT_START_POSITION_OFFSET = 'svgRender/SET_EDIT_START_POSITION
 export const RESIZE_OBJECT = 'svgRender/RESIZE_OBJECT';
 export const SET_OBJECT_MODE = 'svgRender/SET_OBJECT_MODE';
 export const SAVE_EDIT_OBJECT_INIT_STATE = 'svgRender/SAVE_EDIT_OBJECT_INIT_STATE';
+export const RESET_OBJECT_MODE = 'svgRender/RESET_OBJECT_MODE';
 
 
 const initialState = {
@@ -158,7 +159,13 @@ export default (state = initialState, action) => {
 
 
             return {...state, editObjectInitState: updatedItem}
-
+        
+        case RESET_OBJECT_MODE:
+            updatedItems = state.objects.map(item => {
+                return {...item, mode: null}
+            })
+            return {...state, objects: updatedItems}
+        
         default:
             return state
     }
@@ -286,6 +293,14 @@ export const saveEditObjectInitState = (id) => {
             payload: {
                 id: id
             }
+        })
+    }
+}
+
+export const resetObjectMode = () => {
+    return dispatch => {
+        dispatch({
+            type: RESET_OBJECT_MODE
         })
     }
 }
