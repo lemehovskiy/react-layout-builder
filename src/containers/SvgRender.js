@@ -72,32 +72,39 @@ class SvgRender extends React.Component {
             this.props.objects.forEach(function (object) {
                 if (object.mode === 'resize') {
 
-                    let objectInitState = self.props.editObjectInitState;
+                    let objectInitState = self.props.editObjectInitState,
+                        mouseStartPosition = self.props.mouseStartPosition,
+                        objectX = object.x,
+                        objectY = object.y,
+                        objectWidth = object.width,
+                        objectHeight = object.height,
+                        progress = null,
+                        changeValue = null;
 
-                    let objectX = object.x;
-                    let objectY = object.y;
-                    let objectWidth = object.width;
-                    let objectHeight = object.height;
-
-                    if (direction === 's') {
-                        let progress = objectInitState.height + (e.clientY - self.props.mouseStartPosition.y);
-                        objectY = progress > 0 ? objectInitState.y : objectInitState.y - Math.abs(progress);
-                        objectHeight = Math.abs(objectInitState.height + (e.clientY - self.props.mouseStartPosition.y));
-                    }
-
-                    else if (direction === 'n') {
-                        let progress = objectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
-                        let absoluteProgress = objectInitState.height - (e.clientY - self.props.mouseStartPosition.y);
-
-                        objectY = progress > 0 ? objectInitState.y - (progress - objectInitState.height) : objectInitState.y + objectInitState.height;
-                        objectHeight = Math.abs(absoluteProgress);
-                    }
-
-                    else if (direction === 'e') {
-                        let progress = (objectInitState.width + e.clientX - self.props.mouseStartPosition.x) - objectInitState.width;
-                        let absoluteProgress = objectInitState.width + progress;
-                        objectX = absoluteProgress < 0 ? objectInitState.x - Math.abs(absoluteProgress) : objectInitState.x;
-                        objectWidth = Math.abs(absoluteProgress);
+                    switch (direction) {
+                        case 's':
+                            progress = objectInitState.height + (e.clientY - mouseStartPosition.y);
+                            objectY = progress > 0 ? objectInitState.y : objectInitState.y - Math.abs(progress);
+                            objectHeight = Math.abs(objectInitState.height + (e.clientY - mouseStartPosition.y));
+                            break;
+                        case 'n':
+                            progress = objectInitState.height - (e.clientY - mouseStartPosition.y);
+                            changeValue = objectInitState.height - (e.clientY - mouseStartPosition.y);
+                            objectY = progress > 0 ? objectInitState.y - (progress - objectInitState.height) : objectInitState.y + objectInitState.height;
+                            objectHeight = Math.abs(changeValue);
+                            break;
+                        case 'e':
+                            progress = (objectInitState.width + e.clientX - mouseStartPosition.x) - objectInitState.width;
+                            changeValue = objectInitState.width + progress;
+                            objectX = changeValue < 0 ? objectInitState.x - Math.abs(changeValue) : objectInitState.x;
+                            objectWidth = Math.abs(changeValue);
+                            break;
+                        case 'w':
+                            progress = e.clientX - self.props.mouseStartPosition.x
+                            changeValue = objectInitState.width - (e.clientX - mouseStartPosition.x)
+                            objectX = changeValue > 0 ? objectInitState.x + progress : objectInitState.x + objectInitState.width;
+                            objectWidth = Math.abs(changeValue);
+                            break;
                     }
 
                     self.props.resizeObject(
@@ -136,20 +143,23 @@ class SvgRender extends React.Component {
         }
     }
 
-    setSelectStartPosition(mousePosition){
+    setSelectStartPosition(mousePosition) {
         this.setState({
-            selectToolStartPoint: {x: mousePosition.x - this.state.svgOffset.x, y: mousePosition.y - this.state.svgOffset.y}
+            selectToolStartPoint: {
+                x: mousePosition.x - this.state.svgOffset.x,
+                y: mousePosition.y - this.state.svgOffset.y
+            }
         })
     }
 
-    handleSelectTool(){
+    handleSelectTool() {
         let self = this;
 
         this.resetSelectToolData();
 
         let selectedObjectIds = [];
 
-        this.props.objects.forEach(function(object){
+        this.props.objects.forEach(function (object) {
             if (checkRectRectCollision({
                         x: object.x,
                         y: object.y,
@@ -161,8 +171,7 @@ class SvgRender extends React.Component {
                         y: self.state.selectToolPosition.y,
                         width: self.state.selectToolSize.width,
                         height: self.state.selectToolSize.height
-                    }))
-            {
+                    })) {
                 selectedObjectIds.push(object.id);
             }
         })
@@ -174,14 +183,14 @@ class SvgRender extends React.Component {
         }
     }
 
-    resetSelectToolData(){
+    resetSelectToolData() {
         this.setState({
             selectToolStartPoint: {x: null, y: null},
             selectToolSize: {x: null, y: null}
         });
     }
 
-    updateSelectToolData(mousePosition){
+    updateSelectToolData(mousePosition) {
         if (this.state.selectToolStartPoint.x === null) return;
 
         const selectToolSize = getSelectToolSize(
@@ -218,7 +227,7 @@ class SvgRender extends React.Component {
                     {this.props.editMode === 'selectTool' ? <SelectTool
                         selectToolPosition={this.state.selectToolPosition}
                         selectToolSize={this.state.selectToolSize}
-                        /> : ''}
+                    /> : ''}
                 </svg>
             </div>
         )
