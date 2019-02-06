@@ -214,7 +214,7 @@ class SvgRender extends React.Component {
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
-                        return <Rectangle key={object.id} object={object}/>
+                        return <Vector key={object.id} object={object}><Rectangle/></Vector>
                     })}
 
 

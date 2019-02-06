@@ -1,3 +1,5 @@
+//TODO fix bug with resize when object rotated
+
 let progress = null,
     changeValue = null,
     returnVal = {};

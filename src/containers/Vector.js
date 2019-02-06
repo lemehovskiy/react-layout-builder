@@ -1,9 +1,6 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import EditModeHelper from './EditModeHelper.js';
-
-import {getObjectAttributes} from './actions/vector.js';
 
 import {
     updateHandlerObjectIndex,
@@ -18,6 +15,11 @@ import {
 
 
 class Vector extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
     onMouseUp(e) {
         let objectMoved = this.props.mouseStartPosition.x !== e.clientX || this.props.mouseStartPosition.y !== e.clientY;
 
@@ -41,14 +43,10 @@ class Vector extends React.Component {
     }
 
     render() {
-        return (
-            <g>
-                {this.props.children}
-                {this.onMouseUp}
-                {this.onMouseDown}
-            </g>
-        );
+        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp.bind(this), onMouseDown: this.onMouseDown.bind(this), object: this.props.object})
+
     }
+
 }
 
 const mapStateToProps = ({svgRender}) => ({
