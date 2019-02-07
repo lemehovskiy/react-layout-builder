@@ -1,16 +1,38 @@
-export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
-export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
-export const SET_MOUSE_START_POSITION = 'svgRender/SET_MOUSE_START_POSITION';
-export const SET_OBJECTS_SELECT_STATE = 'svgRender/UPDATE_OBJECTS_SELECT_STATE';
-export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
-export const DESELECT_ALL_OBJECTS_EXEPT = 'svgRender/DESELECT_ALL_OBJECTS_EXEPT';
-export const MOVE_OBJECT = 'svgRender/MOVE_OBJECT';
-export const SET_OBJECT_EDIT_START_POSITION = 'svgRender/SET_OBJECT_EDIT_START_POSITION';
-export const RESIZE_OBJECT = 'svgRender/RESIZE_OBJECT';
-export const SET_OBJECT_MODE = 'svgRender/SET_OBJECT_MODE';
-export const SAVE_EDIT_OBJECT_INIT_STATE = 'svgRender/SAVE_EDIT_OBJECT_INIT_STATE';
-export const RESET_OBJECT_MODE = 'svgRender/RESET_OBJECT_MODE';
-export const ROTATE_OBJECT = 'svgRender/ROTATE_OBJECT';
+import {
+    UPDATE_HANDLER_OBJECT_INDEX,
+    UPDATE_EDIT_MODE,
+    SET_MOUSE_START_POSITION,
+    SET_OBJECTS_SELECT_STATE,
+    DESELECT_ALL_OBJECTS,
+    DESELECT_ALL_OBJECTS_EXEPT,
+    MOVE_OBJECT,
+    SET_OBJECT_EDIT_START_POSITION,
+    RESIZE_OBJECT,
+    SET_OBJECT_MODE,
+    SAVE_EDIT_OBJECT_INIT_STATE,
+    RESET_OBJECT_MODE,
+    ROTATE_OBJECT
+} from './../constants';
+
+
+function updateObject(oldObject, newValues) {
+    return Object.assign({}, oldObject, newValues)
+}
+
+function updateItemInArray(array, itemId, updateItemCallback) {
+    const updatedItems = array.map(item => {
+        if (item.id !== itemId) {
+            // Since we only want to update one item, preserve all others as they are now
+            return item
+        }
+
+        // Use the provided callback to create an updated item
+        const updatedItem = updateItemCallback(item)
+        return updatedItem
+    })
+
+    return updatedItems
+}
 
 
 const initialState = {
@@ -125,21 +147,16 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
-
         case RESIZE_OBJECT:
-            updatedItems = state.objects.map(item => {
-                if (item.id === action.payload.id) {
-                    return {
-                        ...item,
-                        x: action.payload.x,
-                        y: action.payload.y,
-                        width: action.payload.width,
-                        height: action.payload.height
-                    }
-                }
-                return item;
+            updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
+                return updateObject(object, {
+                    x: action.payload.x,
+                    y: action.payload.y,
+                    width: action.payload.width,
+                    height: action.payload.height
+                })
             })
-            return {...state, objects: updatedItems}
+            return updateObject(state, {objects: updatedItems})
 
         case SET_OBJECT_MODE:
             updatedItems = state.objects.map(item => {
@@ -158,7 +175,7 @@ export default (state = initialState, action) => {
                 }
             })
             return {...state, editObjectInitState: updatedItem}
-        
+
         case RESET_OBJECT_MODE:
             updatedItems = state.objects.map(item => {
                 return {...item, mode: null}
@@ -166,152 +183,11 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case ROTATE_OBJECT:
-            updatedItems = state.objects.map(item => {
-                if (item.id === action.payload.id) {
-                    return {...item, rotate: action.payload.rotate}
-                }
-
-                return item
+            updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
+                return updateObject(object, {rotate: action.payload.rotate})
             })
-            return {...state, objects: updatedItems}
+            return updateObject(state, {objects: updatedItems})
         default:
             return state
-    }
-}
-
-
-export const updateHandlerObjectIndex = (index) => {
-    return dispatch => {
-        dispatch({
-            type: UPDATE_HANDLER_OBJECT_INDEX,
-            index: index
-        })
-
-    }
-}
-
-export const updateEditMode = (mode) => {
-    return dispatch => {
-        dispatch({
-            type: UPDATE_EDIT_MODE,
-            mode: mode
-        })
-
-    }
-}
-
-export const setMouseStartPosition = (x, y) => {
-    return dispatch => {
-        dispatch({
-            type: SET_MOUSE_START_POSITION,
-            x: x,
-            y: y
-        })
-
-    }
-}
-
-export const setObjectsSelectState = (ids) => {
-    return dispatch => {
-        dispatch({
-            type: SET_OBJECTS_SELECT_STATE,
-            payload: {
-                ids: ids,
-                switchTo: true
-            }
-        })
-    }
-}
-
-export const deselectAllObjects = () => {
-    return dispatch => {
-        dispatch({
-            type: DESELECT_ALL_OBJECTS,
-        })
-    }
-}
-
-export const deselectAllObjectsExept = (id) => {
-    return dispatch => {
-        dispatch({
-            type: DESELECT_ALL_OBJECTS_EXEPT,
-            payload: id
-        })
-    }
-}
-
-
-export const moveObject = (id, x, y) => {
-    return dispatch => {
-        dispatch({
-            type: MOVE_OBJECT,
-            payload: {
-                id: id,
-                x: x,
-                y: y
-            }
-        })
-    }
-}
-
-export const setObjectEditStartPosition = (x, y) => {
-    return dispatch => {
-        dispatch({
-            type: SET_OBJECT_EDIT_START_POSITION,
-            payload: {
-                x: x,
-                y: y
-            }
-        })
-    }
-}
-
-
-export const resizeObject = (props) => {
-    return dispatch => {
-        dispatch({
-            type: RESIZE_OBJECT,
-            payload: props
-        })
-    }
-}
-
-export const setObjectMode = (id, mode) => {
-    return dispatch => {
-        dispatch({
-            type: SET_OBJECT_MODE,
-            payload: {
-                id: id,
-                mode: mode
-            }
-        })
-    }
-}
-
-export const saveEditObjectInitState = (id) => {
-    return dispatch => {
-        dispatch({
-            type: SAVE_EDIT_OBJECT_INIT_STATE,
-            payload: {
-                id: id
-            }
-        })
-    }
-}
-
-export const resetObjectMode = () => {
-    return dispatch => {
-        dispatch({
-            type: RESET_OBJECT_MODE
-        })
-    }
-}
-
-export const rotateObject = ({id, rotate}) => {
-    return dispatch => {
-        dispatch({
-            type: ROTATE_OBJECT,
-            payload: {id, rotate}
-        })
     }
 }

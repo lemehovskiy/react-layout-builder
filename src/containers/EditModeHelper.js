@@ -8,7 +8,7 @@ import {
     updateEditMode,
     setObjectMode,
     saveEditObjectInitState
-} from '../../src/modules/svgRender'
+} from '../../src/actions'
 
 import {
     setResizeDirection

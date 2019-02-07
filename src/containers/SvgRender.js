@@ -17,7 +17,7 @@ import {
     resizeObject,
     resetObjectMode,
     rotateObject
-} from '../../src/modules/svgRender'
+} from '../../src/actions'
 
 class SvgRender extends React.Component {
     constructor(props) {
