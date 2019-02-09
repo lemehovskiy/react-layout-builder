@@ -1,3 +1,4 @@
+//TODO make rotate more user friendly
 export const getObjectRotateValue = ({mouse, mouseStartPosition, object}) => {
     let angle = Math.atan2(
         mouseStartPosition.x + (object.width || 0) / 2 - mouse.x,
