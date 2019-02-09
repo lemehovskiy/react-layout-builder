@@ -1,8 +1,8 @@
 {
   "private": true,
-  "homepage": "https://create-react-app-redux.now.sh",
+  "homepage": "https://lemehovskiy.github.io/react-layout-builder/",
   "scripts": {
-    "deploy": "now && now alias",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "now-start": "serve -s ./build",
     "build": "react-scripts build",
@@ -11,6 +11,7 @@
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "immutable": "^4.0.0-rc.12",
     "prettier": "1.16.3",
     "react-scripts": "2.1.3",
