@@ -35,49 +35,7 @@ function updateItemInArray(array, itemId, updateItemCallback) {
 }
 
 
-const initialState = {
-    editMode: null,
-    mousePosition: {
-        x: null,
-        y: null
-    },
-    mouseStartPosition: {
-        x: null,
-        y: null
-    },
-
-    handlerObjectIndex: null,
-
-    objects: [
-        {
-            "id": 1,
-            "width": 163,
-            "height": 84,
-            "rotate": 0,
-            "strokeWidth": 0,
-            "fill": "rgba(0, 123, 255, 1)",
-            "radius": "0",
-            "type": "rectangle",
-            "x": 17,
-            "y": 15,
-            "selected": false
-        },
-        {
-            "id": 2,
-            "width": 100,
-            "height": 84,
-            "rotate": 0,
-            "strokeWidth": 0,
-            "fill": "rgba(0, 123, 255, 1)",
-            "radius": "0",
-            "type": "rectangle",
-            "x": 200,
-            "y": 50,
-            "selected": false
-        }
-    ],
-    editObjectInitState: null
-};
+const initialState = {};
 
 export default (state = initialState, action) => {
     let updatedItems = [];
