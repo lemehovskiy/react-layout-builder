@@ -10,7 +10,7 @@ import {
     deselectAllObjects,
     setObjectEditStartPosition,
     deselectAllObjectsExept
-} from '../../src/modules/svgRender'
+} from '../../src/actions'
 
 
 

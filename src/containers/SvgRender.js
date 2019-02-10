@@ -7,6 +7,7 @@ import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '
 import {getObjectResizeValues} from './actions/resizeTool';
 import {getObjectRotateValue} from './actions/rootateTool.js';
 import Rectangle from './Rectangle';
+import Text from './Text';
 
 
 import {
@@ -17,7 +18,7 @@ import {
     resizeObject,
     resetObjectMode,
     rotateObject
-} from '../../src/modules/svgRender'
+} from '../../src/actions'
 
 class SvgRender extends React.Component {
     constructor(props) {
@@ -214,9 +215,23 @@ class SvgRender extends React.Component {
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
-                        return <Vector key={object.id} object={object}><Rectangle/></Vector>
+                        let vectorType = null;
+                        switch (object.type){
+                            case 'rectangle': {
+                                vectorType = <Rectangle/>;
+                                break;
+                            }
+                            case 'text': {
+                                vectorType = <Text/>;
+                                break;
+                            }
+                        }
+                        return (
+                            <Vector key={object.id} object={object}>
+                                {vectorType}
+                            </Vector>
+                        )
                     })}
-
 
                     {this.props.editMode === 'selectTool' ? <SelectTool
                         selectToolPosition={this.state.selectToolPosition}
