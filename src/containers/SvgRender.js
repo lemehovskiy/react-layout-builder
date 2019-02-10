@@ -14,7 +14,7 @@ import {
     updateEditMode,
     deselectAllObjects,
     moveObject,
-    setObjectsSelectState,
+    selectObjects,
     resizeObject,
     resetObjectMode,
     rotateObject
@@ -174,7 +174,7 @@ class SvgRender extends React.Component {
         this.props.deselectAllObjects();
 
         if (selectedObjectIds.length) {
-            this.props.setObjectsSelectState(selectedObjectIds)
+            this.props.selectObjects(selectedObjectIds)
         }
     }
 
@@ -256,7 +256,7 @@ const mapDispatchToProps = dispatch =>
             updateEditMode,
             deselectAllObjects,
             moveObject,
-            setObjectsSelectState,
+            selectObjects,
             resizeObject,
             resetObjectMode,
             rotateObject

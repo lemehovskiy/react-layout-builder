@@ -2,7 +2,8 @@ import {
     UPDATE_HANDLER_OBJECT_INDEX,
     UPDATE_EDIT_MODE,
     SET_MOUSE_START_POSITION,
-    SET_OBJECTS_SELECT_STATE,
+    SELECT_OBJECTS,
+    DESELECT_OBJECTS,
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
@@ -48,17 +49,25 @@ export const setMouseStartPosition = (x, y) => {
     }
 }
 
-export const setObjectsSelectState = (ids) => {
+export const selectObjects = (ids) => {
     return dispatch => {
         dispatch({
-            type: SET_OBJECTS_SELECT_STATE,
-            payload: {
-                ids: ids,
-                switchTo: true
-            }
+            type: SELECT_OBJECTS,
+            payload: {ids}
         })
     }
 }
+
+export const deselectObjects = (ids) => {
+    return dispatch => {
+        dispatch({
+            type: DESELECT_OBJECTS,
+            payload: {ids}
+
+        })
+    }
+}
+
 
 export const deselectAllObjects = () => {
     return dispatch => {

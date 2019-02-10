@@ -18,6 +18,8 @@ const initialState = {
           y: null
       },
 
+      selectedObjects: [],
+
       handlerObjectIndex: null,
 
       objects: [
@@ -32,7 +34,6 @@ const initialState = {
               type: "rectangle",
               x: 17,
               y: 15,
-              selected: false,
               text: "Lorem ipsum \n dolor",
               textProps: {
                   textAlign: 'center',
@@ -51,7 +52,6 @@ const initialState = {
               type: "rectangle",
               x: 200,
               y: 50,
-              selected: false,
               text: "Lorem ipsum \n dolor",
               textProps: {
                   textAlign: 'right',

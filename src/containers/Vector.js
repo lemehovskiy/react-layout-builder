@@ -6,7 +6,7 @@ import {
     updateHandlerObjectIndex,
     updateEditMode,
     setMouseStartPosition,
-    setObjectsSelectState,
+    selectObjects,
     deselectAllObjects,
     setObjectEditStartPosition,
     deselectAllObjectsExept
@@ -34,7 +34,7 @@ class Vector extends React.Component {
             this.props.deselectAllObjects();
         }
 
-        this.props.setObjectsSelectState([this.props.object.id], true)
+        this.props.selectObjects([this.props.object.id])
         this.props.setMouseStartPosition(e.clientX, e.clientY)
 
         this.props.setObjectEditStartPosition(e.clientX, e.clientY);
@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch =>
             updateHandlerObjectIndex,
             updateEditMode,
             setMouseStartPosition,
-            setObjectsSelectState,
+            selectObjects,
             deselectAllObjects,
             setObjectEditStartPosition,
             deselectAllObjectsExept

@@ -2,7 +2,8 @@ import {
     UPDATE_HANDLER_OBJECT_INDEX,
     UPDATE_EDIT_MODE,
     SET_MOUSE_START_POSITION,
-    SET_OBJECTS_SELECT_STATE,
+    SELECT_OBJECTS,
+    DESELECT_OBJECTS,
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
@@ -16,6 +17,17 @@ import {
     SET_VERTICAL_ALIGN
 } from './../constants';
 
+function insertItem(array, item) {
+    let newArray = array.slice()
+    newArray.push(item)
+    return newArray
+}
+
+function removeItem(array, index) {
+    let newArray = array.slice()
+    newArray.splice(index, 1)
+    return newArray
+}
 
 function updateObject(oldObject, newValues) {
     return Object.assign({}, oldObject, newValues)
@@ -58,20 +70,20 @@ export default (state = initialState, action) => {
                 ...state,
                 mouseStartPosition: {x: action.x, y: action.y}
             }
-        case SET_OBJECTS_SELECT_STATE:
-            updatedItems = state.objects.map(item => {
+        case SELECT_OBJECTS:
+            const objects = state.objects.slice();
+            const selectedObjects = state.selectedObjects.slice();
+
+            state.objects.forEach((item, index) => {
                 if (action.payload.ids.includes(item.id)) {
-                    return {...item, selected: action.payload.switchTo || true}
+                    selectedObjects.push(item);
+                    item.splice(index, 1)
                 }
-                return item
             })
-            return {...state, objects: updatedItems}
+            return {...state, objects: objects, selectedObjects: selectedObjects}
 
         case DESELECT_ALL_OBJECTS:
-            updatedItems = state.objects.map(item => {
-                return {...item, selected: false}
-            })
-            return {...state, objects: updatedItems}
+            return {...state, objects: state.objects.concat(state.selectedObjects), updatedItems, selectedObjects: []}
 
         case DESELECT_ALL_OBJECTS_EXEPT:
             updatedItems = state.objects.map(item => {
@@ -80,6 +92,12 @@ export default (state = initialState, action) => {
                 }
                 return {...item, selected: false}
             })
+
+            // const updatedSelectedObjects = state.objects.map(item => {
+            //     if (!item.id === action.payload) {
+            //         return item;
+            //     }
+            // })
 
             return {...state, objects: updatedItems}
 
@@ -93,14 +111,12 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case SET_OBJECT_EDIT_START_POSITION:
-            updatedItems = state.objects.map(item => {
-                if (item.selected) {
-                    return {
-                        ...item,
-                        editStartPositionOffset: {
-                            x: action.payload.x - item.x,
-                            y: action.payload.y - item.y
-                        }
+            updatedItems = state.selectedObjects.map(item => {
+                return {
+                    ...item,
+                    editStartPositionOffset: {
+                        x: action.payload.x - item.x,
+                        y: action.payload.y - item.y
                     }
                 }
                 return item
@@ -149,19 +165,16 @@ export default (state = initialState, action) => {
             return updateObject(state, {objects: updatedItems})
 
         case SET_VERTICAL_ALIGN:
-            updatedItems = state.objects.map(item => {
-                if (item.selected) {
-                    return {
-                        ...item,
-                        textProps: {
-                            ...item.textProps,
-                            verticalAlign: action.payload.value
-                        }
+            updatedItems = state.selectedObjects.map(item => {
+                return {
+                    ...item,
+                    textProps: {
+                        ...item.textProps,
+                        verticalAlign: action.payload.value
                     }
                 }
-                return item
             })
-            return {...state, objects: updatedItems}
+            return {...state, selectedObjects: updatedItems}
 
         case SET_TEXT_ALIGN:
             updatedItems = state.objects.map(item => {
