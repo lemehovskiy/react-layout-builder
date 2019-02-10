@@ -1,3 +1,5 @@
+//TODO fix select for rotated objects
+
 export const getSelectToolPosition = (startPoint, mouse, svgOffset, size) => {
     const x = mouse.x - svgOffset.x > startPoint.x ? startPoint.x : startPoint.x - size.width;
     const y = mouse.y - svgOffset.y > startPoint.y ? startPoint.y : startPoint.y - size.height;
