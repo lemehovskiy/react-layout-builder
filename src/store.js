@@ -32,12 +32,18 @@ const initialState = {
               type: "rectangle",
               x: 17,
               y: 15,
-              selected: false
+              selected: false,
+              text: "Lorem ipsum \n dolor",
+              textProps: {
+                  textAlign: 'center',
+                  verticalAlign: 'top'
+
+              }
           },
           {
               id: 2,
-              width: 100,
-              height: 84,
+              width: 200,
+              height: 300,
               rotate: 0,
               strokeWidth: 0,
               fill: "rgba(0, 123, 255, 1)",
@@ -46,7 +52,12 @@ const initialState = {
               x: 200,
               y: 50,
               selected: false,
-              text: "Lorem ipsum \n dolor"
+              text: "Lorem ipsum \n dolor",
+              textProps: {
+                  textAlign: 'right',
+                  verticalAlign: 'bottom'
+
+              }
           }
       ],
       editObjectInitState: null
