@@ -3,12 +3,14 @@ import {push} from 'connected-react-router'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import SvgRender from '../SvgRender';
+import ToolPanel from './../ToolPanel'
 
 class LayoutBuilder extends React.Component {
     render() {
 
         return (
             <div>
+                <ToolPanel/>
                 <SvgRender/>
             </div>
         )

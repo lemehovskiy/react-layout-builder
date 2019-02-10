@@ -11,7 +11,9 @@ import {
     SET_OBJECT_MODE,
     SAVE_EDIT_OBJECT_INIT_STATE,
     RESET_OBJECT_MODE,
-    ROTATE_OBJECT
+    ROTATE_OBJECT,
+    SET_TEXT_ALIGN,
+    SET_VERTICAL_ALIGN
 } from './../constants';
 
 
@@ -147,6 +149,24 @@ export const rotateObject = ({id, rotate}) => {
         dispatch({
             type: ROTATE_OBJECT,
             payload: {id, rotate}
+        })
+    }
+}
+
+export const setTextAlign = (value) => {
+    return dispatch => {
+        dispatch({
+            type: SET_TEXT_ALIGN,
+            payload: {value}
+        })
+    }
+}
+
+export const setVerticalAlign = (value) => {
+    return dispatch => {
+        dispatch({
+            type: SET_VERTICAL_ALIGN,
+            payload: {value}
         })
     }
 }

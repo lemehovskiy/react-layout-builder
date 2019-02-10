@@ -11,7 +11,9 @@ import {
     SET_OBJECT_MODE,
     SAVE_EDIT_OBJECT_INIT_STATE,
     RESET_OBJECT_MODE,
-    ROTATE_OBJECT
+    ROTATE_OBJECT,
+    SET_TEXT_ALIGN,
+    SET_VERTICAL_ALIGN
 } from './../constants';
 
 
@@ -145,6 +147,37 @@ export default (state = initialState, action) => {
                 return updateObject(object, {rotate: action.payload.rotate})
             })
             return updateObject(state, {objects: updatedItems})
+
+        case SET_VERTICAL_ALIGN:
+            updatedItems = state.objects.map(item => {
+                if (item.selected) {
+                    return {
+                        ...item,
+                        textProps: {
+                            ...item.textProps,
+                            verticalAlign: action.payload.value
+                        }
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
+
+        case SET_TEXT_ALIGN:
+            updatedItems = state.objects.map(item => {
+                if (item.selected) {
+                    return {
+                        ...item,
+                        textProps: {
+                            ...item.textProps,
+                            textAlign: action.payload.value
+                        }
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
+
         default:
             return state
     }

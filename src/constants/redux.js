@@ -12,3 +12,5 @@ export const SAVE_EDIT_OBJECT_INIT_STATE = 'svgRender/SAVE_EDIT_OBJECT_INIT_STAT
 export const RESET_OBJECT_MODE = 'svgRender/RESET_OBJECT_MODE';
 export const ROTATE_OBJECT = 'svgRender/ROTATE_OBJECT';
 export const SET_RESIZE_DIRECTION = 'resizeTool/SET_RESIZE_DIRECTION';
+export const SET_VERTICAL_ALIGN = 'textTool/SET_VERTICAL_ALIGN';
+export const SET_TEXT_ALIGN = 'textTool/SET_TEXT_ALIGN';
