@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/react-layout-builder/static/js/runtime~main.90a621bb.js"
   },
   {
-    "revision": "6de45dfd3393fe54d7c9",
-    "url": "/react-layout-builder/static/js/main.6de45dfd.chunk.js"
+    "revision": "03252879edf231cf086a",
+    "url": "/react-layout-builder/static/js/main.03252879.chunk.js"
   },
   {
     "revision": "6ec71f32c00b3a216909",
     "url": "/react-layout-builder/static/js/1.6ec71f32.chunk.js"
   },
   {
-    "revision": "6de45dfd3393fe54d7c9",
+    "revision": "03252879edf231cf086a",
     "url": "/react-layout-builder/static/css/main.55dae14c.chunk.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/react-layout-builder/static/css/1.f32b5246.chunk.css"
   },
   {
-    "revision": "ba3f6c467862be7aeb38d8b85f192fcc",
+    "revision": "3bea86468ab529a5d00f1a76455b607a",
     "url": "/react-layout-builder/index.html"
   }
 ];
