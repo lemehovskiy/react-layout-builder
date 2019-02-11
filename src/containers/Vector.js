@@ -17,7 +17,6 @@ import {
 class Vector extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
     onMouseUp(e) {
@@ -30,7 +29,7 @@ class Vector extends React.Component {
 
 
     onMouseDown(e) {
-        if (!e.shiftKey && !this.props.object.selected) {
+        if (!e.shiftKey && !this.props.selectedObjectsId.includes(this.props.object.id)) {
             this.props.deselectAllObjects();
         }
 
@@ -42,7 +41,7 @@ class Vector extends React.Component {
     }
 
     render() {
-        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp.bind(this), onMouseDown: this.onMouseDown.bind(this), object: this.props.object})
+        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp.bind(this), onMouseDown: this.onMouseDown.bind(this), object: this.props.object, selectedObjectsId: this.props.selectedObjectsId})
 
     }
 

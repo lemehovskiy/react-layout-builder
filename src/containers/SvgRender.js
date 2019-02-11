@@ -65,15 +65,13 @@ class SvgRender extends React.Component {
         let self = this;
 
         if (this.props.editMode === 'drag') {
-            this.props.objects.forEach(function (object) {
-                if (object.selected) {
-                    self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
-                }
+            this.props.selectedObjects.forEach(function (object) {
+                self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
             })
         }
 
         else if (this.props.editMode === 'resize') {
-            this.props.objects.forEach(function (object) {
+            this.props.selectedObjects.forEach(function (object) {
                 if (object.mode === 'resize') {
                     let updatedValues = getObjectResizeValues(
                         {x: e.clientX, y: e.clientY},
@@ -93,7 +91,7 @@ class SvgRender extends React.Component {
         }
 
         else if (this.props.editMode === 'rotate') {
-            this.props.objects.forEach(function (object) {
+            this.props.selectedObjects.forEach(function (object) {
                 if (object.mode === 'rotate') {
 
                     let mouse = {x: e.clientX, y: e.clientY},
@@ -209,6 +207,8 @@ class SvgRender extends React.Component {
     }
 
     render() {
+        let self = this;
+
         return (
             <div className="container">
                 <svg className="svgRender" ref="svgRender" width='800' height='500'
@@ -227,7 +227,7 @@ class SvgRender extends React.Component {
                             }
                         }
                         return (
-                            <Vector key={object.id} object={object}>
+                            <Vector key={object.id} object={object} selectedObjectsId={self.props.selectedObjectsId}>
                                 {vectorType}
                             </Vector>
                         )
@@ -244,6 +244,8 @@ class SvgRender extends React.Component {
 }
 
 const mapStateToProps = ({svgRender, resizeTool}) => ({
+    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
+    selectedObjectsId: svgRender.selectedObjectsId,
     objects: svgRender.objects,
     editMode: svgRender.editMode,
     mouseStartPosition: svgRender.mouseStartPosition,

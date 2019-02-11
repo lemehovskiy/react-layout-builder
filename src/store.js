@@ -18,7 +18,7 @@ const initialState = {
           y: null
       },
 
-      selectedObjects: [],
+      selectedObjectsId: [],
 
       handlerObjectIndex: null,
 

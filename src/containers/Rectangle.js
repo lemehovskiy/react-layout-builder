@@ -34,7 +34,7 @@ class Rectangle extends React.Component {
                     />
 
 
-                {this.props.object.selected ? <EditModeHelper
+                {this.props.selectedObjectsId.includes(this.props.object.id) ? <EditModeHelper
                     object={this.props.object}/> : ''}
 
             </g>
