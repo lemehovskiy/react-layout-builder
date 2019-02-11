@@ -15,15 +15,11 @@ import {
 
 
 class TextPanel extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>
-                <VerticalAlignPanel setVerticalAlign={setVerticalAlign} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.verticalAlign')}/>
-                <TextAlignPanel setTextAlign={setTextAlign} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.textAlign')}/>
+                <VerticalAlignPanel setVerticalAlign={this.props.setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.verticalAlign')}/>
+                <TextAlignPanel setTextAlign={this.props.setTextAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.textAlign')}/>
             </div>
         )
     }

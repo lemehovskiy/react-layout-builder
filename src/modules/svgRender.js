@@ -147,6 +147,7 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case SET_TEXT_ALIGN:
+            console.log('222');
             updatedItems = state.objects.map(item => {
                 if (state.selectedObjectsId.includes(item.id)) {
                     return {

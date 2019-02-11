@@ -1,29 +1,49 @@
 import React from 'react'
+import styles from './index.css';
 
-class VerticalAlignPanel extends React.Component {
-    constructor(props) {
-        super(props);
+const buttonsConfig = [
+    {
+        value: 'left',
+        label: 'Left',
+    },
+    {
+        value: 'center',
+        label: 'Center',
+    },
+    {
+        value: 'right',
+        label: 'Right',
     }
+]
 
-    onClick(e){
-        this.props.setTextAlign(e.target.value)
+class TextAlignPanel extends React.Component {
+    onClick(e) {
+        this.props.setTextAlign(e.target.value);
     }
 
     render() {
+        let self = this;
+
         return (
             <div>
-                Vertical Align
+                Text Align
 
-                <div className="btn-group">
-                    <button value="left" onClick={this.onClick.bind(this)}>Left</button>
-                    <button value="center" onClick={this.onClick.bind(this)}>Center</button>
-                    <button value="right" onClick={this.onClick.bind(this)}>Right</button>
+                <div className="text-align-btn-group">
+
+                    {
+                        buttonsConfig.map((button) => {
+                            return (
+                                <button
+                                    className={self.props.activeValue === button.value ? 'text-align-btn-group__btn text-align-btn-group__btn_active' : 'text-align-btn-group__btn'}
+                                    key={button.value} value={button.value}
+                                    onClick={self.onClick.bind(this)}>{button.label}</button>
+                            )
+                        })
+                    }
                 </div>
             </div>
         )
     }
 }
 
-
-
-export default VerticalAlignPanel;
+export default TextAlignPanel;

@@ -1,43 +1,49 @@
 import React from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import styles from './index.css';
 
-import {
-    setVerticalAlign
-} from './../../../../src/actions'
+const buttonsConfig = [
+    {
+        value: 'top',
+        label: 'Top',
+    },
+    {
+        value: 'middle',
+        label: 'Middle',
+    },
+    {
+        value: 'bottom',
+        label: 'Bottom',
+    }
+]
 
 class VerticalAlignPanel extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onClick(e){
-        this.props.setVerticalAlign(e.target.value)
+    onClick(e) {
+        this.props.setVerticalAlign(e.target.value);
     }
 
     render() {
+        let self = this;
+
         return (
             <div>
-                Vertical Align
+                Text Align
 
-                <div className="btn-group">
-                    <button value="top" onClick={this.onClick.bind(this)}>Top</button>
-                    <button value="middle" onClick={this.onClick.bind(this)}>Middle</button>
-                    <button value="bottom" onClick={this.onClick.bind(this)}>Bottom</button>
+                <div className="vertical-align-btn-group">
+
+                    {
+                        buttonsConfig.map((button) => {
+                            return (
+                                <button
+                                    className={self.props.activeValue === button.value ? 'vertical-align-btn-group__btn vertical-align-btn-group__btn_active' : 'vertical-align-btn-group__btn'}
+                                    key={button.value} value={button.value}
+                                    onClick={self.onClick.bind(this)}>{button.label}</button>
+                            )
+                        })
+                    }
                 </div>
             </div>
         )
     }
 }
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators({
-            setVerticalAlign
-        },
-        dispatch
-    )
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(VerticalAlignPanel)
+export default VerticalAlignPanel;

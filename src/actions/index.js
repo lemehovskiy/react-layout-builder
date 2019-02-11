@@ -163,6 +163,7 @@ export const rotateObject = ({id, rotate}) => {
 }
 
 export const setTextAlign = (value) => {
+    console.log(111);
     return dispatch => {
         dispatch({
             type: SET_TEXT_ALIGN,
