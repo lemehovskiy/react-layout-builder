@@ -26,7 +26,7 @@ class VerticalAlignPanel extends React.Component {
 
         return (
             <div>
-                Text Align
+                Vertical Align
 
                 <div className="vertical-align-btn-group">
 
