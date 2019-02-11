@@ -1,10 +1,4 @@
 import React from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-
-import {
-    setTextAlign
-} from './../../../../src/actions'
 
 class VerticalAlignPanel extends React.Component {
     constructor(props) {
@@ -30,14 +24,6 @@ class VerticalAlignPanel extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators( {
-            setTextAlign
-        },
-        dispatch
-    )
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(VerticalAlignPanel)
+
+export default VerticalAlignPanel;
