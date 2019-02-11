@@ -2,6 +2,7 @@ import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import TextPanel from './TextPanel';
+import SizePanel from './SizePanel';
 
 class ToolPanel extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class ToolPanel extends React.Component {
         return (
             <div>
                 <TextPanel/>
+                <SizePanel/>
             </div>
         )
     }

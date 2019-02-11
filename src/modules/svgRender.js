@@ -69,7 +69,11 @@ export default (state = initialState, action) => {
         case MOVE_OBJECT:
             updatedItems = state.objects.map(item => {
                 if (item.id === action.payload.id) {
-                    return {...item, x: action.payload.x, y: action.payload.y}
+                    return {
+                        ...item,
+                        x: action.payload.x !== null ? action.payload.x : item.x,
+                        y: action.payload.y !== null ? action.payload.y : item.y
+                    }
                 }
                 return item;
             })

@@ -24,18 +24,23 @@ class Vector extends React.Component {
 
         if (!e.shiftKey && !objectMoved) {
             this.props.deselectAllObjectsExept(this.props.object.id);
+            console.log('moved');
         }
     }
 
 
     onMouseDown(e) {
-        if (!e.shiftKey && !this.props.selectedObjectsId.includes(this.props.object.id)) {
+        const objectSelected = this.props.selectedObjectsId.includes(this.props.object.id);
+
+        if (!e.shiftKey && !objectSelected) {
+            console.log('deselect');
             this.props.deselectAllObjects();
         }
+        if (!objectSelected) {
+            this.props.selectObjects([this.props.object.id])
+        }
 
-        this.props.selectObjects([this.props.object.id])
         this.props.setMouseStartPosition(e.clientX, e.clientY)
-
         this.props.setObjectEditStartPosition(e.clientX, e.clientY);
         this.props.updateEditMode('drag')
     }
@@ -44,7 +49,6 @@ class Vector extends React.Component {
         return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp.bind(this), onMouseDown: this.onMouseDown.bind(this), object: this.props.object, selectedObjectsId: this.props.selectedObjectsId})
 
     }
-
 }
 
 const mapStateToProps = ({svgRender}) => ({

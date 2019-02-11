@@ -172,6 +172,7 @@ class SvgRender extends React.Component {
         this.props.deselectAllObjects();
 
         if (selectedObjectIds.length) {
+            console.log(111);
             this.props.selectObjects(selectedObjectIds)
         }
     }

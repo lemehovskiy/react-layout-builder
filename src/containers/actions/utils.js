@@ -26,3 +26,9 @@ export const getEqualPropertyValueFromSelectedObjects = (objects, key) => {
 
     return values.every( (val, i, arr) => val === arr[0]) ? values[0] : false;
 }
+
+export const isInt = (value) => {
+    return !isNaN(value) &&
+        parseInt(Number(value)) == value &&
+        !isNaN(parseInt(value, 10));
+}
