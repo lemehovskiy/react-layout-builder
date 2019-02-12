@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import TextPanel from './TextPanel';
 import SizePanel from './SizePanel';
+import PositionPanel from './PositionPanel';
 
 class ToolPanel extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class ToolPanel extends React.Component {
         return (
             <div>
                 <TextPanel/>
+                <PositionPanel/>
                 <SizePanel/>
             </div>
         )

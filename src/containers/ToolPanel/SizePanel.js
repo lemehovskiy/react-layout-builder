@@ -2,7 +2,7 @@ import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {moveObject} from './../../actions/index';
+import {resizeObject} from './../../actions/index';
 import {isInt} from './../../containers/actions/utils';
 
 class SizePanel extends React.Component {
@@ -12,30 +12,29 @@ class SizePanel extends React.Component {
 
     onChange(e) {
         const value = parseInt(e.target.value);
-
         if (!isInt(value)) return;
-
         let self = this;
+        const object = self.props.selectedObjects[0];
 
-        e.persist();
-
-        if (e.target.name === 'x') {
-            self.props.moveObject(self.props.selectedObjects[0].id, value, null);
-        }
-        else if (e.target.name === 'y') {
-            self.props.moveObject(self.props.selectedObjects[0].id, null, value);
-        }
+        self.props.resizeObject({
+                id: object.id,
+                x: null,
+                y: null,
+                width: e.target.name === 'width' ? value : null,
+                height: e.target.name === 'height' ? value : null
+            }
+        )
     }
 
     render() {
         return (
             <div>
                 Size
-                x: <input type="number" name="x" disabled={this.props.selectedObjectsId.length !== 1}
-                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].x : ''}
+                width: <input type="text" pattern="[0-9]*" name="width" disabled={this.props.selectedObjectsId.length !== 1}
+                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].width : ''}
                           onChange={this.onChange.bind(this)}/>
-                y: <input type="number" name="y" disabled={this.props.selectedObjectsId.length !== 1}
-                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].y : ''}
+                height: <input type="text" pattern="[0-9]*" name="height" disabled={this.props.selectedObjectsId.length !== 1}
+                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].height : ''}
                           onChange={this.onChange.bind(this)}/>
 
             </div>
@@ -50,7 +49,7 @@ const mapStateToProps = ({svgRender, resizeTool}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            moveObject
+            resizeObject
         },
         dispatch
     )

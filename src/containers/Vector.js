@@ -24,7 +24,6 @@ class Vector extends React.Component {
 
         if (!e.shiftKey && !objectMoved) {
             this.props.deselectAllObjectsExept(this.props.object.id);
-            console.log('moved');
         }
     }
 
@@ -33,7 +32,6 @@ class Vector extends React.Component {
         const objectSelected = this.props.selectedObjectsId.includes(this.props.object.id);
 
         if (!e.shiftKey && !objectSelected) {
-            console.log('deselect');
             this.props.deselectAllObjects();
         }
         if (!objectSelected) {

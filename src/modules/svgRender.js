@@ -95,12 +95,13 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case RESIZE_OBJECT:
+            console.log(action.payload);
             updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
                 return updateObject(object, {
-                    x: action.payload.x,
-                    y: action.payload.y,
-                    width: action.payload.width,
-                    height: action.payload.height
+                    x: action.payload.x !== null ? action.payload.x : object.x,
+                    y: action.payload.y !== null ? action.payload.y : object.y,
+                    width: action.payload.width !== null ? action.payload.width : object.width,
+                    height: action.payload.height !== null ? action.payload.height : object.height
                 })
             })
             return updateObject(state, {objects: updatedItems})
@@ -151,7 +152,6 @@ export default (state = initialState, action) => {
             return {...state, objects: updatedItems}
 
         case SET_TEXT_ALIGN:
-            console.log('222');
             updatedItems = state.objects.map(item => {
                 if (state.selectedObjectsId.includes(item.id)) {
                     return {
