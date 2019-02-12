@@ -26,9 +26,9 @@ class Rectangle extends React.Component {
                           y={this.props.object.y}
                           pointerEvents="visible"
                           cursor="move"
-                          fill="none"
-                          strokeWidth="1"
-                          stroke="black"
+                          fill={this.props.object.fill}
+                          strokeWidth={this.props.object.strokeWidth}
+                          stroke={this.props.object.stroke}
                           onMouseDown={this.props.onMouseDown}
                           onMouseUp={this.props.onMouseUp}
                     />
