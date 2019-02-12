@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import TextPanel from './TextPanel';
 import SizePanel from './SizePanel';
 import PositionPanel from './PositionPanel';
-import FillPanel from './FillPanel';
+import FillPanel from './FillPanel/FillPanel';
 
 class ToolPanel extends React.Component {
     constructor(props) {
