@@ -14,7 +14,8 @@ import {
     RESET_OBJECT_MODE,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
-    SET_VERTICAL_ALIGN
+    SET_VERTICAL_ALIGN,
+    SET_FILL_COLOR
 } from './../constants';
 
 
@@ -176,6 +177,15 @@ export const setVerticalAlign = (value) => {
     return dispatch => {
         dispatch({
             type: SET_VERTICAL_ALIGN,
+            payload: {value}
+        })
+    }
+}
+
+export const setFillColor = (value) => {
+    return dispatch => {
+        dispatch({
+            type: SET_FILL_COLOR,
             payload: {value}
         })
     }

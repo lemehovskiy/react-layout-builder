@@ -14,7 +14,8 @@ import {
     RESET_OBJECT_MODE,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
-    SET_VERTICAL_ALIGN
+    SET_VERTICAL_ALIGN,
+    SET_FILL_COLOR
 } from './../constants';
 
 function updateObject(oldObject, newValues) {
@@ -166,6 +167,19 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
+        case SET_FILL_COLOR:
+            updatedItems = state.objects.map(item => {
+                if (state.selectedObjectsId.includes(item.id)) {
+                    let color = action.payload.value;
+                    return {
+                        ...item,
+                        fill: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
         default:
             return state
     }

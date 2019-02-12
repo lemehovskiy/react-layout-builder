@@ -15,3 +15,4 @@ export const ROTATE_OBJECT = 'svgRender/ROTATE_OBJECT';
 export const SET_RESIZE_DIRECTION = 'resizeTool/SET_RESIZE_DIRECTION';
 export const SET_VERTICAL_ALIGN = 'textTool/SET_VERTICAL_ALIGN';
 export const SET_TEXT_ALIGN = 'textTool/SET_TEXT_ALIGN';
+export const SET_FILL_COLOR = 'textTool/SET_FILL_COLOR';
