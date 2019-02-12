@@ -173,7 +173,7 @@ export default (state = initialState, action) => {
                     let color = action.payload.value;
                     return {
                         ...item,
-                        fill: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        fill: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
                         
                     }
                 }

@@ -12,3 +12,26 @@
   height: 14px;
   border-radius: 2px;
 }
+
+.colorNone {
+  width: 36px;
+  height: 14px;
+  position: relative;
+  overflow: hidden;
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 200%;
+    height: 1px;
+    background: red;
+  }
+
+  &:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

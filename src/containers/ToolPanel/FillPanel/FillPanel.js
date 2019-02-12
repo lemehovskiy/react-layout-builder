@@ -13,11 +13,20 @@ import {
 
 
 class FillPanel extends React.Component {
-    state = {
-        displayColorPicker: false
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            displayColorPicker: false
+        }
     }
 
-    handleClick(){
+    handleReset(){
+        this.props.setFillColor(null)
+    }
+
+    handleClickSwatch(){
         this.setState({
             displayColorPicker: !this.state.displayColorPicker
         })
@@ -26,18 +35,23 @@ class FillPanel extends React.Component {
     handleChangeComplete(color) {
         this.setState({
             color: color
+
         })
         this.props.setFillColor(color.rgb)
     }
 
     render() {
+        const equalColorValue = getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill');
+
         return (
             <div>
-                Fill:
+                Fill
 
-                <div className={styles.swatch} onClick={ this.handleClick.bind(this)}>
-                    <div style={{background: getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}} className={styles.color}/>
+                <div className={styles.swatch} onClick={ this.handleClickSwatch.bind(this)}>
+                    {equalColorValue === 'none' || equalColorValue === false ? <div className={styles.colorNone}/> : <div style={{background: equalColorValue}} className={styles.color}/>}
                 </div>
+
+                <button onClick={this.handleReset.bind(this)}>Reset</button>
 
                 {this.state.displayColorPicker ? <ChromePicker
                     color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}
@@ -49,7 +63,7 @@ class FillPanel extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender, resizeTool}) => ({
+const mapStateToProps = ({svgRender}) => ({
     selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
     selectedObjectsId: svgRender.selectedObjectsId
 })
