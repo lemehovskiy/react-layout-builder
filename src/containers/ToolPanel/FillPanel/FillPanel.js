@@ -1,7 +1,9 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import { ChromePicker } from 'react-color';
+import {ChromePicker} from 'react-color';
+
+import styles from './FillPanel.module.scss';
 
 import {setFillColor} from './../../actions/index';
 
@@ -11,18 +13,18 @@ import {
 
 
 class FillPanel extends React.Component {
-    handleChangeComplete(color){
+    handleChangeComplete(color) {
         this.props.setFillColor(color.rgb)
     }
 
     render() {
         return (
-            <div>
-               Fill:
+            <div className={styles.error}>
+                Fill:
 
                 <ChromePicker
                     color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}
-                    onChangeComplete={ this.handleChangeComplete.bind(this)}
+                    onChangeComplete={this.handleChangeComplete.bind(this)}
                 />
 
             </div>
