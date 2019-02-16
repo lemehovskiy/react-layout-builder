@@ -15,8 +15,8 @@ button:disabled {
   opacity: 0.5;
 }
 
-.svgRender {
-  border: 1px dashed grey;
-  margin: auto;
-  display: block;
-}
+/*.svgRender {*/
+  /*border: 1px dashed grey;*/
+  /*margin: auto;*/
+  /*display: block;*/
+/*}*/

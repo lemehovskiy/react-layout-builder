@@ -1,14 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import Vector from './Vector';
-import SelectTool from './SelectTool';
-import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from './actions/selectTool';
-import {getObjectResizeValues} from './actions/resizeTool';
-import {getObjectRotateValue} from './actions/rootateTool.js';
-import Rectangle from './Rectangle';
-import Text from './Text';
-
+import Vector from '../Vector';
+import SelectTool from '../SelectTool';
+import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../actions/selectTool';
+import {getObjectResizeValues} from '../actions/resizeTool';
+import {getObjectRotateValue} from '../actions/rootateTool.js';
+import Rectangle from '../Rectangle';
+import Text from '../Text';
+import styles from './index.module.scss';
 
 import {
     updateEditMode,
@@ -18,7 +18,7 @@ import {
     resizeObject,
     resetObjectMode,
     rotateObject
-} from '../../src/actions'
+} from '../../actions/index'
 
 class SvgRender extends React.Component {
     constructor(props) {
@@ -211,13 +211,13 @@ class SvgRender extends React.Component {
         let self = this;
 
         return (
-            <div className="container">
-                <svg className="svgRender" ref="svgRender" width='800' height='500'
+            <div className={styles.svgRender}>
+                <svg ref="svgRender" width='800' height='500'
                      onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
                         let vectorType = null;
-                        switch (object.type){
+                        switch (object.type) {
                             case 'rectangle': {
                                 vectorType = <Rectangle/>;
                                 break;

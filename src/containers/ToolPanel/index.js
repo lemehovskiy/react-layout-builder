@@ -6,6 +6,8 @@ import SizePanel from './SizePanel';
 import PositionPanel from './PositionPanel';
 import FillPanel from './FillPanel/FillPanel';
 
+import styles from './index.module.scss';
+
 class ToolPanel extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,7 @@ class ToolPanel extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={styles.toolPanel}>
                 <TextPanel/>
                 <PositionPanel/>
                 <SizePanel/>
