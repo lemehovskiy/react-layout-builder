@@ -1,12 +1,9 @@
 //TODO fix bug with resize when object rotated
 
-let progress = null,
-    changeValue = null,
-    returnVal = {};
-
 function getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition) {
-    progress = mouse.y - mouseStartPosition.y;
-    changeValue = objectInitState.height + progress;
+    let returnVal = {};
+    let progress = mouse.y - mouseStartPosition.y;
+    let changeValue = objectInitState.height + progress;
     returnVal.y = changeValue > 0 ? objectInitState.y : objectInitState.y - Math.abs(changeValue);
     returnVal.height = Math.abs(changeValue);
 
@@ -14,8 +11,9 @@ function getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition) 
 }
 
 function getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition) {
-    progress = mouse.y - mouseStartPosition.y;
-    changeValue = objectInitState.height - progress;
+    let returnVal = {};
+    let progress = mouse.y - mouseStartPosition.y;
+    let changeValue = objectInitState.height - progress;
     returnVal.y = changeValue > 0 ? objectInitState.y - (changeValue - objectInitState.height) : objectInitState.y + objectInitState.height;
     returnVal.height = Math.abs(changeValue);
 
@@ -23,8 +21,10 @@ function getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition) 
 }
 
 function getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition) {
-    progress = mouse.x - mouseStartPosition.x;
-    changeValue = objectInitState.width + progress;
+    let returnVal = {};
+
+    let progress = mouse.x - mouseStartPosition.x;
+    let changeValue = objectInitState.width + progress;
     returnVal.x = changeValue < 0 ? objectInitState.x + changeValue : objectInitState.x;
     returnVal.width = Math.abs(changeValue);
 
@@ -32,8 +32,10 @@ function getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition) {
 }
 
 function getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition) {
-    progress = mouse.x - mouseStartPosition.x;
-    changeValue = objectInitState.width - progress;
+    let returnVal = {};
+
+    let progress = mouse.x - mouseStartPosition.x;
+    let changeValue = objectInitState.width - progress;
     returnVal.x = changeValue > 0 ? objectInitState.x + progress : objectInitState.x + objectInitState.width;
     returnVal.width = Math.abs(changeValue);
 

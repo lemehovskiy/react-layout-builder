@@ -98,7 +98,6 @@ export default (state = initialState, action) => {
         case RESIZE_OBJECTS:
             updatedItems = state.objects.map(object => {
                 if (action.payload.ids.includes(object.id)) {
-                    console.log(action.payload.height);
                     return {
                         ...object,
                         x: action.payload.x !== null ? action.payload.x : object.x,

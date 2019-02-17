@@ -72,7 +72,9 @@ class SvgRender extends React.Component {
 
         else if (this.props.editMode === 'resize') {
             this.props.selectedObjects.forEach(function (object) {
+                // console.log(object);
                 if (object.mode === 'resize') {
+                    // console.log(object.height);
                     let updatedValues = getObjectResizeValues(
                         {x: e.clientX, y: e.clientY},
                         self.props.resizeToolDirection,
@@ -81,6 +83,7 @@ class SvgRender extends React.Component {
                         {x: object.x, y: object.y, width: object.width, height: object.height}
                     );
 
+                    // console.log(updatedValues);
                     self.props.resizeObjects({
                             ids: [object.id],
                             ...updatedValues
