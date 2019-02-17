@@ -88,15 +88,11 @@ export const deselectAllObjectsExept = (id) => {
 }
 
 
-export const moveObject = (id, x, y) => {
+export const moveObject = (payload) => {
     return dispatch => {
         dispatch({
             type: MOVE_OBJECT,
-            payload: {
-                id: id,
-                x: x,
-                y: y
-            }
+            payload: payload
         })
     }
 }

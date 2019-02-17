@@ -66,7 +66,11 @@ class SvgRender extends React.Component {
 
         if (this.props.editMode === 'drag') {
             this.props.selectedObjects.forEach(function (object) {
-                self.props.moveObject(object.id, e.clientX - object.editStartPositionOffset.x, e.clientY - object.editStartPositionOffset.y);
+                self.props.moveObject({
+                    ids: [object.id],
+                    x: e.clientX - object.editStartPositionOffset.x,
+                    y: e.clientY - object.editStartPositionOffset.y
+                });
             })
         }
 

@@ -19,7 +19,6 @@ class SizePanel extends React.Component {
 
     onChange(name, value) {
         let self = this;
-        const object = self.props.selectedObjects[0];
 
         self.props.resizeObjects({
                 ids: this.props.selectedObjectsId,
@@ -55,7 +54,6 @@ class SizePanel extends React.Component {
                         Height
                     </div>
                 </div>
-
             </div>
         )
     }

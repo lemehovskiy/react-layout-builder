@@ -68,15 +68,15 @@ export default (state = initialState, action) => {
         case DESELECT_ALL_OBJECTS_EXEPT:
                 return {...state, selectedObjectsId: [action.payload]}
         case MOVE_OBJECT:
-            updatedItems = state.objects.map(item => {
-                if (item.id === action.payload.id) {
+            updatedItems = state.objects.map(object => {
+                if (action.payload.ids.includes(object.id)) {
                     return {
-                        ...item,
-                        x: action.payload.x !== null ? action.payload.x : item.x,
-                        y: action.payload.y !== null ? action.payload.y : item.y
+                        ...object,
+                        x: action.payload.x !== null ? action.payload.x : object.x,
+                        y: action.payload.y !== null ? action.payload.y : object.y
                     }
                 }
-                return item;
+                return object
             })
             return {...state, objects: updatedItems}
 

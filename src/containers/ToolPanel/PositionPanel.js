@@ -1,30 +1,52 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import NumericInput from 'react-numeric-input';
 
 import {moveObject} from './../../actions/index';
-import {isInt} from './../../containers/actions/utils';
+
+import style from './index.module.scss';
+
+import {
+    getEqualPropertyValueFromSelectedObjects,
+} from './../actions/utils';
 
 class PositionPanel extends React.Component {
-    onChange(e) {
-        const value = parseInt(e.target.value);
-
-        if (!isInt(value)) return;
-
+    onChange(name, value) {
         let self = this;
-        self.props.moveObject(self.props.selectedObjects[0].id, e.target.name === 'x' ? value : null, e.target.name === 'y' ? value : null);
+
+        self.props.moveObject({
+                ids: this.props.selectedObjectsId,
+                x: name === 'x' ? value : null,
+                y: name === 'y' ? value : null
+            }
+        );
     }
 
     render() {
         return (
-            <div>
-                Position
-                x: <input pattern="[0-9]*" name="x" disabled={this.props.selectedObjectsId.length !== 1}
-                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].x : ''}
-                          onChange={this.onChange.bind(this)}/>
-                y: <input pattern="[0-9]*" name="y" disabled={this.props.selectedObjectsId.length !== 1}
-                          value={this.props.selectedObjectsId.length === 1 ? this.props.selectedObjects[0].y : ''}
-                          onChange={this.onChange.bind(this)}/>
+            <div className={`${style['tool-panel-block']} ${style['tool-panel-block-position']}`}>
+                <div className={style['tool-panel-block__name']}>
+                    Position
+                </div>
+                <div className={style['input-group']}>
+                    <div className={style['input-group-item']}>
+                        <NumericInput
+                            value={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'x')}
+                            name="x"
+                            onChange={this.onChange.bind(this, 'x')}/>
+                        Left
+
+                    </div>
+
+                    <div className={style['input-group-item']}>
+                        <NumericInput
+                            value={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'y')}
+                            name="y"
+                            onChange={this.onChange.bind(this, 'y')}/>
+                        Top
+                    </div>
+                </div>
 
             </div>
         )
