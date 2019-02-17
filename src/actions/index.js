@@ -16,7 +16,8 @@ import {
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
     SET_FILL_COLOR,
-    SET_STROKE_COLOR
+    SET_STROKE_COLOR,
+    SET_STROKE_WIDTH
 } from './../constants';
 
 
@@ -161,7 +162,6 @@ export const rotateObject = ({id, rotate}) => {
 }
 
 export const setTextAlign = (value) => {
-    console.log(111);
     return dispatch => {
         dispatch({
             type: SET_TEXT_ALIGN,
@@ -189,10 +189,18 @@ export const setFillColor = (value) => {
 }
 
 export const setStrokeColor = (value) => {
-    console.log(value);
     return dispatch => {
         dispatch({
             type: SET_STROKE_COLOR,
+            payload: {value}
+        })
+    }
+}
+
+export const setStrokeWidth = (value) => {
+    return dispatch => {
+        dispatch({
+            type: SET_STROKE_WIDTH,
             payload: {value}
         })
     }

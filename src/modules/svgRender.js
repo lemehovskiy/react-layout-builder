@@ -16,7 +16,8 @@ import {
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
     SET_FILL_COLOR,
-    SET_STROKE_COLOR
+    SET_STROKE_COLOR,
+    SET_STROKE_WIDTH
 } from './../constants';
 
 function updateObject(oldObject, newValues) {
@@ -192,6 +193,19 @@ export default (state = initialState, action) => {
                     return {
                         ...item,
                         stroke: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
+
+        case SET_STROKE_WIDTH:
+            updatedItems = state.objects.map(item => {
+                if (state.selectedObjectsId.includes(item.id)) {
+                    return {
+                        ...item,
+                        strokeWidth: action.payload.value
 
                     }
                 }
