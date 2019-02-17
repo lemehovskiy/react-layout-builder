@@ -2,14 +2,15 @@
   padding: 5px;
   background: #fff;
   border-radius: 1px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .1);
+  border: 1px dotted grey;
   display: inline-block;
   cursor: pointer;
+  margin: 0 5px;
 }
 
 .color {
   width: 36px;
-  height: 14px;
+  height: 17px;
   border-radius: 2px;
 }
 
@@ -34,4 +35,12 @@
   &:after {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
+}
+
+.colorPicker {
+  position: absolute;
+}
+
+.reset-btn {
+  vertical-align: top;
 }

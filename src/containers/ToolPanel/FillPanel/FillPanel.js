@@ -3,7 +3,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {ChromePicker} from 'react-color';
 
-import styles from './FillPanel.module.scss';
+import colorPickerPanelStyle from './FillPanel.module.scss';
+import toolPanelStyle from './../index.module.scss';
 
 import {setFillColor} from '../../../actions/index';
 
@@ -22,11 +23,11 @@ class FillPanel extends React.Component {
         }
     }
 
-    handleReset(){
+    handleReset() {
         this.props.setFillColor(null)
     }
 
-    handleClickSwatch(){
+    handleClickSwatch() {
         this.setState({
             displayColorPicker: !this.state.displayColorPicker
         })
@@ -44,19 +45,26 @@ class FillPanel extends React.Component {
         const equalColorValue = getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill');
 
         return (
-            <div>
-                Fill
-
-                <div className={styles.swatch} onClick={ this.handleClickSwatch.bind(this)}>
-                    {equalColorValue === 'none' || equalColorValue === false ? <div className={styles.colorNone}/> : <div style={{background: equalColorValue}} className={styles.color}/>}
+            <div className={`${toolPanelStyle['tool-panel-block']} ${toolPanelStyle['tool-panel-block-fill']}`}>
+                <div className={toolPanelStyle['tool-panel-block__name']}>
+                    Fill
                 </div>
 
-                <button onClick={this.handleReset.bind(this)}>Reset</button>
+                <div>
+                    <div className={colorPickerPanelStyle.swatch} onClick={this.handleClickSwatch.bind(this)}>
+                        {equalColorValue === 'none' || equalColorValue === false ?
+                            <div className={colorPickerPanelStyle.colorNone}/> :
+                            <div style={{background: equalColorValue}} className={colorPickerPanelStyle.color}/>}
+                    </div>
 
-                {this.state.displayColorPicker ? <ChromePicker
-                    color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}
-                    onChangeComplete={this.handleChangeComplete.bind(this)}
-                /> : null}
+                    <button className={colorPickerPanelStyle['reset-btn']} onClick={this.handleReset.bind(this)}>Reset</button>
+
+                    {this.state.displayColorPicker ? <ChromePicker
+                        className={colorPickerPanelStyle.colorPicker}
+                        color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}
+                        onChangeComplete={this.handleChangeComplete.bind(this)}
+                    /> : null}
+                </div>
 
             </div>
         )
