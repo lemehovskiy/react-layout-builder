@@ -15,7 +15,8 @@ import {
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
-    SET_FILL_COLOR
+    SET_FILL_COLOR,
+    SET_STROKE_COLOR
 } from './../constants';
 
 function updateObject(oldObject, newValues) {
@@ -178,6 +179,20 @@ export default (state = initialState, action) => {
                         ...item,
                         fill: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
                         
+                    }
+                }
+                return item
+            })
+            return {...state, objects: updatedItems}
+
+        case SET_STROKE_COLOR:
+            updatedItems = state.objects.map(item => {
+                if (state.selectedObjectsId.includes(item.id)) {
+                    let color = action.payload.value;
+                    return {
+                        ...item,
+                        stroke: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+
                     }
                 }
                 return item

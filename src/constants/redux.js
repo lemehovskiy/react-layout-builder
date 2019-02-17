@@ -16,3 +16,4 @@ export const SET_RESIZE_DIRECTION = 'resizeTool/SET_RESIZE_DIRECTION';
 export const SET_VERTICAL_ALIGN = 'textTool/SET_VERTICAL_ALIGN';
 export const SET_TEXT_ALIGN = 'textTool/SET_TEXT_ALIGN';
 export const SET_FILL_COLOR = 'textTool/SET_FILL_COLOR';
+export const SET_STROKE_COLOR = 'textTool/SET_STROKE_COLOR';

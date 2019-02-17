@@ -15,7 +15,8 @@ import {
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
-    SET_FILL_COLOR
+    SET_FILL_COLOR,
+    SET_STROKE_COLOR
 } from './../constants';
 
 
@@ -182,6 +183,16 @@ export const setFillColor = (value) => {
     return dispatch => {
         dispatch({
             type: SET_FILL_COLOR,
+            payload: {value}
+        })
+    }
+}
+
+export const setStrokeColor = (value) => {
+    console.log(value);
+    return dispatch => {
+        dispatch({
+            type: SET_STROKE_COLOR,
             payload: {value}
         })
     }

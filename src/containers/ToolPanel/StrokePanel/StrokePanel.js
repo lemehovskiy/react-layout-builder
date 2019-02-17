@@ -6,7 +6,7 @@ import {ChromePicker} from 'react-color';
 import colorPickerStyle from './../colorPicker.module.scss';
 import toolPanelStyle from './../index.module.scss';
 
-import {setFillColor} from '../../../actions/index';
+import {setStrokeColor} from '../../../actions/index';
 
 import {
     getEqualPropertyValueFromSelectedObjects,
@@ -24,7 +24,7 @@ class FillPanel extends React.Component {
     }
 
     handleReset() {
-        this.props.setFillColor(null)
+        this.props.setStrokeColor(null)
     }
 
     handleClickSwatch() {
@@ -38,16 +38,16 @@ class FillPanel extends React.Component {
             color: color
 
         })
-        this.props.setFillColor(color.rgb)
+        this.props.setStrokeColor(color.rgb)
     }
 
     render() {
-        const equalColorValue = getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill');
+        const equalColorValue = getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'stroke');
 
         return (
-            <div className={`${toolPanelStyle['tool-panel-block']} ${toolPanelStyle['tool-panel-block-fill']}`}>
+            <div className={`${toolPanelStyle['tool-panel-block']}`}>
                 <div className={toolPanelStyle['tool-panel-block__name']}>
-                    Fill
+                    Line
                 </div>
 
                 <div>
@@ -61,7 +61,7 @@ class FillPanel extends React.Component {
 
                     {this.state.displayColorPicker ? <ChromePicker
                         className={colorPickerStyle.colorPicker}
-                        color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'fill')}
+                        color={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'stroke')}
                         onChangeComplete={this.handleChangeComplete.bind(this)}
                     /> : null}
                 </div>
@@ -78,7 +78,7 @@ const mapStateToProps = ({svgRender}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            setFillColor
+            setStrokeColor
         },
         dispatch
     )

@@ -5,6 +5,7 @@ import TextPanel from './TextPanel';
 import SizePanel from './SizePanel';
 import PositionPanel from './PositionPanel';
 import FillPanel from './FillPanel/FillPanel';
+import StrokePanel from './StrokePanel/StrokePanel';
 
 import styles from './index.module.scss';
 
@@ -20,6 +21,7 @@ class ToolPanel extends React.Component {
                 <PositionPanel/>
                 <SizePanel/>
                 <FillPanel/>
+                <StrokePanel/>
             </div>
         )
     }
