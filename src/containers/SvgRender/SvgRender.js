@@ -15,7 +15,7 @@ import {
     deselectAllObjects,
     moveObject,
     selectObjects,
-    resizeObject,
+    resizeObjects,
     resetObjectMode,
     rotateObject
 } from '../../actions/index'
@@ -81,8 +81,8 @@ class SvgRender extends React.Component {
                         {x: object.x, y: object.y, width: object.width, height: object.height}
                     );
 
-                    self.props.resizeObject({
-                            id: object.id,
+                    self.props.resizeObjects({
+                            ids: [object.id],
                             ...updatedValues
                         }
                     );
@@ -260,7 +260,7 @@ const mapDispatchToProps = dispatch =>
             deselectAllObjects,
             moveObject,
             selectObjects,
-            resizeObject,
+            resizeObjects,
             resetObjectMode,
             rotateObject
         },

@@ -1,3 +1,37 @@
 .toolPanel {
   padding: 10px;
 }
+
+.tool-panel-block__name {
+
+}
+
+.tool-panel-block-size {
+}
+
+.tool-panel-block {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+}
+
+.tool-panel-block__name {
+  font-weight: 700;
+}
+
+.input-group-item {
+  max-width: 100px;
+  padding: 0 10px;
+
+  input {
+    width: 100%;
+  }
+}
+
+.input-group {
+  display: flex;
+  margin: 0 -10px;
+}
+
+

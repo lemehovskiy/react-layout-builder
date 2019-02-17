@@ -8,7 +8,7 @@ import {
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
     SET_OBJECT_EDIT_START_POSITION,
-    RESIZE_OBJECT,
+    RESIZE_OBJECTS,
     SET_OBJECT_MODE,
     SAVE_EDIT_OBJECT_INIT_STATE,
     RESET_OBJECT_MODE,
@@ -114,10 +114,10 @@ export const setObjectEditStartPosition = (x, y) => {
 }
 
 
-export const resizeObject = (props) => {
+export const resizeObjects = (props) => {
     return dispatch => {
         dispatch({
-            type: RESIZE_OBJECT,
+            type: RESIZE_OBJECTS,
             payload: props
         })
     }

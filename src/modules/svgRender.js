@@ -8,7 +8,7 @@ import {
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
     SET_OBJECT_EDIT_START_POSITION,
-    RESIZE_OBJECT,
+    RESIZE_OBJECTS,
     SET_OBJECT_MODE,
     SAVE_EDIT_OBJECT_INIT_STATE,
     RESET_OBJECT_MODE,
@@ -95,17 +95,21 @@ export default (state = initialState, action) => {
             })
             return {...state, objects: updatedItems}
 
-        case RESIZE_OBJECT:
-            console.log(action.payload);
-            updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
-                return updateObject(object, {
-                    x: action.payload.x !== null ? action.payload.x : object.x,
-                    y: action.payload.y !== null ? action.payload.y : object.y,
-                    width: action.payload.width !== null ? action.payload.width : object.width,
-                    height: action.payload.height !== null ? action.payload.height : object.height
-                })
+        case RESIZE_OBJECTS:
+            updatedItems = state.objects.map(object => {
+                if (action.payload.ids.includes(object.id)) {
+                    console.log(action.payload.height);
+                    return {
+                        ...object,
+                        x: action.payload.x !== null ? action.payload.x : object.x,
+                        y: action.payload.y !== null ? action.payload.y : object.y,
+                        width: action.payload.width !== null ? action.payload.width : object.width,
+                        height: action.payload.height !== null ? action.payload.height : object.height
+                    }
+                }
+                return object
             })
-            return updateObject(state, {objects: updatedItems})
+            return {...state, objects: updatedItems}
 
         case SET_OBJECT_MODE:
             updatedItems = state.objects.map(item => {

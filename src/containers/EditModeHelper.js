@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import {
-    resizeObject,
+    resizeObjects,
     setMouseStartPosition,
     updateEditMode,
     setObjectMode,
@@ -121,7 +121,7 @@ class EditModeHelper extends React.Component {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            resizeObject,
+            resizeObjects,
             setMouseStartPosition,
             updateEditMode,
             setObjectMode,
