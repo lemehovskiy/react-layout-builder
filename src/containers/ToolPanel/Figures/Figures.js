@@ -3,13 +3,18 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import toolPanelStyle from './../index.module.scss';
+import toolPanelVectorStyle from './Figures.module.scss';
+
+import {setLayoutBuilderMode} from "../../../actions/layoutBuilderActions"
 
 class Figures extends React.Component {
-
     constructor(props) {
         super(props);
     }
-    
+
+    handleFigureClick(){
+        this.props.setLayoutBuilderMode('dragNewFigure')
+    }
 
     render() {
 
@@ -20,9 +25,9 @@ class Figures extends React.Component {
                 </div>
 
                 <div>
-                    
+                    <input className={`${toolPanelVectorStyle['rectangle']}`} type="button"
+                           onMouseDown={this.handleFigureClick.bind(this)} name="rectangle"/>
                 </div>
-
             </div>
         )
     }
@@ -35,7 +40,7 @@ const mapStateToProps = ({svgRender}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-
+            setLayoutBuilderMode
         },
         dispatch
     )

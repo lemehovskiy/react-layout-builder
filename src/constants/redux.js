@@ -1,6 +1,6 @@
 export const UPDATE_HANDLER_OBJECT_INDEX = 'svgRender/HANDLER_OBJECT_INDEX';
 export const UPDATE_EDIT_MODE = 'svgRender/UPDATE_EDIT_MODE';
-export const SET_MOUSE_START_POSITION = 'svgRender/SET_MOUSE_START_POSITION';
+export const SET_MOUSE_START_POSITION = 'layoutBuilder/SET_MOUSE_START_POSITION';
 export const SELECT_OBJECTS = 'svgRender/SELECT_OBJECTS';
 export const DESELECT_OBJECTS = 'svgRender/DESELECT_OBJECTS';
 export const DESELECT_ALL_OBJECTS = 'svgRender/DESELECT_ALL_OBJECTS';
@@ -18,3 +18,4 @@ export const SET_TEXT_ALIGN = 'textTool/SET_TEXT_ALIGN';
 export const SET_FILL_COLOR = 'textTool/SET_FILL_COLOR';
 export const SET_STROKE_COLOR = 'textTool/SET_STROKE_COLOR';
 export const SET_STROKE_WIDTH = 'textTool/SET_STROKE_WIDTH';
+export const SET_LAYOUT_BUILDER_MODE = 'laoutBuilder/SET_LAYOUT_BUILDER_MODE';

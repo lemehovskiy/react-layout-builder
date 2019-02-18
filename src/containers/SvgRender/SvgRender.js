@@ -251,12 +251,12 @@ class SvgRender extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender, resizeTool}) => ({
+const mapStateToProps = ({svgRender, resizeTool, layoutBuilder}) => ({
     selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
     selectedObjectsId: svgRender.selectedObjectsId,
     objects: svgRender.objects,
     editMode: svgRender.editMode,
-    mouseStartPosition: svgRender.mouseStartPosition,
+    mouseStartPosition: layoutBuilder.mouseStartPosition,
     editObjectInitState: svgRender.editObjectInitState,
     resizeToolDirection: resizeTool.resizeDirection
 })

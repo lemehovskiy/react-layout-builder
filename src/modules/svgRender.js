@@ -1,7 +1,6 @@
 import {
     UPDATE_HANDLER_OBJECT_INDEX,
     UPDATE_EDIT_MODE,
-    SET_MOUSE_START_POSITION,
     SELECT_OBJECTS,
     DESELECT_OBJECTS,
     DESELECT_ALL_OBJECTS,
@@ -55,11 +54,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 editMode: action.mode
-            }
-        case SET_MOUSE_START_POSITION:
-            return {
-                ...state,
-                mouseStartPosition: {x: action.x, y: action.y}
             }
         case SELECT_OBJECTS:
             return {...state, selectedObjectsId: state.selectedObjectsId.concat(action.payload.ids)}

@@ -49,8 +49,8 @@ class Vector extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender}) => ({
-    mouseStartPosition: svgRender.mouseStartPosition
+const mapStateToProps = ({layoutBuilder}) => ({
+    mouseStartPosition: layoutBuilder.mouseStartPosition
 })
 
 const mapDispatchToProps = dispatch =>
