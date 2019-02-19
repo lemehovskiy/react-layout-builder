@@ -1,13 +1,13 @@
 import {
-    SET_LAYOUT_BUILDER_MODE
+    SET_NEW_FIGURE_DRAG_DATA
 } from './../constants';
 
 
-export const setLayoutBuilderMode = (mode) => {
+export const setNewFigureDragData = (data) => {
     return dispatch => {
         dispatch({
-            type: SET_LAYOUT_BUILDER_MODE,
-            mode: mode
+            type: SET_NEW_FIGURE_DRAG_DATA,
+            data: data
         })
 
     }

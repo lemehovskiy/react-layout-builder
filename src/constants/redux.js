@@ -18,4 +18,4 @@ export const SET_TEXT_ALIGN = 'textTool/SET_TEXT_ALIGN';
 export const SET_FILL_COLOR = 'textTool/SET_FILL_COLOR';
 export const SET_STROKE_COLOR = 'textTool/SET_STROKE_COLOR';
 export const SET_STROKE_WIDTH = 'textTool/SET_STROKE_WIDTH';
-export const SET_LAYOUT_BUILDER_MODE = 'laoutBuilder/SET_LAYOUT_BUILDER_MODE';
+export const SET_NEW_FIGURE_DRAG_DATA = 'laoutBuilder/SET_NEW_FIGURE_DRAG_DATA';

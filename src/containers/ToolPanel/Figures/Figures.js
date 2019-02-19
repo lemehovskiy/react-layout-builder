@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import toolPanelStyle from './../index.module.scss';
 import toolPanelFiguresrStyle from './Figures.module.scss';
 
-import {setLayoutBuilderMode} from "../../../actions/layoutBuilderActions"
+import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
 
 class Figures extends React.Component {
     constructor(props) {
@@ -14,16 +14,15 @@ class Figures extends React.Component {
     }
 
     handleFigureClick(refName, e){
+        let clientRect = ReactDOM.findDOMNode(this.refs[refName]).getBoundingClientRect();
 
-        console.log(refName);
-        this.props.setLayoutBuilderMode('dragNewFigure')
-
-        // var rect = ReactDOM.findDOMNode(this)
-        //     .getBoundingClientRect()
-
-        console.log(ReactDOM
-            .findDOMNode(this.refs['rectangle'])
-            .getBoundingClientRect())
+        this.props.setNewFigureDragData({
+            figureType: refName,
+            figureOffset: {
+                x: clientRect.left - e.clientX,
+                y: clientRect.top - e.clientY
+            }
+        })
     }
 
     render() {
@@ -43,19 +42,14 @@ class Figures extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender}) => ({
-    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
-    selectedObjectsId: svgRender.selectedObjectsId
-})
-
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            setLayoutBuilderMode
+            setNewFigureDragData
         },
         dispatch
     )
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(Figures)

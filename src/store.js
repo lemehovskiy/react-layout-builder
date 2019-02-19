@@ -8,7 +8,7 @@ export const history = createHistory()
 
 const initialState = {
     layoutBuilder: {
-        layoutBuilderMode: null,
+        newFigureDragData: null,
         mouseStartPosition: {
             x: null,
             y: null

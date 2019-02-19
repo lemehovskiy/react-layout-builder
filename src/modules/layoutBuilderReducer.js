@@ -1,6 +1,6 @@
 import {
     SET_MOUSE_START_POSITION,
-    SET_LAYOUT_BUILDER_MODE
+    SET_NEW_FIGURE_DRAG_DATA
 } from './../constants';
 
 const initialState = {};
@@ -16,10 +16,10 @@ export default (state = initialState, action) => {
                 }
             }
 
-        case SET_LAYOUT_BUILDER_MODE:
+        case SET_NEW_FIGURE_DRAG_DATA:
             return {
                 ...state,
-                mode: action.mode
+                newFigureDragData: action.data
             }
         default:
             return state
