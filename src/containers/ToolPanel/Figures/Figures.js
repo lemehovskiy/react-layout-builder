@@ -1,9 +1,10 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import toolPanelStyle from './../index.module.scss';
-import toolPanelVectorStyle from './Figures.module.scss';
+import toolPanelFiguresrStyle from './Figures.module.scss';
 
 import {setLayoutBuilderMode} from "../../../actions/layoutBuilderActions"
 
@@ -12,8 +13,17 @@ class Figures extends React.Component {
         super(props);
     }
 
-    handleFigureClick(){
+    handleFigureClick(refName, e){
+
+        console.log(refName);
         this.props.setLayoutBuilderMode('dragNewFigure')
+
+        // var rect = ReactDOM.findDOMNode(this)
+        //     .getBoundingClientRect()
+
+        console.log(ReactDOM
+            .findDOMNode(this.refs['rectangle'])
+            .getBoundingClientRect())
     }
 
     render() {
@@ -25,8 +35,8 @@ class Figures extends React.Component {
                 </div>
 
                 <div>
-                    <input className={`${toolPanelVectorStyle['rectangle']}`} type="button"
-                           onMouseDown={this.handleFigureClick.bind(this)} name="rectangle"/>
+                    <input className={`${toolPanelFiguresrStyle['rectangle']}`} type="button"
+                           onMouseDown={this.handleFigureClick.bind(this, 'rectangle')} ref="rectangle"/>
                 </div>
             </div>
         )

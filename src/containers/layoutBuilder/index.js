@@ -10,29 +10,31 @@ import toolPanelVectorStyle from './../ToolPanel/Figures/Figures.module.scss';
 
 class LayoutBuilder extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            mouseX: null,
-            mouseY: null
+            mousePosition: {
+                x: null,
+                y: null
+            }
         }
     }
 
-    onMouseMove(e){
-
+    onMouseMove(e) {
         if (this.props.layoutBuilderMode === 'dragNewFigure') {
             this.setState({
-                mouseX: e.pageX,
-                mouseY: e.pageY
-
+                mousePosition: {
+                    x: e.pageX,
+                    y: e.pageY
+                }
             })
         }
     }
 
     render() {
         const dragNewFigureStyle = {
-            left: this.state.mouseX,
-            top: this.state.mouseY
+            left: this.state.mousePosition.x,
+            top: this.state.mousePosition.y
         };
 
         return (
@@ -40,14 +42,16 @@ class LayoutBuilder extends React.Component {
                 <SvgRender/>
                 <ToolPanel/>
 
-                {this.props.layoutBuilderMode === 'dragNewFigure' ? <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`} style={dragNewFigureStyle}/> : null}
+                {this.props.layoutBuilderMode === 'dragNewFigure' ?
+                    <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
+                         style={dragNewFigureStyle}/> : null}
             </div>
         )
     }
 }
 
 const mapStateToProps = ({layoutBuilder}) => ({
-    layoutBuilderMode: layoutBuilder.mode,
+    layoutBuilderMode: layoutBuilder.mode
 })
 
 
