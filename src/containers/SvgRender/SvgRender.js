@@ -233,6 +233,9 @@ class SvgRender extends React.Component {
                                 vectorType = <Text/>;
                                 break;
                             }
+                            default: {
+                                break;
+                            }
                         }
                         return (
                             <Vector key={object.id} object={object} selectedObjectsId={self.props.selectedObjectsId}>

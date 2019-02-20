@@ -9,10 +9,6 @@ import toolPanelFiguresrStyle from './Figures.module.scss';
 import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
 
 class Figures extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleFigureClick(refName, e){
         let clientRect = ReactDOM.findDOMNode(this.refs[refName]).getBoundingClientRect();
 

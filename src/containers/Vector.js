@@ -12,13 +12,7 @@ import {
     deselectAllObjectsExept
 } from '../../src/actions'
 
-
-
 class Vector extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     onMouseUp(e) {
         let objectMoved = this.props.mouseStartPosition.x !== e.clientX || this.props.mouseStartPosition.y !== e.clientY;
 

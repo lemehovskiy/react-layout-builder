@@ -29,6 +29,10 @@ export const getEqualPropertyValueFromSelectedObjects = (objects, key) => {
 
 export const isInt = (value) => {
     return !isNaN(value) &&
-        parseInt(Number(value)) == value &&
+        parseInt(Number(value)) === value &&
         !isNaN(parseInt(value, 10));
+}
+
+export const generateID = () => {
+    return '_' + Math.random().toString(36).substr(2, 9);
 }

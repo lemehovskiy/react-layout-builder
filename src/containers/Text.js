@@ -1,19 +1,7 @@
 import React from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import EditModeHelper from './EditModeHelper.js';
 
 import {getObjectAttributes} from './actions/vector.js';
 import {getTextAttributes, getTextWrapAttributes} from './actions/text.js';
-
-function breakLine(text) {
-    console.log(text);
-    var br = React.createElement('br');
-    var regex = /(<br \/>)/g;
-    return text.split(regex).map(function(line, index) {
-        return line.match(regex) ? <br key={"key_" + index} /> : line;
-    });
-}
 
 class Text extends React.Component {
     constructor(props) {
@@ -65,24 +53,4 @@ class Text extends React.Component {
 }
 
 
-// const mapStateToProps = ({svgRender}) => ({
-//     mouseStartPosition: svgRender.mouseStartPosition
-// })
-//
-// const mapDispatchToProps = dispatch =>
-//     bindActionCreators({
-//             updateHandlerObjectIndex,
-//             updateEditMode,
-//             setMouseStartPosition,
-//             setObjectsSelectState,
-//             deselectAllObjects,
-//             setEditStartPositionOffset,
-//             deselectAllObjectsExept
-//         },
-//         dispatch
-//     )
-
-export default connect(
-    null,
-    null
-)(Text)
+export default Text

@@ -17,10 +17,6 @@ import {
 import {getObjectAttributes} from './actions/vector.js';
 
 class EditModeHelper extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     onRotateMouseDown(e) {
         this.props.setObjectMode(this.props.object.id, 'rotate');
         this.props.updateEditMode('rotate');

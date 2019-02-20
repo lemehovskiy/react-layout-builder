@@ -13,10 +13,6 @@ import {
 
 
 class SizePanel extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     onChange(name, value) {
         let self = this;
 

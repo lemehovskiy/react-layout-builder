@@ -2,7 +2,6 @@ import {
     SET_RESIZE_DIRECTION
 } from './../constants';
 
-
 const initialState = {
     resizeDirection: null
 };

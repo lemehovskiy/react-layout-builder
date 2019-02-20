@@ -4,13 +4,10 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import toolPanelVectorStyle from './Figures.module.scss';
 
+import {generateID} from "../../actions/utils"
+
 import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
-
 import {addNewObject} from "../../../actions"
-
-const ID = function () {
-    return '_' + Math.random().toString(36).substr(2, 9);
-};
 
 class NewFigureDragHelper extends React.PureComponent {
     constructor(props) {
@@ -29,7 +26,7 @@ class NewFigureDragHelper extends React.PureComponent {
 
         if ((e.pageX > svgRenderClientRect.left && e.pageX < svgRenderClientRect.right) && (e.pageY > svgRenderClientRect.top && e.pageY < svgRenderClientRect.bottom)) {
             this.props.addNewObject({
-                    id: ID(),
+                    id: generateID(),
                     width: 30,
                     height: 20,
                     stroke: 'rgba(0, 0, 0, 1)',
