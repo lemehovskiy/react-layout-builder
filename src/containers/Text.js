@@ -47,7 +47,7 @@ class Text extends React.Component {
         return (
             <g>
                 <foreignObject
-                    pointer-events="none"
+                    pointerEvents="none"
                     {...getObjectAttributes(this.props.object)}
                     {...getTextAttributes(this.props.object, this.state)}
                 >

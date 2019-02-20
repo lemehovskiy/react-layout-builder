@@ -17,7 +17,8 @@ import {
     SET_VERTICAL_ALIGN,
     SET_FILL_COLOR,
     SET_STROKE_COLOR,
-    SET_STROKE_WIDTH
+    SET_STROKE_WIDTH,
+    ADD_NEW_OBJECT
 } from './../constants';
 
 
@@ -202,6 +203,18 @@ export const setStrokeWidth = (value) => {
         dispatch({
             type: SET_STROKE_WIDTH,
             payload: {value}
+        })
+    }
+}
+
+export const addNewObject = (object) => {
+    return dispatch => {
+        console.log(object);
+        dispatch({
+            type: ADD_NEW_OBJECT,
+            payload: {
+                object: object
+            }
         })
     }
 }

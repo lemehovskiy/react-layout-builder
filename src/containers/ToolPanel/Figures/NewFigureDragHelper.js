@@ -1,11 +1,18 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import toolPanelVectorStyle from './Figures.module.scss';
 
 import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
 
-class NewFigureDragHelper extends React.Component {
+import {addNewObject} from "../../../actions"
+
+const ID = function () {
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+class NewFigureDragHelper extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +23,25 @@ class NewFigureDragHelper extends React.Component {
         }
     }
 
-    onMouseUp(){
+    onMouseUp(e) {
+        let svgRenderClientRect = ReactDOM.findDOMNode(this.refs['SvgRender']).getBoundingClientRect();
+        console.log(svgRenderClientRect);
+
+        if ((e.pageX > svgRenderClientRect.left && e.pageX < svgRenderClientRect.right) && (e.pageY > svgRenderClientRect.top && e.pageY < svgRenderClientRect.bottom)) {
+            this.props.addNewObject({
+                    id: ID(),
+                    width: 30,
+                    height: 20,
+                    stroke: 'rgba(0, 0, 0, 1)',
+                    fill: 'none',
+                    radius: "0",
+                    type: "rectangle",
+                    x: this.state.mousePosition.x - svgRenderClientRect.x,
+                    y: this.state.mousePosition.y - svgRenderClientRect.y
+                }
+            )
+        }
+
         this.props.setNewFigureDragData(null);
         this.setState({
             mousePosition: {
@@ -24,6 +49,7 @@ class NewFigureDragHelper extends React.Component {
                 y: null
             }
         })
+
     }
 
     onMouseMove(e) {
@@ -42,11 +68,17 @@ class NewFigureDragHelper extends React.Component {
             left: this.state.mousePosition.x,
             top: this.state.mousePosition.y
         };
-        console.log(this.props.children);
+
 
         return (
-            <div style={{ position: 'relative' }}onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}>
-                {this.props.children}
+            <div style={{position: 'relative'}} onMouseMove={this.onMouseMove.bind(this)}
+                 onMouseUp={this.onMouseUp.bind(this)}>
+
+                {
+                    React.Children.map(this.props.children, (child) => {
+                        return React.cloneElement(child, child.ref === 'SvgRender' ? {ref: "SvgRender"} : null)
+                    })
+                }
 
                 {this.props.newFigureDragData !== null ?
                     <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
@@ -63,8 +95,9 @@ const mapStateToProps = ({layoutBuilder}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            setNewFigureDragData
-        }, dispatch)
+        setNewFigureDragData,
+        addNewObject
+    }, dispatch)
 
 export default connect(
     mapStateToProps,

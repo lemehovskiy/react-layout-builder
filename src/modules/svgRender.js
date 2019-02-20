@@ -2,7 +2,7 @@ import {
     UPDATE_HANDLER_OBJECT_INDEX,
     UPDATE_EDIT_MODE,
     SELECT_OBJECTS,
-    DESELECT_OBJECTS,
+    ADD_NEW_OBJECT,
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
@@ -206,6 +206,10 @@ export default (state = initialState, action) => {
                 return item
             })
             return {...state, objects: updatedItems}
+
+        case ADD_NEW_OBJECT:
+            return {...state, objects: [...state.objects, action.payload.object]}
+
         default:
             return state
     }
