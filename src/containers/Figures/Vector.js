@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import {
-    updateHandlerObjectIndex,
     updateEditMode,
     setMouseStartPosition,
     selectObjects,
@@ -49,7 +48,6 @@ const mapStateToProps = ({layoutBuilder}) => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            updateHandlerObjectIndex,
             updateEditMode,
             setMouseStartPosition,
             selectObjects,

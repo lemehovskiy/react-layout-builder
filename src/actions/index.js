@@ -1,9 +1,7 @@
 import {
-    UPDATE_HANDLER_OBJECT_INDEX,
     UPDATE_EDIT_MODE,
     SET_MOUSE_START_POSITION,
     SELECT_OBJECTS,
-    DESELECT_OBJECTS,
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
@@ -21,16 +19,6 @@ import {
     ADD_NEW_OBJECT
 } from './../constants';
 
-
-export const updateHandlerObjectIndex = (index) => {
-    return dispatch => {
-        dispatch({
-            type: UPDATE_HANDLER_OBJECT_INDEX,
-            index: index
-        })
-
-    }
-}
 
 export const updateEditMode = (mode) => {
     return dispatch => {

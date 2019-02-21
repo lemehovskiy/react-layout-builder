@@ -220,7 +220,8 @@ class SvgRender extends React.Component {
         return (
             <div className={styles.svgRender}>
                 <svg ref="svgRender" width='800' height='500'
-                     onMouseMove={this.onMouseMove.bind(this)} onMouseUp={this.onMouseUp.bind(this)}
+                     onMouseMove={this.onMouseMove.bind(this)}
+                     onMouseUp={this.onMouseUp.bind(this)}
                      onMouseDown={this.onMouseDown.bind(this)}>
                     {this.props.objects.map(function (object) {
                         let vectorType = null;
