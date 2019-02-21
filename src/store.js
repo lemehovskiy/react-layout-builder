@@ -23,8 +23,6 @@ const initialState = {
 
         selectedObjectsId: [],
 
-        handlerObjectIndex: null,
-
         objects: [
             {
                 id: 1,

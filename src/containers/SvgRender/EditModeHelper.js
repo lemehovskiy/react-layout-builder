@@ -110,10 +110,6 @@ class EditModeHelper extends React.Component {
         )
     }
 }
-//
-// const mapStateToProps = ({ svgRender }) => ({
-//
-// })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
