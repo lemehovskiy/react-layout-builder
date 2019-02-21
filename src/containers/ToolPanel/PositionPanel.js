@@ -9,7 +9,7 @@ import style from './index.module.scss';
 
 import {
     getEqualPropertyValueFromSelectedObjects,
-} from './../actions/utils';
+} from '../../utils/helpers';
 
 class PositionPanel extends React.Component {
     onChange(name, value) {

@@ -9,7 +9,7 @@ import style from './index.module.scss';
 
 import {
     getEqualPropertyValueFromSelectedObjects,
-} from './../actions/utils';
+} from '../../utils/helpers';
 
 
 class SizePanel extends React.Component {

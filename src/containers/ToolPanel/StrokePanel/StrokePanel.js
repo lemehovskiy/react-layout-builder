@@ -11,7 +11,7 @@ import NumericInput from 'react-numeric-input';
 
 import {
     getEqualPropertyValueFromSelectedObjects,
-} from '../../actions/utils';
+} from '../../../utils/helpers';
 
 
 class FillPanel extends React.Component {

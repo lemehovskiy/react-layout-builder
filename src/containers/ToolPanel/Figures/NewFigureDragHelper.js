@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import toolPanelVectorStyle from './Figures.module.scss';
 
-import {generateID} from "../../actions/utils"
+import {generateID} from "../../../utils/helpers"
 
 import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
 import {addNewObject} from "../../../actions"

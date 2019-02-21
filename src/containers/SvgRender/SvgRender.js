@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Vector from '../Vector';
 import SelectTool from '../SelectTool';
-import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../actions/selectTool';
-import {getObjectResizeValues} from '../actions/resizeTool';
-import {getObjectRotateValue} from '../actions/rootateTool.js';
+import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../../utils/selectTool';
+import {getObjectResizeValues} from '../../utils/resizeTool';
+import {getObjectRotateValue} from '../../utils/rootateTool.js';
 import Rectangle from '../Rectangle';
 import Text from '../Text';
 import styles from './index.module.scss';

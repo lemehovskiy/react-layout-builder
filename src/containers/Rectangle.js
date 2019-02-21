@@ -2,7 +2,7 @@ import React from 'react'
 import EditModeHelper from './EditModeHelper.js';
 import Text from './Text';
 
-import {getObjectAttributes} from './actions/vector.js';
+import {getObjectAttributes} from '../utils/vector.js';
 
 class Rectangle extends React.Component {
     render() {

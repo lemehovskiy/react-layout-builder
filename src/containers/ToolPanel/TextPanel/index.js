@@ -11,7 +11,7 @@ import {
 
 import {
     getEqualPropertyValueFromSelectedObjects,
-} from './../../../containers/actions/utils';
+} from '../../../utils/helpers';
 
 
 class TextPanel extends React.Component {

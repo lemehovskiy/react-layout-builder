@@ -14,7 +14,7 @@ import {
     setResizeDirection
 } from '../../src/modules/resizeTool'
 
-import {getObjectAttributes} from './actions/vector.js';
+import {getObjectAttributes} from '../utils/vector.js';
 
 class EditModeHelper extends React.Component {
     onRotateMouseDown(e) {

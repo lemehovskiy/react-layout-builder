@@ -10,7 +10,7 @@ import {setFillColor} from '../../../actions/index';
 
 import {
     getEqualPropertyValueFromSelectedObjects,
-} from '../../actions/utils';
+} from '../../../utils/helpers';
 
 
 class FillPanel extends React.Component {
