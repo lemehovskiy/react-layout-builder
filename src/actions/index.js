@@ -62,17 +62,6 @@ export const selectObjects = (ids) => {
     }
 }
 
-export const deselectObjects = (ids) => {
-    return dispatch => {
-        dispatch({
-            type: DESELECT_OBJECTS,
-            payload: {ids}
-
-        })
-    }
-}
-
-
 export const deselectAllObjects = () => {
     return dispatch => {
         dispatch({

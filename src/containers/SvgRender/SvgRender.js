@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import Vector from '../Vector';
-import SelectTool from '../SelectTool';
+import Vector from '../Figures/Vector';
+import SelectTool from './SelectTool';
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../../utils/selectTool';
 import {getObjectResizeValues} from '../../utils/resizeTool';
 import {getObjectRotateValue} from '../../utils/rootateTool.js';
-import Rectangle from '../Rectangle';
-import Text from '../Text';
+import Rectangle from '../Figures/Rectangle';
+import Text from '../Figures/Text';
 import styles from './index.module.scss';
 
 import {

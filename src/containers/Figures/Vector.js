@@ -10,7 +10,7 @@ import {
     deselectAllObjects,
     setObjectEditStartPosition,
     deselectAllObjectsExept
-} from '../../src/actions'
+} from '../../actions/index'
 
 class Vector extends React.Component {
     onMouseUp(e) {

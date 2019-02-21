@@ -1,7 +1,7 @@
 import React from 'react'
 
-import {getObjectAttributes} from '../utils/vector.js';
-import {getTextAttributes, getTextWrapAttributes} from '../utils/text.js';
+import {getObjectAttributes} from '../../utils/vector.js';
+import {getTextAttributes, getTextWrapAttributes} from '../../utils/text.js';
 
 class Text extends React.Component {
     constructor(props) {

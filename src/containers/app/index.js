@@ -1,10 +1,10 @@
 import React from 'react'
-import Home from '../home'
+import LayoutBuilder from '../layoutBuilder'
 
 const App = () => (
   <div>
     <main>
-      <Home/>
+        <LayoutBuilder/>
     </main>
   </div>
 )

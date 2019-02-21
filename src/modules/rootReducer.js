@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import svgRender from './svgRender'
-import resizeTool from './resizeTool'
+import svgRender from './svgRenderReducer'
+import resizeTool from './resizeToolReducer'
 import layoutBuilder from './layoutBuilderReducer'
 
 export default combineReducers({

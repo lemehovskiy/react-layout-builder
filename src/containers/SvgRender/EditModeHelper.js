@@ -8,13 +8,13 @@ import {
     updateEditMode,
     setObjectMode,
     saveEditObjectInitState
-} from '../../src/actions'
+} from '../../actions/index'
 
 import {
     setResizeDirection
-} from '../../src/modules/resizeTool'
+} from '../../modules/resizeToolReducer'
 
-import {getObjectAttributes} from '../utils/vector.js';
+import {getObjectAttributes} from '../../utils/vector.js';
 
 class EditModeHelper extends React.Component {
     onRotateMouseDown(e) {
