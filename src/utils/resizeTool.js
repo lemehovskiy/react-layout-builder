@@ -1,78 +1,82 @@
 //TODO fix bug with resize when object rotated
 
-function getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition) {
-    let returnVal = {};
-    let progress = mouse.y - mouseStartPosition.y;
-    let changeValue = objectInitState.height + progress;
-    returnVal.y = changeValue > 0 ? objectInitState.y : objectInitState.y - Math.abs(changeValue);
-    returnVal.height = Math.abs(changeValue);
+const compose = (...funcs) => value =>
+    funcs.reduceRight((acc, func) => func(acc), value)
 
-    return returnVal;
+const getObjectResizeValuesSouth = (props) => {
+    let updatedObject = {...props.object};
+    let progress = props.mouse.y - props.mouseStartPosition.y;
+    let changeValue = props.objectInitState.height + progress;
+    updatedObject.y = changeValue > 0 ? props.objectInitState.y : props.objectInitState.y - Math.abs(changeValue);
+    updatedObject.height = Math.abs(changeValue);
+
+    return {...props, object: updatedObject};
 }
 
-function getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition) {
-    let returnVal = {};
-    let progress = mouse.y - mouseStartPosition.y;
-    let changeValue = objectInitState.height - progress;
-    returnVal.y = changeValue > 0 ? objectInitState.y - (changeValue - objectInitState.height) : objectInitState.y + objectInitState.height;
-    returnVal.height = Math.abs(changeValue);
+const getObjectResizeValuesNorth = (props) => {
+    let updatedObject = {...props.object};
+    let progress = props.mouse.y - props.mouseStartPosition.y;
+    let changeValue = props.objectInitState.height - progress;
+    updatedObject.y = changeValue > 0 ? props.objectInitState.y - (changeValue - props.objectInitState.height) : props.objectInitState.y + props.objectInitState.height;
+    updatedObject.height = Math.abs(changeValue);
 
-    return returnVal;
+    return {...props, object: updatedObject};
 }
 
-function getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition) {
-    let returnVal = {};
+const getObjectResizeValuesEast = (props) => {
+    let updatedObject = {...props.object};
 
-    let progress = mouse.x - mouseStartPosition.x;
-    let changeValue = objectInitState.width + progress;
-    returnVal.x = changeValue < 0 ? objectInitState.x + changeValue : objectInitState.x;
-    returnVal.width = Math.abs(changeValue);
+    let progress = props.mouse.x - props.mouseStartPosition.x;
+    let changeValue = props.objectInitState.width + progress;
+    updatedObject.x = changeValue < 0 ? props.objectInitState.x + changeValue : props.objectInitState.x;
+    updatedObject.width = Math.abs(changeValue);
 
-    return returnVal;
+    return {...props, object: updatedObject};
 }
 
-function getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition) {
-    let returnVal = {};
+const getObjectResizeValuesWest = (props) => {
+    let updatedObject = {...props.object};
 
-    let progress = mouse.x - mouseStartPosition.x;
-    let changeValue = objectInitState.width - progress;
-    returnVal.x = changeValue > 0 ? objectInitState.x + progress : objectInitState.x + objectInitState.width;
-    returnVal.width = Math.abs(changeValue);
+    let progress = props.mouse.x - props.mouseStartPosition.x;
+    let changeValue = props.objectInitState.width - progress;
+    updatedObject.x = changeValue > 0 ? props.objectInitState.x + progress : props.objectInitState.x + props.objectInitState.width;
+    updatedObject.width = Math.abs(changeValue);
 
-    return returnVal;
+    return {...props, object: updatedObject};
 }
+
+const getObjectResizeValuesNorthEast = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
+const getObjectResizeValuesSouthEast = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
+const getObjectResizeValueSouthWest = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
+const getObjectResizeValuesNorthWest = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
 
 export const getObjectResizeValues = (mouse, direction, objectInitState, mouseStartPosition, object) => {
-    let updatedObject = object;
+    let updatedObject = {...object};
 
     switch (direction) {
         case 's':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesSouth({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'n':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesNorth({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'e':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesEast({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'w':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesWest({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'ne':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition));
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesNorthEast({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'se':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition));
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesEast(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesSouthEast({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'sw':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesSouth(mouse, objectInitState, mouseStartPosition));
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValueSouthWest({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         case 'nw':
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesNorth(mouse, objectInitState, mouseStartPosition));
-            updatedObject = Object.assign(updatedObject, getObjectResizeValuesWest(mouse, objectInitState, mouseStartPosition));
+            updatedObject = getObjectResizeValuesNorthWest({mouse, objectInitState, mouseStartPosition, object}).object;
             break;
         default:
             break;
