@@ -11,37 +11,32 @@ import {
     deselectAllObjectsExept
 } from '../../actions/index'
 
-class Vector extends React.Component {
-    onMouseUp = (e) => {
-        const {mouseStartPosition, deselectAllObjectsExept} = this.props;
+const Vector = (props) => {
+    const onMouseUp = (e) => {
+        const {object, mouseStartPosition, deselectAllObjectsExept} = props;
         let objectMoved = mouseStartPosition.x !== e.clientX || mouseStartPosition.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
-            deselectAllObjectsExept(this.props.object.id);
+            deselectAllObjectsExept(object.id);
         }
     }
 
-    onMouseDown = (e) => {
-        const {selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = this.props;
-        const objectSelected = selectedObjectsId.includes(this.props.object.id);
+    const onMouseDown = (e) => {
+        const {object, selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = props;
+        const objectSelected = selectedObjectsId.includes(object.id);
 
         if (!e.shiftKey && !objectSelected) {
             deselectAllObjects();
         }
         if (!objectSelected) {
-            selectObjects([this.props.object.id])
+            selectObjects([object.id])
         }
 
         setMouseStartPosition(e.clientX, e.clientY)
         setObjectEditStartPosition(e.clientX, e.clientY);
         updateEditMode('drag')
     }
-
-    render() {
-        const {object, selectedObjectsId} = this.props;
-        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp, onMouseDown: this.onMouseDown, object: object, selectedObjectsId: selectedObjectsId})
-
-    }
+    return React.cloneElement(props.children, {onMouseUp: onMouseUp, onMouseDown: onMouseDown, object: props.object, selectedObjectsId: props.selectedObjectsId})
 }
 
 const mapStateToProps = ({layoutBuilder}) => ({
