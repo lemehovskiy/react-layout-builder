@@ -46,9 +46,9 @@ const getObjectResizeValuesWest = (props) => {
 }
 
 const getObjectResizeValuesNorthEast = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
-const getObjectResizeValuesSouthEast = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
-const getObjectResizeValueSouthWest = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
-const getObjectResizeValuesNorthWest = compose(getObjectResizeValuesNorth, getObjectResizeValuesEast);
+const getObjectResizeValuesSouthEast = compose(getObjectResizeValuesSouth, getObjectResizeValuesEast);
+const getObjectResizeValueSouthWest = compose(getObjectResizeValuesSouth, getObjectResizeValuesWest);
+const getObjectResizeValuesNorthWest = compose(getObjectResizeValuesNorth, getObjectResizeValuesWest);
 
 export const getObjectResizeValues = (mouse, direction, objectInitState, mouseStartPosition, object) => {
     let updatedObject = {...object};
