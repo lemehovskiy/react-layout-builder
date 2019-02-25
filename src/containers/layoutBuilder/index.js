@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgRender from '../SvgRender/SvgRender';
+import SvgRenderContainer from '../SvgRender/SvgRenderContainer';
 import ToolPanel from './../ToolPanel'
 import NewFiguresDragHelper from './../ToolPanel/Figures/NewFigureDragHelper';
 
@@ -8,7 +8,7 @@ class LayoutBuilder extends React.Component {
         return (
             <div>
                 <NewFiguresDragHelper>
-                    <SvgRender ref="SvgRender"/>
+                    <SvgRenderContainer ref="SvgRender"/>
                     <ToolPanel/>
                 </NewFiguresDragHelper>
             </div>
