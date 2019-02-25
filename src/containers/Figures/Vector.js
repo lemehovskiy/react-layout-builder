@@ -12,32 +12,34 @@ import {
 } from '../../actions/index'
 
 class Vector extends React.Component {
-    onMouseUp(e) {
-        let objectMoved = this.props.mouseStartPosition.x !== e.clientX || this.props.mouseStartPosition.y !== e.clientY;
+    onMouseUp = (e) => {
+        const {mouseStartPosition, deselectAllObjectsExept} = this.props;
+        let objectMoved = mouseStartPosition.x !== e.clientX || mouseStartPosition.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
-            this.props.deselectAllObjectsExept(this.props.object.id);
+            deselectAllObjectsExept(this.props.object.id);
         }
     }
 
-
-    onMouseDown(e) {
-        const objectSelected = this.props.selectedObjectsId.includes(this.props.object.id);
+    onMouseDown = (e) => {
+        const {selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = this.props;
+        const objectSelected = selectedObjectsId.includes(this.props.object.id);
 
         if (!e.shiftKey && !objectSelected) {
-            this.props.deselectAllObjects();
+            deselectAllObjects();
         }
         if (!objectSelected) {
-            this.props.selectObjects([this.props.object.id])
+            selectObjects([this.props.object.id])
         }
 
-        this.props.setMouseStartPosition(e.clientX, e.clientY)
-        this.props.setObjectEditStartPosition(e.clientX, e.clientY);
-        this.props.updateEditMode('drag')
+        setMouseStartPosition(e.clientX, e.clientY)
+        setObjectEditStartPosition(e.clientX, e.clientY);
+        updateEditMode('drag')
     }
 
     render() {
-        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp.bind(this), onMouseDown: this.onMouseDown.bind(this), object: this.props.object, selectedObjectsId: this.props.selectedObjectsId})
+        const {object, selectedObjectsId} = this.props;
+        return React.cloneElement(this.props.children, {onMouseUp: this.onMouseUp, onMouseDown: this.onMouseDown, object: object, selectedObjectsId: selectedObjectsId})
 
     }
 }
