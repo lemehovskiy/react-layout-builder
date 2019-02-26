@@ -9,6 +9,7 @@ import {generateID} from "../../../utils/helpers"
 import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
 import {addNewObject} from "../../../actions"
 
+
 class NewFigureDragHelper extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -21,8 +22,7 @@ class NewFigureDragHelper extends React.PureComponent {
     }
 
     onMouseUp(e) {
-        let svgRenderClientRect = ReactDOM.findDOMNode(this.refs['SvgRender']).getBoundingClientRect();
-        console.log(svgRenderClientRect);
+        let svgRenderClientRect = ReactDOM.findDOMNode(this.refs['SvgRenderContainer']).getBoundingClientRect();
 
         if ((e.pageX > svgRenderClientRect.left && e.pageX < svgRenderClientRect.right) && (e.pageY > svgRenderClientRect.top && e.pageY < svgRenderClientRect.bottom)) {
             this.props.addNewObject({
@@ -60,28 +60,34 @@ class NewFigureDragHelper extends React.PureComponent {
         }
     }
 
+    recursiveCloneChildren(children) {
+        return React.Children.map(children, child => {
+            let childProps = {};
+            if (React.isValidElement(child)) {
+                childProps = {ref: child.ref};
+            }
+            childProps.children = this.recursiveCloneChildren(child.props.children);
+
+            return React.cloneElement(child, childProps);
+        })
+    }
+
     render() {
         const dragItemPosition = {
             left: this.state.mousePosition.x,
             top: this.state.mousePosition.y
         };
 
-
         return (
             <div style={{position: 'relative'}} onMouseMove={this.onMouseMove.bind(this)}
                  onMouseUp={this.onMouseUp.bind(this)}>
-
-                {
-                    React.Children.map(this.props.children, (child) => {
-                        return React.cloneElement(child, child.ref === 'SvgRender' ? {ref: "SvgRender"} : null)
-                    })
-                }
+                {this.recursiveCloneChildren(this.props.children)}
 
                 {this.props.newFigureDragData !== null ?
                     <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
                          style={dragItemPosition}/> : null}
             </div>
-        )
+        );
     }
 }
 

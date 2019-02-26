@@ -3,9 +3,9 @@ import Vector from '../Figures/Vector';
 import Rectangle from '../Figures/Rectangle';
 import Text from '../Figures/Text';
 
-const SvgRender = ({onMouseMove, onMouseUp, onMouseDown, objects, selectedObjectsId}) => {
+const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, selectedObjectsId}) => {
     return (
-        <svg width='800' height='500'
+        <svg id="svg-render" width='800' height='500'
              onMouseMove={onMouseMove}
              onMouseUp={onMouseUp}
              onMouseDown={onMouseDown}>
