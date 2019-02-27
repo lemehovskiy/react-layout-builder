@@ -1,36 +1,32 @@
 import React from 'react'
 import EditModeHelper from '../SvgRender/EditModeHelper.js';
-import Text from './Text';
-
+import Text from './TextContainer';
 import {getObjectAttributes} from '../../utils/vector.js';
 
-class Rectangle extends React.Component {
-    render() {
-        return (
-            <g>
-                <rect {...getObjectAttributes(this.props.object)}
-                      width={this.props.object.width}
-                      height={this.props.object.height}
-                      x={this.props.object.x}
-                      y={this.props.object.y}
-                      pointerEvents="visible"
-                      cursor="move"
-                      fill={this.props.object.fill}
-                      strokeWidth={this.props.object.strokeWidth}
-                      stroke={this.props.object.stroke}
-                      onMouseDown={this.props.onMouseDown}
-                      onMouseUp={this.props.onMouseUp}
-                />
+const Rectangle = ({object, onMouseDown, onMouseUp, selectedObjectsId}) => {
+    return (
+        <g>
+            <rect {...getObjectAttributes(object)}
+                  width={object.width}
+                  height={object.height}
+                  x={object.x}
+                  y={object.y}
+                  pointerEvents="visible"
+                  cursor="move"
+                  fill={object.fill}
+                  strokeWidth={object.strokeWidth}
+                  stroke={object.stroke}
+                  onMouseDown={onMouseDown}
+                  onMouseUp={onMouseUp}
+            />
 
-                {this.props.object.text ? <Text object={this.props.object}/> : ''}
+            {object.text ? <Text object={object}/> : ''}
 
+            {selectedObjectsId.includes(object.id) ? <EditModeHelper
+                object={object}/> : ''}
 
-                {this.props.selectedObjectsId.includes(this.props.object.id) ? <EditModeHelper
-                    object={this.props.object}/> : ''}
-
-            </g>
-        )
-    }
+        </g>
+    )
 }
 
 export default Rectangle

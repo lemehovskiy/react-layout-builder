@@ -1,56 +1,25 @@
 import React from 'react'
-
 import {getObjectAttributes} from '../../utils/vector.js';
 import {getTextAttributes, getTextWrapAttributes} from '../../utils/text.js';
 
-class Text extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            height: 0,
-            width: 0
-        }
-    }
-
-    onResize(){
-        const height = this.divElement.clientHeight;
-        const width = this.divElement.clientWidth;
-
-        this.setState({ height, width });
-    }
-
-    componentDidUpdate(prevProps){
-        if (prevProps.object.width !== this.props.object.width || prevProps.object.height !== this.props.object.height) {
-            this.onResize();
-        }
-    }
-
-    componentDidMount(){
-        this.onResize();
-    }
-
-
-    render() {
-        return (
-            <g>
-                <foreignObject
-                    pointerEvents="none"
-                    {...getObjectAttributes(this.props.object)}
-                    {...getTextAttributes(this.props.object, this.state)}
-                >
-                    <div {...getTextWrapAttributes(this.props.object)} ref={ (divElement) => this.divElement = divElement}>
-                        <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'inline-block' }}>
-                            {this.props.object.text.split("\n").map((i,key) => {
-                                return <div key={key}>{i}</div>;
-                            })}
-                        </div>
+const Text = ({object, textSize, setRef}) => {
+    return (
+        <g>
+            <foreignObject
+                pointerEvents="none"
+                {...getObjectAttributes(object)}
+                {...getTextAttributes(object, textSize)}
+            >
+                <div {...getTextWrapAttributes(object)} ref={setRef}>
+                    <div xmlns="http://www.w3.org/1999/xhtml" style={{display: 'inline-block'}}>
+                        {object.text.split("\n").map((i, key) => {
+                            return <div key={key}>{i}</div>;
+                        })}
                     </div>
-                </foreignObject>
-            </g>
-        )
-    }
+                </div>
+            </foreignObject>
+        </g>
+    )
 }
-
 
 export default Text
