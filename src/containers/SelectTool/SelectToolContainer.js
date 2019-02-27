@@ -43,8 +43,6 @@ class SelectToolContainer extends React.Component {
 
     componentDidMount() {
         const getBoundingClientRect = this.selectToolContainerRef.current.getBoundingClientRect();
-
-        console.log(getBoundingClientRect)
         this.setState({
             svgOffset: {
                 x: getBoundingClientRect.x,
@@ -93,6 +91,8 @@ class SelectToolContainer extends React.Component {
     handleSelectTool() {
         let self = this;
         let selectedObjectIds = [];
+        if (self.state.selectToolSize.x === null || self.state.selectToolSize.y === null) return;
+
         this.props.objects.forEach(function (object) {
             if (checkRectRectCollision({
                         x: object.x,
