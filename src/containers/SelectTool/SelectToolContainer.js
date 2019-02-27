@@ -5,13 +5,8 @@ import SelectTool from './SelectTool'
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../../utils/selectTool';
 
 import {
-    updateEditMode,
     deselectAllObjects,
-    moveObject,
-    selectObjects,
-    resizeObjects,
-    resetObjectMode,
-    rotateObject
+    selectObjects
 } from '../../actions/index'
 
 class SelectToolContainer extends React.Component {
@@ -51,14 +46,9 @@ class SelectToolContainer extends React.Component {
         })
     }
 
-    onMouseMove = (e) => {
-        this.updateSelectToolData({x: e.clientX, y: e.clientY});
-    }
+    onMouseMove = (e) => this.updateSelectToolData({x: e.clientX, y: e.clientY});
 
-
-    onMouseUp = () => {
-        this.endSelect();
-    }
+    onMouseUp = () => this.endSelect();
 
     onMouseDown = (e) => {
         if (e.target.id === 'svg-render') {
@@ -75,25 +65,27 @@ class SelectToolContainer extends React.Component {
         })
     }
 
-    startSelect({mouseX, mouseY}){
+    startSelect({mouseX, mouseY}) {
         this.setState({
             selectToolActive: true
         })
         this.setSelectStartPosition({x: mouseX, y: mouseY});
-        this.updateSelectToolData({x:mouseX, y: mouseY});
+        this.updateSelectToolData({x: mouseX, y: mouseY});
     }
 
-    endSelect(){
+    endSelect() {
         this.resetSelectToolData();
         this.handleSelectTool();
     }
 
     handleSelectTool() {
-        let self = this;
-        let selectedObjectIds = [];
-        if (self.state.selectToolSize.x === null || self.state.selectToolSize.y === null) return;
+        const {selectToolPosition, selectToolSize} = this.state;
+        const {deselectAllObjects, selectObjects, objects} = this.props;
 
-        this.props.objects.forEach(function (object) {
+        if (selectToolSize.x === null || selectToolSize.y === null) return;
+
+        let selectedObjectIds = [];
+        objects.forEach(function (object) {
             if (checkRectRectCollision({
                         x: object.x,
                         y: object.y,
@@ -101,19 +93,19 @@ class SelectToolContainer extends React.Component {
                         height: object.height
                     },
                     {
-                        x: self.state.selectToolPosition.x,
-                        y: self.state.selectToolPosition.y,
-                        width: self.state.selectToolSize.width,
-                        height: self.state.selectToolSize.height
+                        x: selectToolPosition.x,
+                        y: selectToolPosition.y,
+                        width: selectToolSize.width,
+                        height: selectToolSize.height
                     })) {
                 selectedObjectIds.push(object.id);
             }
         })
 
-        this.props.deselectAllObjects();
+        deselectAllObjects();
 
         if (selectedObjectIds.length) {
-            this.props.selectObjects(selectedObjectIds)
+            selectObjects(selectedObjectIds)
         }
     }
 
@@ -126,33 +118,30 @@ class SelectToolContainer extends React.Component {
     }
 
     updateSelectToolData(mousePosition) {
-        if (this.state.selectToolStartPoint.x === null) return;
+        const {selectToolStartPoint, svgOffset} = this.state;
+        if (selectToolStartPoint.x === null) return;
 
         const selectToolSize = getSelectToolSize(
-            this.state.selectToolStartPoint,
+            selectToolStartPoint,
             mousePosition,
-            this.state.svgOffset
+            svgOffset
         );
-
-        this.setState({
-            selectToolSize: selectToolSize
-        })
         const selectToolPosition = getSelectToolPosition(
-            this.state.selectToolStartPoint,
+            selectToolStartPoint,
             mousePosition,
-            this.state.svgOffset,
+            svgOffset,
             selectToolSize
         );
 
         this.setState({
-            selectToolPosition: selectToolPosition
+            selectToolPosition: selectToolPosition,
+            selectToolSize: selectToolSize
         })
     }
 
-
     render() {
         const {children} = this.props;
-            const {selectToolActive, selectToolPosition, selectToolSize} = this.state;
+        const {selectToolActive, selectToolPosition, selectToolSize} = this.state;
         return (
             <div
                 onMouseDown={this.onMouseDown}
@@ -168,29 +157,17 @@ class SelectToolContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender, resizeTool, layoutBuilder}) => ({
-    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
-    selectedObjectsId: svgRender.selectedObjectsId,
-    objects: svgRender.objects,
-    editMode: svgRender.editMode,
-    mouseStartPosition: layoutBuilder.mouseStartPosition,
-    editObjectInitState: svgRender.editObjectInitState,
-    resizeToolDirection: resizeTool.resizeDirection
+const mapStateToProps = ({svgRender}) => ({
+    objects: svgRender.objects
 })
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-            updateEditMode,
             deselectAllObjects,
-            moveObject,
-            selectObjects,
-            resizeObjects,
-            resetObjectMode,
-            rotateObject
+            selectObjects
         },
         dispatch
     )
-
 
 export default connect(
     mapStateToProps,
