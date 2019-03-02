@@ -1,6 +1,4 @@
 import {
-    UPDATE_HANDLER_OBJECT_INDEX,
-    UPDATE_EDIT_MODE,
     SELECT_OBJECTS,
     ADD_NEW_OBJECT,
     DESELECT_ALL_OBJECTS,
@@ -8,9 +6,6 @@ import {
     MOVE_OBJECT,
     SET_OBJECT_EDIT_START_POSITION,
     RESIZE_OBJECTS,
-    SET_OBJECT_MODE,
-    SAVE_EDIT_OBJECT_INIT_STATE,
-    RESET_OBJECT_MODE,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
@@ -45,16 +40,6 @@ export default (state = initialState, action) => {
     let updatedItems = [];
 
     switch (action.type) {
-        case UPDATE_HANDLER_OBJECT_INDEX:
-            return {
-                ...state,
-                handlerObjectIndex: action.index
-            }
-        case UPDATE_EDIT_MODE:
-            return {
-                ...state,
-                editMode: action.mode
-            }
         case SELECT_OBJECTS:
             return {...state, selectedObjectsId: state.selectedObjectsId.concat(action.payload.ids)}
 
@@ -103,30 +88,6 @@ export default (state = initialState, action) => {
                     }
                 }
                 return object
-            })
-            return {...state, objects: updatedItems}
-
-        case SET_OBJECT_MODE:
-            updatedItems = state.objects.map(item => {
-                if (item.id === action.payload.id) {
-                    return {...item, mode: action.payload.mode}
-                }
-                return item;
-            })
-            return {...state, objects: updatedItems}
-
-        case SAVE_EDIT_OBJECT_INIT_STATE:
-            let updatedItem = null;
-            state.objects.forEach(item => {
-                if (item.id === action.payload.id) {
-                    updatedItem = item;
-                }
-            })
-            return {...state, editObjectInitState: updatedItem}
-
-        case RESET_OBJECT_MODE:
-            updatedItems = state.objects.map(item => {
-                return {...item, mode: null}
             })
             return {...state, objects: updatedItems}
 

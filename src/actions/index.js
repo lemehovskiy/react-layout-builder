@@ -7,9 +7,6 @@ import {
     MOVE_OBJECT,
     SET_OBJECT_EDIT_START_POSITION,
     RESIZE_OBJECTS,
-    SET_OBJECT_MODE,
-    SAVE_EDIT_OBJECT_INIT_STATE,
-    RESET_OBJECT_MODE,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
     SET_VERTICAL_ALIGN,
@@ -95,37 +92,6 @@ export const resizeObjects = (props) => {
         dispatch({
             type: RESIZE_OBJECTS,
             payload: props
-        })
-    }
-}
-
-export const setObjectMode = (id, mode) => {
-    return dispatch => {
-        dispatch({
-            type: SET_OBJECT_MODE,
-            payload: {
-                id: id,
-                mode: mode
-            }
-        })
-    }
-}
-
-export const saveEditObjectInitState = (id) => {
-    return dispatch => {
-        dispatch({
-            type: SAVE_EDIT_OBJECT_INIT_STATE,
-            payload: {
-                id: id
-            }
-        })
-    }
-}
-
-export const resetObjectMode = () => {
-    return dispatch => {
-        dispatch({
-            type: RESET_OBJECT_MODE
         })
     }
 }
