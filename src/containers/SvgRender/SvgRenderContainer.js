@@ -48,13 +48,13 @@ class SvgRenderContainer extends React.Component {
         let self = this;
 
         if (this.props.editMode === 'drag') {
-            this.props.selectedObjects.forEach(function (object) {
-                self.props.moveObject({
-                    ids: [object.id],
-                    x: e.clientX - object.editStartPositionOffset.x,
-                    y: e.clientY - object.editStartPositionOffset.y
-                });
-            })
+            // this.props.selectedObjects.forEach(function (object) {
+            //     self.props.moveObject({
+            //         ids: [object.id],
+            //         x: e.clientX - object.editStartPositionOffset.x,
+            //         y: e.clientY - object.editStartPositionOffset.y
+            //     });
+            // })
         }
 
         else if (this.props.editMode === 'resize') {

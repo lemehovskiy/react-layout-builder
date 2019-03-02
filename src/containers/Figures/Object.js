@@ -12,6 +12,7 @@ import {
 } from '../../actions/index'
 
 const Vector = (props) => {
+
     const onMouseUp = (e) => {
         const {object, mouseStartPosition, deselectAllObjectsExept} = props;
         let objectMoved = mouseStartPosition.x !== e.clientX || mouseStartPosition.y !== e.clientY;
@@ -22,6 +23,8 @@ const Vector = (props) => {
     }
 
     const onMouseDown = (e) => {
+        props.onMouseDown(e);
+
         const {object, selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = props;
         const objectSelected = selectedObjectsId.includes(object.id);
 

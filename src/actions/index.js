@@ -186,7 +186,6 @@ export const setStrokeWidth = (value) => {
 
 export const addNewObject = (object) => {
     return dispatch => {
-        console.log(object);
         dispatch({
             type: ADD_NEW_OBJECT,
             payload: {

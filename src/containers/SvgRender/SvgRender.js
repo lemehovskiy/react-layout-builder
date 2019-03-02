@@ -1,7 +1,8 @@
 import React from 'react'
-import Vector from '../Figures/Vector';
+import Object from '../Figures/Object';
 import Rectangle from '../Figures/Rectangle';
 import Text from '../Figures/Text';
+import DraggableObject from '../DraggableObject/DraggableObject';
 
 const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, selectedObjectsId}) => {
     return (
@@ -10,27 +11,29 @@ const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, sele
              onMouseUp={onMouseUp}
              onMouseDown={onMouseDown}>
 
-            {objects.map(function (object) {
-                let vectorType = null;
-                switch (object.type) {
-                    case 'rectangle': {
-                        vectorType = <Rectangle/>;
-                        break;
+            <DraggableObject>
+                {objects.map(function (object) {
+                    let vectorType = null;
+                    switch (object.type) {
+                        case 'rectangle': {
+                            vectorType = <Rectangle/>;
+                            break;
+                        }
+                        case 'text': {
+                            vectorType = <Text/>;
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
                     }
-                    case 'text': {
-                        vectorType = <Text/>;
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
-                return (
-                    <Vector key={object.id} object={object} selectedObjectsId={selectedObjectsId}>
-                        {vectorType}
-                    </Vector>
-                )
-            })}
+                    return (
+                        <Object key={object.id} object={object} selectedObjectsId={selectedObjectsId}>
+                            {vectorType}
+                        </Object>
+                    )
+                })}
+            </DraggableObject>
         </svg>
     )
 }
