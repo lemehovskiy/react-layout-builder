@@ -32,9 +32,9 @@ class FigureDragger extends React.Component {
     onMouseMove = (e) => {
         let {isDrag} = this.state;
         let {selectedObjects, moveObject} = this.props;
-
         if (!isDrag) return;
 
+        //TODO prevent move objects out of SVG render
         selectedObjects.forEach(function (object) {
             moveObject({
                 ids: [object.id],
@@ -42,7 +42,6 @@ class FigureDragger extends React.Component {
                 y: e.clientY - object.editStartPositionOffset.y
             });
         })
-
     }
 
     onMouseUp = (e) => {
@@ -61,18 +60,11 @@ class FigureDragger extends React.Component {
         })
     }
 
-
     render() {
-        return (
-            <g>
-                {React.Children.map(this.props.children, child => {
+        return React.Children.map(this.props.children, child => {
                     return React.cloneElement(child, {onMouseDown: this.onChildMouseDown })
-                })}
-
-            </g>
-        )
+                })
     }
-
 }
 
 const mapStateToProps = ({svgRender, resizeTool, layoutBuilder}) => ({

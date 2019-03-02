@@ -23,7 +23,6 @@ const Vector = (props) => {
     }
 
     const onMouseDown = (e) => {
-        props.onMouseDown(e);
 
         const {object, selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = props;
         const objectSelected = selectedObjectsId.includes(object.id);
@@ -35,9 +34,9 @@ const Vector = (props) => {
             selectObjects([object.id])
         }
 
-        setMouseStartPosition(e.clientX, e.clientY)
+        //TODO move setObjectEditStartPosition to DraggableObject
         setObjectEditStartPosition(e.clientX, e.clientY);
-        updateEditMode('drag')
+        props.onMouseDown(e);
     }
     return React.cloneElement(props.children, {onMouseUp: onMouseUp, onMouseDown: onMouseDown, object: props.object, selectedObjectsId: props.selectedObjectsId})
 }
