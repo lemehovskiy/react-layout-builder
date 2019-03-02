@@ -28,6 +28,7 @@ button:disabled {
   display: flex;
 }
 
-.svg-render-wrap {
+.select-tool-wrap {
   border: 1px dotted grey;
+  position: relative;
 }

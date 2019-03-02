@@ -37,11 +37,20 @@ class SelectToolContainer extends React.Component {
     }
 
     componentDidMount() {
-        const getBoundingClientRect = this.selectToolContainerRef.current.getBoundingClientRect();
+        this.setOffset();
+        window.addEventListener('resize', this.onResize)
+    }
+
+    onResize = () => {
+        this.setOffset();
+    }
+
+    setOffset = () => {
+        const {x, y} = this.selectToolContainerRef.current.getBoundingClientRect();
         this.setState({
             svgOffset: {
-                x: getBoundingClientRect.x,
-                y: getBoundingClientRect.y
+                x: x,
+                y: y
             }
         })
     }
@@ -148,7 +157,7 @@ class SelectToolContainer extends React.Component {
                 onMouseMove={this.onMouseMove}
                 onMouseUp={this.onMouseUp}
                 ref={this.selectToolContainerRef}
-                className="svg-render-wrap"
+                className="select-tool-wrap"
             >
                 {children}
                 {selectToolActive ?
