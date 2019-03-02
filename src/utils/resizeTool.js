@@ -84,3 +84,48 @@ export const getObjectResizeValues = (mouse, direction, objectInitState, mouseSt
 
     return updatedObject;
 }
+
+export const getResizeObjectDotsConfig = (object) => {
+    return [
+        {
+            name: 'nw',
+            x: object.x,
+            y: object.y
+        },
+        {
+            name: 'n',
+            x: object.x + object.width / 2,
+            y: object.y
+        },
+        {
+            name: 'ne',
+            x: object.x + object.width,
+            y: object.y
+        },
+        {
+            name: 'w',
+            x: object.x,
+            y: object.y + object.height / 2
+        },
+        {
+            name: 'e',
+            x: object.x + object.width,
+            y: object.y + object.height / 2
+        },
+        {
+            name: 'sw',
+            x: object.x,
+            y: object.y + object.height
+        },
+        {
+            name: 's',
+            x: object.x + object.width / 2,
+            y: object.y + object.height
+        },
+        {
+            name: 'se',
+            x: object.x + object.width,
+            y: object.y + object.height
+        }
+    ]
+}
