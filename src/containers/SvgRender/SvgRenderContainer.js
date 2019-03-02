@@ -47,17 +47,7 @@ class SvgRenderContainer extends React.Component {
     onMouseMove(e) {
         let self = this;
 
-        if (this.props.editMode === 'drag') {
-            // this.props.selectedObjects.forEach(function (object) {
-            //     self.props.moveObject({
-            //         ids: [object.id],
-            //         x: e.clientX - object.editStartPositionOffset.x,
-            //         y: e.clientY - object.editStartPositionOffset.y
-            //     });
-            // })
-        }
-
-        else if (this.props.editMode === 'resize') {
+        if (this.props.editMode === 'resize') {
             this.props.selectedObjects.forEach(function (object) {
                 if (object.mode === 'resize') {
                     let updatedValues = getObjectResizeValues(

@@ -1,5 +1,6 @@
 import React from 'react'
-import EditModeHelper from '../SvgRender/EditModeHelper.js';
+import ObjectRotateTool from '../ObjectRotateTool/ObjectRotateToolContainer.js';
+import ObjectResizeTool from '../ObjectResizeTool/ObjectResizeToolContainer.js';
 import Text from './TextContainer';
 import {getObjectAttributes} from '../../utils/vector.js';
 
@@ -22,8 +23,7 @@ const Rectangle = ({object, onMouseDown, onMouseUp, selectedObjectsId}) => {
 
             {object.text ? <Text object={object}/> : ''}
 
-            {selectedObjectsId.includes(object.id) ? <EditModeHelper
-                object={object}/> : ''}
+            {selectedObjectsId.includes(object.id) ? <g><ObjectResizeTool object={object}/> <ObjectRotateTool object={object}/></g> : null}
 
         </g>
     )
