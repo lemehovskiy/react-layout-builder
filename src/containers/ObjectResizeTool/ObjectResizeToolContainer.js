@@ -5,6 +5,7 @@ import {getObjectResizeValues} from '../../utils/resizeTool';
 import ObjectResizeTool from './ObjectResizeTool';
 
 import {
+    resizeObjects
 } from '../../actions/index'
 
 class ObjectResizeToolContainer extends React.Component {
