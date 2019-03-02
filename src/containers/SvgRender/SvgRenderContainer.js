@@ -66,22 +66,6 @@ class SvgRenderContainer extends React.Component {
                 }
             })
         }
-
-        else if (this.props.editMode === 'rotate') {
-            this.props.selectedObjects.forEach(function (object) {
-                if (object.mode === 'rotate') {
-
-                    let mouse = {x: e.clientX, y: e.clientY},
-                        mouseStartPosition = self.props.mouseStartPosition;
-
-                    self.props.rotateObject({
-                            id: object.id,
-                            rotate: getObjectRotateValue({mouse, mouseStartPosition, object})
-                        }
-                    );
-                }
-            })
-        }
     }
 
     onMouseUp(e) {
