@@ -1,6 +1,7 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {getObjectResizeValues} from '../../utils/resizeTool';
 
 import {
     resizeObjects,
@@ -17,13 +18,70 @@ import {
 import {getObjectAttributes} from '../../utils/vector.js';
 
 class ObjectResizeToolContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isResizing: false,
+            mouseStartPosition: {
+                x: null,
+                y: null
+            },
+            resizeDirection: null,
+            objectInitState: null
+        }
+    }
 
-    onDotMouseDown(e){
-        this.props.setObjectMode(this.props.object.id, 'resize');
-        this.props.updateEditMode('resize');
-        this.props.saveEditObjectInitState(this.props.object.id);
-        this.props.setMouseStartPosition(e.clientX, e.clientY);
-        this.props.setResizeDirection(e.target.getAttribute('name'))
+    componentDidUpdate() {
+        if (this.state.isResizing) {
+            document.addEventListener('mousemove', this.onMouseMove)
+            document.addEventListener('mouseup', this.onMouseUp)
+        }
+        else {
+            document.removeEventListener('mousemove', this.onMouseMove)
+            document.removeEventListener('mouseup', this.onMouseUp)
+        }
+    }
+
+    onMouseMove = (e) => {
+        const {object, resizeObjects} = this.props;
+        const {mouseStartPosition, resizeDirection, objectInitState} = this.state;
+        const mousePosition = {x: e.clientX, y: e.clientY};
+        const updatedValues = getObjectResizeValues(
+            mousePosition,
+            resizeDirection,
+            objectInitState,
+            mouseStartPosition,
+            {x: object.x, y: object.y, width: object.width, height: object.height}
+        );
+        resizeObjects({
+                ids: [object.id],
+                ...updatedValues
+            }
+        );
+    }
+
+    onMouseUp = () =>{
+        this.setState({
+            isResizing: false,
+            mouseStartPosition: {
+                x: null,
+                y: null
+            }
+        })
+    }
+
+    onMouseDown = (e) => {
+        const {object} = this.props;
+
+        this.setState({
+            isResizing: true,
+            objectInitState: {...object},
+            resizeDirection: e.target.getAttribute('name'),
+            mouseStartPosition: {
+                x: e.clientX,
+                y: e.clientY
+            }
+        })
     }
 
     render() {
@@ -87,7 +145,7 @@ class ObjectResizeToolContainer extends React.Component {
                     fill="none" stroke="#00a8ff" strokeDasharray="3 3" pointerEvents="none"/>
 
                 {helperConfig.dots.map(function (dot) {
-                    return <circle key={dot.name} name={dot.name} cx={dot.x} cy={dot.y} fill="#34B7EF" r="5" style={{cursor: dot.name + '-resize'}} onMouseDown={self.onDotMouseDown.bind(self)}/>
+                    return <circle key={dot.name} name={dot.name} cx={dot.x} cy={dot.y} fill="#34B7EF" r="5" style={{cursor: dot.name + '-resize'}} onMouseDown={self.onMouseDown.bind(self)}/>
                 })}
             </g>
         )
