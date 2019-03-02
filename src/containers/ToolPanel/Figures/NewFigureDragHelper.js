@@ -79,7 +79,7 @@ class NewFigureDragHelper extends React.PureComponent {
         };
 
         return (
-            <div style={{position: 'relative'}} onMouseMove={this.onMouseMove.bind(this)}
+            <div className="new-figure-drag-helper" onMouseMove={this.onMouseMove.bind(this)}
                  onMouseUp={this.onMouseUp.bind(this)}>
                 {this.recursiveCloneChildren(this.props.children)}
 

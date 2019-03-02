@@ -148,6 +148,7 @@ class SelectToolContainer extends React.Component {
                 onMouseMove={this.onMouseMove}
                 onMouseUp={this.onMouseUp}
                 ref={this.selectToolContainerRef}
+                className="svg-render-wrap"
             >
                 {children}
                 {selectToolActive ?

@@ -1,12 +1,9 @@
 import React from 'react'
 import LayoutBuilder from '../layoutBuilder'
 
-const App = () => (
-  <div>
-    <main>
+const App = () =>
+    <div className="container">
         <LayoutBuilder/>
-    </main>
-  </div>
-)
+    </div>
 
 export default App

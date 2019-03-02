@@ -7,7 +7,7 @@ import SelectToolContainer from './../SelectTool/SelectToolContainer';
 class LayoutBuilder extends React.Component {
     render() {
         return (
-            <div>
+            <div className="layout-builder">
                 <NewFiguresDragHelper>
                     <SelectToolContainer ref="SelectToolContainer">
                         <SvgRenderContainer ref="SvgRenderContainer"/>
