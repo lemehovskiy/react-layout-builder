@@ -1,33 +1,17 @@
 import React from 'react'
+import toolPanelVectorStyle from '../ToolPanel/Figures/Figures.module.scss';
 
-const NewDraggableObject = () => {
-
-    const recursiveCloneChildren = (children) => {
-        return React.Children.map(children, child => {
-            let childProps = {};
-            if (React.isValidElement(child)) {
-                childProps = {ref: child.ref};
-            }
-            childProps.children = this.recursiveCloneChildren(child.props.children);
-
-            return React.cloneElement(child, childProps);
-        })
-    }
+const NewDraggableObject = ({objectPosition}) => {
 
     const dragItemPosition = {
-        left: this.state.objectPosition.x,
-        top: this.state.objectPosition.y
+        left: objectPosition.x,
+        top: objectPosition.y
     };
 
     return (
-        <div className="new-figure-drag-helper" onMouseMove={this.onMouseMove.bind(this)}
-             onMouseUp={this.onMouseUp.bind(this)}>
-            {recursiveCloneChildren(this.props.children)}
+        <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
+             style={dragItemPosition}/>
 
-            {this.props.newFigureDragData !== null ?
-                <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
-                     style={dragItemPosition}/> : null}
-        </div>
     );
 }
 

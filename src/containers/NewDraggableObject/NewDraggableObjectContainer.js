@@ -2,14 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import toolPanelVectorStyle from '../ToolPanel/Figures/Figures.module.scss';
 
 import {generateID, isMouseOnElement} from "../../utils/helpers"
 
 import {setNewFigureDragData} from "../../actions/layoutBuilderActions"
 import {addNewObject} from "../../actions/index"
 
-// import NewDraggableObject from './NewDraggableObject';
+import NewDraggableObject from './NewDraggableObject';
 
 class NewDraggableObjectContainer extends React.PureComponent {
     constructor(props) {
@@ -75,7 +74,7 @@ class NewDraggableObjectContainer extends React.PureComponent {
         }
     }
 
-    recursiveCloneChildren(children) {
+    recursiveCloneChildren = (children) => {
         return React.Children.map(children, child => {
             let childProps = {};
             if (React.isValidElement(child)) {
@@ -88,28 +87,23 @@ class NewDraggableObjectContainer extends React.PureComponent {
     }
 
     render() {
-        const dragItemPosition = {
-            left: this.state.objectPosition.x,
-            top: this.state.objectPosition.y
-        };
+        const {objectPosition} = this.state;
+        const {newFigureDragData, children} = this.props;
 
         return (
-            <div className="new-figure-drag-helper" onMouseMove={this.onMouseMove.bind(this)}
-                 onMouseUp={this.onMouseUp.bind(this)}>
-                {this.recursiveCloneChildren(this.props.children)}
+            <div className="new-figure-drag-helper" onMouseMove={this.onMouseMove}
+                 onMouseUp={this.onMouseUp}>
+                {this.recursiveCloneChildren(children)}
 
-                {this.props.newFigureDragData !== null ?
-                    <div className={`${toolPanelVectorStyle['new-figure']} ${toolPanelVectorStyle['rectangle']}`}
-                         style={dragItemPosition}/> : null}
+                {newFigureDragData !== null ? <NewDraggableObject objectPosition={objectPosition}/> : null}
             </div>
-        );
+        )
     }
 }
 
 const mapStateToProps = ({layoutBuilder}) => ({
     newFigureDragData: layoutBuilder.newFigureDragData
 })
-
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
