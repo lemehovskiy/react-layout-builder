@@ -1,4 +1,5 @@
 import React from 'react'
+import textPanelStyle from './TextPanel.module.scss';
 
 const buttonsConfig = [
     {
@@ -33,7 +34,7 @@ class VerticalAlignPanel extends React.Component {
                         buttonsConfig.map((button) => {
                             return (
                                 <button
-                                    className={self.props.activeValue === button.value ? 'vertical-align-btn-group__btn vertical-align-btn-group__btn_active' : 'vertical-align-btn-group__btn'}
+                                    className={self.props.activeValue === button.value ? `${textPanelStyle['vertical-align-btn-group__btn_active']}` : null}
                                     key={button.value} value={button.value}
                                     onClick={self.onClick.bind(this)}>{button.label}</button>
                             )

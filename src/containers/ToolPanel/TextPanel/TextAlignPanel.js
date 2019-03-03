@@ -1,4 +1,5 @@
 import React from 'react'
+import textPanelStyle from './TextPanel.module.scss';
 
 const buttonsConfig = [
     {
@@ -33,7 +34,7 @@ class TextAlignPanel extends React.Component {
                         buttonsConfig.map((button) => {
                             return (
                                 <button
-                                    className={self.props.activeValue === button.value ? 'text-align-btn-group__btn text-align-btn-group__btn_active' : 'text-align-btn-group__btn'}
+                                    className={self.props.activeValue === button.value ? `${textPanelStyle['text-align-btn-group__btn_active']}` : null}
                                     key={button.value} value={button.value}
                                     onClick={self.onClick.bind(this)}>{button.label}</button>
                             )
