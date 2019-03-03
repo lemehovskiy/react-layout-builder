@@ -28,31 +28,13 @@ class SelectToolContainer extends React.Component {
             selectToolPosition: {
                 x: null,
                 y: null
-            },
-            svgOffset: {
-                x: null,
-                y: null
             }
         }
     }
 
-    componentDidMount() {
-        this.setOffset();
-        window.addEventListener('resize', this.onResize)
-    }
-
-    onResize = () => {
-        this.setOffset();
-    }
-
-    setOffset = () => {
+    getSvgOffset = () => {
         const {x, y} = this.selectToolContainerRef.current.getBoundingClientRect();
-        this.setState({
-            svgOffset: {
-                x: x,
-                y: y
-            }
-        })
+        return {offsetX: x, offsetY: y}
     }
 
     onMouseMove = (e) => this.updateSelectToolData({x: e.clientX, y: e.clientY});
@@ -66,10 +48,11 @@ class SelectToolContainer extends React.Component {
     }
 
     setSelectStartPosition(mousePosition) {
+        const {offsetX, offsetY} = this.getSvgOffset();
         this.setState({
             selectToolStartPoint: {
-                x: mousePosition.x - this.state.svgOffset.x,
-                y: mousePosition.y - this.state.svgOffset.y
+                x: mousePosition.x - offsetX,
+                y: mousePosition.y - offsetY
             }
         })
     }
@@ -90,7 +73,6 @@ class SelectToolContainer extends React.Component {
     handleSelectTool() {
         const {selectToolPosition, selectToolSize} = this.state;
         const {deselectAllObjects, selectObjects, objects} = this.props;
-
         if (selectToolSize.x === null || selectToolSize.y === null) return;
 
         let selectedObjectIds = [];
@@ -122,12 +104,16 @@ class SelectToolContainer extends React.Component {
         this.setState({
             selectToolActive: false,
             selectToolStartPoint: {x: null, y: null},
-            selectToolSize: {x: null, y: null}
+            selectToolSize: {x: null, y: null},
+            selectToolPosition: {x: null, y: null},
         });
     }
 
     updateSelectToolData(mousePosition) {
-        const {selectToolStartPoint, svgOffset} = this.state;
+        const {offsetX, offsetY} = this.getSvgOffset();
+        const svgOffset = {x: offsetX, y: offsetY};
+        const {selectToolStartPoint} = this.state;
+
         if (selectToolStartPoint.x === null) return;
 
         const selectToolSize = getSelectToolSize(
