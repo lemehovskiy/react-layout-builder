@@ -2,29 +2,33 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import toolPanelVectorStyle from './Figures.module.scss';
+import toolPanelVectorStyle from '../ToolPanel/Figures/Figures.module.scss';
 
-import {generateID} from "../../../utils/helpers"
+import {generateID, isMouseOnElement} from "../../utils/helpers"
 
-import {setNewFigureDragData} from "../../../actions/layoutBuilderActions"
-import {addNewObject} from "../../../actions"
+import {setNewFigureDragData} from "../../actions/layoutBuilderActions"
+import {addNewObject} from "../../actions/index"
 
+// import NewDraggableObject from './NewDraggableObject';
 
-class NewFigureDragHelper extends React.PureComponent {
+class NewDraggableObjectContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            mousePosition: {
+            objectPosition: {
                 x: null,
                 y: null
             }
         }
     }
 
-    onMouseUp(e) {
-        let svgRenderClientRect = ReactDOM.findDOMNode(this.refs['SvgRenderContainer']).getBoundingClientRect();
+    onMouseUp = (e) => {
+        if (this.props.newFigureDragData === null) return;
 
-        if ((e.pageX > svgRenderClientRect.left && e.pageX < svgRenderClientRect.right) && (e.pageY > svgRenderClientRect.top && e.pageY < svgRenderClientRect.bottom)) {
+        const svgRenderClientRect = ReactDOM.findDOMNode(this.refs['SvgRenderContainer']);
+        const mousePosition = {x: e.clientX, y: e.clientY};
+
+        if (isMouseOnElement(svgRenderClientRect, mousePosition)) {
             this.props.addNewObject({
                     id: generateID(),
                     width: 30,
@@ -33,12 +37,16 @@ class NewFigureDragHelper extends React.PureComponent {
                     fill: 'none',
                     radius: "0",
                     type: "rectangle",
-                    x: this.state.mousePosition.x - svgRenderClientRect.x,
-                    y: this.state.mousePosition.y - svgRenderClientRect.y
+                    x: this.state.objectPosition.x,
+                    y: this.state.objectPosition.y
                 }
             )
         }
+        this.resetData();
 
+    }
+
+    resetData() {
         this.props.setNewFigureDragData(null);
         this.setState({
             mousePosition: {
@@ -46,15 +54,22 @@ class NewFigureDragHelper extends React.PureComponent {
                 y: null
             }
         })
-
     }
 
-    onMouseMove(e) {
+    getOffset = () => {
+        const {x, y} = ReactDOM.findDOMNode(this.refs['SvgRenderContainer']).getBoundingClientRect();
+        return {offsetX: x, offsetY: y}
+    }
+
+    onMouseMove = (e) => {
+        if (this.props.newFigureDragData === null) return;
+
+        const {offsetX, offsetY} = this.getOffset()
         if (this.props.newFigureDragData !== null) {
             this.setState({
-                mousePosition: {
-                    x: e.pageX + this.props.newFigureDragData.figureOffset.x,
-                    y: e.pageY + this.props.newFigureDragData.figureOffset.y
+                objectPosition: {
+                    x: e.clientX - offsetX + this.props.newFigureDragData.figureOffset.x,
+                    y: e.clientY - offsetY + this.props.newFigureDragData.figureOffset.y
                 }
             })
         }
@@ -74,8 +89,8 @@ class NewFigureDragHelper extends React.PureComponent {
 
     render() {
         const dragItemPosition = {
-            left: this.state.mousePosition.x,
-            top: this.state.mousePosition.y
+            left: this.state.objectPosition.x,
+            top: this.state.objectPosition.y
         };
 
         return (
@@ -105,4 +120,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NewFigureDragHelper)
+)(NewDraggableObjectContainer)

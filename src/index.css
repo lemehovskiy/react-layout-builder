@@ -26,6 +26,7 @@ button:disabled {
 
 .new-figure-drag-helper {
     display: flex;
+    position: relative;
 }
 
 #svg-render {

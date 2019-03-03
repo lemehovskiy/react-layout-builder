@@ -36,3 +36,8 @@ export const isInt = (value) => {
 export const generateID = () => {
     return '_' + Math.random().toString(36).substr(2, 9);
 }
+
+export const isMouseOnElement = (node, mousePosition) => {
+    const {left, right, top, bottom} = node.getBoundingClientRect();
+    return (mousePosition.x > left && mousePosition.x < right) && (mousePosition.y > top && mousePosition.y < bottom)
+}
