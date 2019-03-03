@@ -23,9 +23,10 @@ const initialState = {
 
         selectedObjectsId: [],
 
-        objects: [
-            {
-                id: 1,
+        objectsById: ['1', '2'],
+        objectsByHash: {
+            '1': {
+                id: '1',
                 width: 163,
                 height: 84,
                 rotate: 0,
@@ -43,8 +44,8 @@ const initialState = {
 
                 }
             },
-            {
-                id: 2,
+            '2': {
+                id: '2',
                 width: 200,
                 height: 300,
                 rotate: 0,
@@ -62,14 +63,14 @@ const initialState = {
 
                 }
             }
-        ],
-        editObjectInitState: null
+        }
     }
 }
 const enhancers = []
 const middleware = [thunk, routerMiddleware(history)]
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development'
+) {
     const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
 
     if (typeof devToolsExtension === 'function') {

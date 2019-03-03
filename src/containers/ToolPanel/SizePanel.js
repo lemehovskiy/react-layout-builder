@@ -56,7 +56,7 @@ class SizePanel extends React.Component {
 }
 
 const mapStateToProps = ({svgRender, resizeTool}) => ({
-    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
+    selectedObjects: Object.keys(svgRender.objectsByHash).filter(key => svgRender.selectedObjectsId.includes(key)),
     selectedObjectsId: svgRender.selectedObjectsId
 })
 

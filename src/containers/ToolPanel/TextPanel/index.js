@@ -16,17 +16,21 @@ import {
 
 class TextPanel extends React.Component {
     render() {
+        const {selectedObjectsByHash, setVerticalAlign} = this.props;
+
         return (
             <div>
-                <VerticalAlignPanel setVerticalAlign={this.props.setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.verticalAlign')}/>
-                <TextAlignPanel setTextAlign={this.props.setTextAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(this.props.selectedObjects, 'textProps.textAlign')}/>
+                <VerticalAlignPanel setVerticalAlign={setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(selectedObjectsByHash, 'textProps.verticalAlign')}/>
+                <TextAlignPanel setTextAlign={setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(selectedObjectsByHash, 'textProps.textAlign')}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = ({svgRender}) => ({
-    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id))
+    selectedObjectsByHash: svgRender.selectedObjectsId.map((item) => svgRender.objectsByHash[item]),
+    selectedObjects: svgRender.selectedObjectsId
+
 })
 
 const mapDispatchToProps = dispatch =>

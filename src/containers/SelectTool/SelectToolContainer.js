@@ -72,11 +72,12 @@ class SelectToolContainer extends React.Component {
 
     handleSelectTool() {
         const {selectToolPosition, selectToolSize} = this.state;
-        const {deselectAllObjects, selectObjects, objects} = this.props;
+        const {deselectAllObjects, selectObjects, objectsById, objectsByHash} = this.props;
         if (selectToolSize.x === null || selectToolSize.y === null) return;
 
         let selectedObjectIds = [];
-        objects.forEach(function (object) {
+        objectsById.forEach((item) => {
+            const object = objectsByHash[item];
             if (checkRectRectCollision({
                         x: object.x,
                         y: object.y,
@@ -154,7 +155,9 @@ class SelectToolContainer extends React.Component {
 }
 
 const mapStateToProps = ({svgRender}) => ({
-    objects: svgRender.objects
+    objectsByHash: svgRender.objectsByHash,
+    objectsById: svgRender.objectsById,
+
 })
 
 const mapDispatchToProps = dispatch =>

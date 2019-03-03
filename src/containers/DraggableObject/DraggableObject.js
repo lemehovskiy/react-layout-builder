@@ -67,8 +67,8 @@ class FigureDragger extends React.Component {
     }
 }
 
-const mapStateToProps = ({svgRender, resizeTool, layoutBuilder}) => ({
-    selectedObjects: svgRender.objects.filter(object => svgRender.selectedObjectsId.includes(object.id)),
+const mapStateToProps = ({svgRender}) => ({
+    selectedObjects: Object.keys(svgRender.objectsByHash).filter(key => svgRender.selectedObjectsId.includes(key)),
     selectedObjectsId: svgRender.selectedObjectsId
 })
 

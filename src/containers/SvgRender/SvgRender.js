@@ -4,7 +4,7 @@ import Rectangle from '../Figures/Rectangle';
 import Text from '../Figures/Text';
 import DraggableObject from '../DraggableObject/DraggableObject';
 
-const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, selectedObjectsId}) => {
+const SvgRender = ({onMouseMove, onMouseUp, onMouseDown, objectsById, objectsByHash, selectedObjectsId}) => {
     return (
         <svg id="svg-render" width='800' height='500'
              onMouseMove={onMouseMove}
@@ -12,9 +12,9 @@ const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, sele
              onMouseDown={onMouseDown}>
 
             <DraggableObject>
-                {objects.map(function (object) {
+                {objectsById.map((item, index) => {
                     let vectorType = null;
-                    switch (object.type) {
+                    switch (objectsByHash[item].type) {
                         case 'rectangle': {
                             vectorType = <Rectangle/>;
                             break;
@@ -28,7 +28,7 @@ const SvgRender = ({children, onMouseMove, onMouseUp, onMouseDown, objects, sele
                         }
                     }
                     return (
-                        <Object key={object.id} object={object} selectedObjectsId={selectedObjectsId}>
+                        <Object key={index} object={objectsByHash[item]} selectedObjectsId={selectedObjectsId}>
                             {vectorType}
                         </Object>
                     )
