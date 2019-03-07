@@ -33,11 +33,25 @@ function updateItemInArray(array, itemId, updateItemCallback) {
     return updatedItems
 }
 
+function updateObjects(state, ids, payload) {
+    let updatedObjectsByHash = {...state.objectsByHash};
+
+    ids.forEach((id) => {
+        updatedObjectsByHash[id] = {
+            ...updatedObjectsByHash[id],
+            ...payload
+        }
+    });
+
+    return {...state, objectsByHash: updatedObjectsByHash};
+}
+
 
 const initialState = {};
 
 export default (state = initialState, action) => {
     let updatedItems = [];
+    let updatedObjectsByHash = {};
 
     switch (action.type) {
         case SELECT_OBJECTS:
@@ -47,49 +61,24 @@ export default (state = initialState, action) => {
             return {...state, selectedObjectsId: []}
 
         case DESELECT_ALL_OBJECTS_EXEPT:
-                return {...state, selectedObjectsId: [action.payload]}
+            return {...state, selectedObjectsId: [action.payload]}
         case MOVE_OBJECT:
-            updatedItems = state.objects.map(object => {
-                if (action.payload.ids.includes(object.id)) {
-                    return {
-                        ...object,
-                        x: action.payload.x !== null ? action.payload.x : object.x,
-                        y: action.payload.y !== null ? action.payload.y : object.y
-                    }
-                }
-                return object
-            })
-            return {...state, objects: updatedItems}
+            return updateObjects(state, action.payload.ids, action.payload);
 
         case SET_OBJECT_EDIT_START_POSITION:
-            updatedItems = state.objects.map(object => {
-                if (state.selectedObjectsId.includes(object.id)) {
-                    return {
-                        ...object,
-                        editStartPositionOffset: {
-                            x: action.payload.x - object.x,
-                            y: action.payload.y - object.y
-                        }
-                    }
+            updatedObjectsByHash = {...state.objectsByHash};
+
+            state.selectedObjectsId.forEach((id) => {
+                updatedObjectsByHash[id].editStartPositionOffset = {
+                    x: action.payload.x - updatedObjectsByHash[id].x,
+                    y: action.payload.y - updatedObjectsByHash[id].y
                 }
-                return object
-            })
-            return {...state, objects: updatedItems}
+            });
+
+            return {...state, objectsByHash: updatedObjectsByHash}
 
         case RESIZE_OBJECTS:
-            updatedItems = state.objects.map(object => {
-                if (action.payload.ids.includes(object.id)) {
-                    return {
-                        ...object,
-                        x: action.payload.x !== null ? action.payload.x : object.x,
-                        y: action.payload.y !== null ? action.payload.y : object.y,
-                        width: action.payload.width !== null ? action.payload.width : object.width,
-                        height: action.payload.height !== null ? action.payload.height : object.height
-                    }
-                }
-                return object
-            })
-            return {...state, objects: updatedItems}
+            return updateObjects(state, action.payload.ids, action.payload);
 
         case ROTATE_OBJECT:
             updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
@@ -134,7 +123,7 @@ export default (state = initialState, action) => {
                     return {
                         ...item,
                         fill: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-                        
+
                     }
                 }
                 return item

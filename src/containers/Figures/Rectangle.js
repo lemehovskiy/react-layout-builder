@@ -21,7 +21,7 @@ const Rectangle = ({object, onMouseDown, onMouseUp, selectedObjectsId}) => {
                   onMouseUp={onMouseUp}
             />
 
-            {object.text ? <Text object={object}/> : ''}
+            {object.text ? <Text object={object}/> : null}
 
             {selectedObjectsId.includes(object.id) ? <g><ObjectResizeTool object={object}/> <ObjectRotateTool object={object}/></g> : null}
 

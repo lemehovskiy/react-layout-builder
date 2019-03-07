@@ -8,9 +8,11 @@ import {
     resizeObjects
 } from '../../actions/index'
 
-class ObjectResizeToolContainer extends React.Component {
+class ObjectResizeToolContainer extends React.PureComponent {
     constructor(props) {
         super(props);
+
+        console.log(props)
         this.state = {
             isResizing: false,
             mouseStartPosition: {

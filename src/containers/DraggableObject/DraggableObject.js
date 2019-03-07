@@ -6,7 +6,7 @@ import {
     moveObject
 } from '../../actions/index'
 
-class FigureDragger extends React.Component {
+class FigureDragger extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -68,7 +68,7 @@ class FigureDragger extends React.Component {
 }
 
 const mapStateToProps = ({svgRender}) => ({
-    selectedObjects: Object.keys(svgRender.objectsByHash).filter(key => svgRender.selectedObjectsId.includes(key)),
+    selectedObjects: svgRender.selectedObjectsId.map((item) => svgRender.objectsByHash[item]),
     selectedObjectsId: svgRender.selectedObjectsId
 })
 

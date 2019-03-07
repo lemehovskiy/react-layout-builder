@@ -9,7 +9,7 @@ import {
 } from '../../actions/index'
 
 
-class ObjectRotateToolContainer extends React.Component {
+class ObjectRotateToolContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
