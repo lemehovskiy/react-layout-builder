@@ -16,12 +16,12 @@ import {
 
 class TextPanel extends React.Component {
     render() {
-        const {selectedObjectsByHash, setVerticalAlign} = this.props;
+        const {selectedObjectsByHash, setVerticalAlign, setTextAlign} = this.props;
 
         return (
             <div>
                 <VerticalAlignPanel setVerticalAlign={setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(selectedObjectsByHash, 'textProps.verticalAlign')}/>
-                <TextAlignPanel setTextAlign={setVerticalAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(selectedObjectsByHash, 'textProps.textAlign')}/>
+                <TextAlignPanel setTextAlign={setTextAlign.bind(this)} activeValue={getEqualPropertyValueFromSelectedObjects(selectedObjectsByHash, 'textProps.textAlign')}/>
             </div>
         )
     }

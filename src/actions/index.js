@@ -5,7 +5,7 @@ import {
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
-    SET_OBJECT_EDIT_START_POSITION,
+    SET_SELECTED_OBJECTS_EDIT_START_POSITION,
     RESIZE_OBJECTS,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
@@ -74,10 +74,10 @@ export const moveObject = (payload) => {
     }
 }
 
-export const setObjectEditStartPosition = (x, y) => {
+export const setSelectedObjectsEditStartPosition = (x, y) => {
     return dispatch => {
         dispatch({
-            type: SET_OBJECT_EDIT_START_POSITION,
+            type: SET_SELECTED_OBJECTS_EDIT_START_POSITION,
             payload: {
                 x: x,
                 y: y
@@ -100,7 +100,10 @@ export const rotateObject = ({id, rotate}) => {
     return dispatch => {
         dispatch({
             type: ROTATE_OBJECT,
-            payload: {id, rotate}
+            id: id,
+            payload: {
+                rotate: rotate
+            }
         })
     }
 }
@@ -109,7 +112,9 @@ export const setTextAlign = (value) => {
     return dispatch => {
         dispatch({
             type: SET_TEXT_ALIGN,
-            payload: {value}
+            payload: {
+                textAlign: value
+            }
         })
     }
 }
@@ -118,7 +123,9 @@ export const setVerticalAlign = (value) => {
     return dispatch => {
         dispatch({
             type: SET_VERTICAL_ALIGN,
-            payload: {value}
+            payload: {
+                verticalAlign: value
+            }
         })
     }
 }
@@ -127,7 +134,9 @@ export const setFillColor = (value) => {
     return dispatch => {
         dispatch({
             type: SET_FILL_COLOR,
-            payload: {value}
+            payload: {
+                fill: value === null ? 'none' : `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a})`
+            }
         })
     }
 }
@@ -145,7 +154,9 @@ export const setStrokeWidth = (value) => {
     return dispatch => {
         dispatch({
             type: SET_STROKE_WIDTH,
-            payload: {value}
+            payload: {
+                strokeWidth: value
+            }
         })
     }
 }
@@ -154,6 +165,7 @@ export const addNewObject = (object) => {
     return dispatch => {
         dispatch({
             type: ADD_NEW_OBJECT,
+            id: object.id,
             payload: {
                 object: object
             }

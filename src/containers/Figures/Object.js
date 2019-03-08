@@ -7,7 +7,7 @@ import {
     setMouseStartPosition,
     selectObjects,
     deselectAllObjects,
-    setObjectEditStartPosition,
+    setSelectedObjectsEditStartPosition,
     deselectAllObjectsExept
 } from '../../actions/index'
 
@@ -24,7 +24,7 @@ const Vector = (props) => {
 
     const onMouseDown = (e) => {
 
-        const {object, selectObjects, selectedObjectsId, deselectAllObjects, setMouseStartPosition, setObjectEditStartPosition, updateEditMode} = props;
+        const {object, selectObjects, selectedObjectsId, deselectAllObjects, setSelectedObjectsEditStartPosition} = props;
         const objectSelected = selectedObjectsId.includes(object.id);
 
         if (!e.shiftKey && !objectSelected) {
@@ -34,8 +34,8 @@ const Vector = (props) => {
             selectObjects([object.id])
         }
 
-        //TODO move setObjectEditStartPosition to DraggableObject
-        setObjectEditStartPosition(e.clientX, e.clientY);
+        //TODO move setSelectedObjectsEditStartPosition to DraggableObject
+        setSelectedObjectsEditStartPosition(e.clientX, e.clientY);
         props.onMouseDown(e);
     }
     return React.cloneElement(props.children, {onMouseUp: onMouseUp, onMouseDown: onMouseDown, object: props.object, selectedObjectsId: props.selectedObjectsId})
@@ -51,7 +51,7 @@ const mapDispatchToProps = dispatch =>
             setMouseStartPosition,
             selectObjects,
             deselectAllObjects,
-            setObjectEditStartPosition,
+            setSelectedObjectsEditStartPosition,
             deselectAllObjectsExept
         },
         dispatch

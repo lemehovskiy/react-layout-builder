@@ -4,7 +4,7 @@ import {
     DESELECT_ALL_OBJECTS,
     DESELECT_ALL_OBJECTS_EXEPT,
     MOVE_OBJECT,
-    SET_OBJECT_EDIT_START_POSITION,
+    SET_SELECTED_OBJECTS_EDIT_START_POSITION,
     RESIZE_OBJECTS,
     ROTATE_OBJECT,
     SET_TEXT_ALIGN,
@@ -13,25 +13,6 @@ import {
     SET_STROKE_COLOR,
     SET_STROKE_WIDTH
 } from './../constants';
-
-function updateObject(oldObject, newValues) {
-    return Object.assign({}, oldObject, newValues)
-}
-
-function updateItemInArray(array, itemId, updateItemCallback) {
-    const updatedItems = array.map(item => {
-        if (item.id !== itemId) {
-            // Since we only want to update one item, preserve all others as they are now
-            return item
-        }
-
-        // Use the provided callback to create an updated item
-        const updatedItem = updateItemCallback(item)
-        return updatedItem
-    })
-
-    return updatedItems
-}
 
 function updateObjects(state, ids, payload) {
     let updatedObjectsByHash = {...state.objectsByHash};
@@ -46,11 +27,37 @@ function updateObjects(state, ids, payload) {
     return {...state, objectsByHash: updatedObjectsByHash};
 }
 
+function updateSelectedObjectsTextProps(state, payload) {
+    let updatedObjectsByHash = {...state.objectsByHash};
+
+    state.selectedObjectsId.forEach((id) => {
+        updatedObjectsByHash[id] = {
+            ...updatedObjectsByHash[id],
+            textProps: {
+                ...updatedObjectsByHash[id].textProps,
+                ...payload
+            }
+        }
+    });
+
+    return {...state, objectsByHash: updatedObjectsByHash};
+}
+
+
+function updateObject(state, id, payload) {
+    let updatedObjectsByHash = {...state.objectsByHash};
+
+    updatedObjectsByHash[id] = {
+        ...updatedObjectsByHash[id],
+        ...payload
+    }
+
+    return {...state, objectsByHash: updatedObjectsByHash};
+}
 
 const initialState = {};
 
 export default (state = initialState, action) => {
-    let updatedItems = [];
     let updatedObjectsByHash = {};
 
     switch (action.type) {
@@ -62,16 +69,20 @@ export default (state = initialState, action) => {
 
         case DESELECT_ALL_OBJECTS_EXEPT:
             return {...state, selectedObjectsId: [action.payload]}
+
         case MOVE_OBJECT:
             return updateObjects(state, action.payload.ids, action.payload);
 
-        case SET_OBJECT_EDIT_START_POSITION:
+        case SET_SELECTED_OBJECTS_EDIT_START_POSITION:
             updatedObjectsByHash = {...state.objectsByHash};
 
             state.selectedObjectsId.forEach((id) => {
-                updatedObjectsByHash[id].editStartPositionOffset = {
-                    x: action.payload.x - updatedObjectsByHash[id].x,
-                    y: action.payload.y - updatedObjectsByHash[id].y
+                updatedObjectsByHash[id] = {
+                    ...updatedObjectsByHash[id],
+                    editStartPositionOffset: {
+                        x: action.payload.x - updatedObjectsByHash[id].x,
+                        y: action.payload.y - updatedObjectsByHash[id].y
+                    }
                 }
             });
 
@@ -81,84 +92,32 @@ export default (state = initialState, action) => {
             return updateObjects(state, action.payload.ids, action.payload);
 
         case ROTATE_OBJECT:
-            updatedItems = updateItemInArray(state.objects, action.payload.id, object => {
-                return updateObject(object, {rotate: action.payload.rotate})
-            })
-            return updateObject(state, {objects: updatedItems})
+            return updateObject(state, action.id, action.payload);
 
         case SET_VERTICAL_ALIGN:
-            updatedItems = state.objects.map(item => {
-                if (state.selectedObjectsId.includes(item.id)) {
-                    return {
-                        ...item,
-                        textProps: {
-                            ...item.textProps,
-                            verticalAlign: action.payload.value
-                        }
-                    }
-                }
-                return item
-            })
-            return {...state, objects: updatedItems}
+            return updateSelectedObjectsTextProps(state, action.payload);
 
         case SET_TEXT_ALIGN:
-            updatedItems = state.objects.map(item => {
-                if (state.selectedObjectsId.includes(item.id)) {
-                    return {
-                        ...item,
-                        textProps: {
-                            ...item.textProps,
-                            textAlign: action.payload.value
-                        }
-                    }
-                }
-                return item
-            })
-            return {...state, objects: updatedItems}
+            return updateSelectedObjectsTextProps(state, action.payload);
 
         case SET_FILL_COLOR:
-            updatedItems = state.objects.map(item => {
-                if (state.selectedObjectsId.includes(item.id)) {
-                    let color = action.payload.value;
-                    return {
-                        ...item,
-                        fill: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-
-                    }
-                }
-                return item
-            })
-            return {...state, objects: updatedItems}
+            return updateObjects(state, state.selectedObjectsId, action.payload);
 
         case SET_STROKE_COLOR:
-            updatedItems = state.objects.map(item => {
-                if (state.selectedObjectsId.includes(item.id)) {
-                    let color = action.payload.value;
-                    return {
-                        ...item,
-                        stroke: color === null ? 'none' : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-
-                    }
-                }
-                return item
-            })
-            return {...state, objects: updatedItems}
+            return updateObjects(state, state.selectedObjectsId, action.payload);
 
         case SET_STROKE_WIDTH:
-            updatedItems = state.objects.map(item => {
-                if (state.selectedObjectsId.includes(item.id)) {
-                    return {
-                        ...item,
-                        strokeWidth: action.payload.value
-
-                    }
-                }
-                return item
-            })
-            return {...state, objects: updatedItems}
+            return updateObjects(state, state.selectedObjectsId, action.payload);
 
         case ADD_NEW_OBJECT:
-            return {...state, objects: [...state.objects, action.payload.object]}
+            return {
+                ...state,
+                objectsById: [...state.objectsById, action.id],
+                objectsByHash: {
+                    ...state.objectsByHash,
+                    [action.id]: action.payload.object
+                }
+            }
 
         default:
             return state
