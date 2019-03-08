@@ -11,17 +11,15 @@ import {
     getEqualPropertyValueFromSelectedObjects,
 } from '../../utils/helpers';
 
-
 class SizePanel extends React.Component {
     onChange(name, value) {
         let self = this;
+        const payload = name === 'width' ? {width: value} : {height: value};
 
         self.props.resizeObjects({
                 ids: this.props.selectedObjectsId,
-                x: null,
-                y: null,
-                width: name === 'width' ? value : null,
-                height: name === 'height' ? value : null
+                payload: payload
+
             }
         )
     }

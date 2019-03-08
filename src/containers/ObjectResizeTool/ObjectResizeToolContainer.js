@@ -47,7 +47,7 @@ class ObjectResizeToolContainer extends React.PureComponent {
         );
         resizeObjects({
                 ids: [object.id],
-                ...updatedValues
+                payload: {...updatedValues}
             }
         );
     }

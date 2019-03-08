@@ -38,8 +38,10 @@ class FigureDragger extends React.PureComponent {
         selectedObjects.forEach(function (object) {
             moveObject({
                 ids: [object.id],
-                x: e.clientX - object.editStartPositionOffset.x,
-                y: e.clientY - object.editStartPositionOffset.y
+                payload: {
+                    x: e.clientX - object.editStartPositionOffset.x,
+                    y: e.clientY - object.editStartPositionOffset.y
+                }
             });
         })
     }

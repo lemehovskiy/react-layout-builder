@@ -65,10 +65,11 @@ export const deselectAllObjectsExept = (id) => {
 }
 
 
-export const moveObject = (payload) => {
+export const moveObject = ({ids, payload}) => {
     return dispatch => {
         dispatch({
             type: MOVE_OBJECT,
+            ids: ids,
             payload: payload
         })
     }
@@ -87,11 +88,13 @@ export const setSelectedObjectsEditStartPosition = (x, y) => {
 }
 
 
-export const resizeObjects = (props) => {
+export const resizeObjects = ({ids, payload}) => {
     return dispatch => {
         dispatch({
             type: RESIZE_OBJECTS,
-            payload: props
+            ids: ids,
+            payload: payload
+
         })
     }
 }
@@ -145,7 +148,9 @@ export const setStrokeColor = (value) => {
     return dispatch => {
         dispatch({
             type: SET_STROKE_COLOR,
-            payload: {value}
+            payload: {
+                stroke: value === null ? 'none' : `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a})`
+            }
         })
     }
 }

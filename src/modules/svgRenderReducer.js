@@ -27,30 +27,18 @@ function updateObjects(state, ids, payload) {
     return {...state, objectsByHash: updatedObjectsByHash};
 }
 
-function updateSelectedObjectsTextProps(state, payload) {
+function updateObjectNestedProps(state, ids, payload, nestedProps) {
     let updatedObjectsByHash = {...state.objectsByHash};
 
-    state.selectedObjectsId.forEach((id) => {
+    ids.forEach((id) => {
         updatedObjectsByHash[id] = {
             ...updatedObjectsByHash[id],
-            textProps: {
-                ...updatedObjectsByHash[id].textProps,
+        [nestedProps]: {
+                ...updatedObjectsByHash[id][nestedProps],
                 ...payload
             }
         }
     });
-
-    return {...state, objectsByHash: updatedObjectsByHash};
-}
-
-
-function updateObject(state, id, payload) {
-    let updatedObjectsByHash = {...state.objectsByHash};
-
-    updatedObjectsByHash[id] = {
-        ...updatedObjectsByHash[id],
-        ...payload
-    }
 
     return {...state, objectsByHash: updatedObjectsByHash};
 }
@@ -71,7 +59,7 @@ export default (state = initialState, action) => {
             return {...state, selectedObjectsId: [action.payload]}
 
         case MOVE_OBJECT:
-            return updateObjects(state, action.payload.ids, action.payload);
+            return updateObjects(state, action.ids, action.payload);
 
         case SET_SELECTED_OBJECTS_EDIT_START_POSITION:
             updatedObjectsByHash = {...state.objectsByHash};
@@ -89,16 +77,16 @@ export default (state = initialState, action) => {
             return {...state, objectsByHash: updatedObjectsByHash}
 
         case RESIZE_OBJECTS:
-            return updateObjects(state, action.payload.ids, action.payload);
+            return updateObjects(state, action.ids, action.payload);
 
         case ROTATE_OBJECT:
-            return updateObject(state, action.id, action.payload);
+            return updateObjects(state, [action.id], action.payload);
 
         case SET_VERTICAL_ALIGN:
-            return updateSelectedObjectsTextProps(state, action.payload);
+            return updateObjectNestedProps(state, state.selectedObjectsId, action.payload, 'textProps');
 
         case SET_TEXT_ALIGN:
-            return updateSelectedObjectsTextProps(state, action.payload);
+            return updateObjectNestedProps(state, state.selectedObjectsId, action.payload, 'textProps');
 
         case SET_FILL_COLOR:
             return updateObjects(state, state.selectedObjectsId, action.payload);

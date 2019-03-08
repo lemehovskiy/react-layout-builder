@@ -14,13 +14,14 @@ import {
 class PositionPanel extends React.Component {
     onChange(name, value) {
         let self = this;
+        const payload = name === 'x' ? {x: value} : {y: value};
 
         self.props.moveObject({
                 ids: this.props.selectedObjectsId,
-                x: name === 'x' ? value : null,
-                y: name === 'y' ? value : null
+                payload: payload
+
             }
-        );
+        )
     }
 
     render() {
