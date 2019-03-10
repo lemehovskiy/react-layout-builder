@@ -22,8 +22,8 @@ class SelectToolContainer extends React.Component {
                 y: null
             },
             selectToolSize: {
-                x: null,
-                y: null
+                width: null,
+                height: null
             },
             selectToolPosition: {
                 x: null,
@@ -39,10 +39,19 @@ class SelectToolContainer extends React.Component {
 
     onMouseMove = (e) => this.updateSelectToolData({x: e.clientX, y: e.clientY});
 
-    onMouseUp = () => this.endSelect();
+    onMouseUp = () => {
+        const {selectToolActive} = this.state;
+
+        if (selectToolActive) {
+            this.endSelect();
+        }
+    }
 
     onMouseDown = (e) => {
         if (e.target.id === 'svg-render') {
+            this.setState({
+                selectToolActive: true
+            })
             this.startSelect({mouseX: e.clientX, mouseY: e.clientY});
         }
     }
@@ -58,26 +67,22 @@ class SelectToolContainer extends React.Component {
     }
 
     startSelect({mouseX, mouseY}) {
-        console.log('start');
-        this.setState({
-            selectToolActive: true
-        })
         this.setSelectStartPosition({x: mouseX, y: mouseY});
         this.updateSelectToolData({x: mouseX, y: mouseY});
     }
 
     endSelect() {
-        console.log('endSelect');
-        if (this.state.selectToolActive) return;
-        this.resetSelectToolData();
         this.handleSelectTool();
+        this.resetSelectToolData();
     }
 
     handleSelectTool() {
-        console.log('handleSelectTool');
         const {selectToolPosition, selectToolSize} = this.state;
         const {deselectAllObjects, selectObjects, objectsById, objectsByHash} = this.props;
-        if (selectToolSize.x === null || selectToolSize.y === null) return;
+
+        deselectAllObjects();
+
+        if (selectToolSize.width === null || selectToolSize.height === null) return;
 
         let selectedObjectIds = [];
         objectsById.forEach((item) => {
@@ -98,16 +103,16 @@ class SelectToolContainer extends React.Component {
             }
         })
 
-        deselectAllObjects();
-
-        if (selectedObjectIds.length) selectObjects(selectedObjectIds);
+        if (selectedObjectIds.length) {
+            selectObjects(selectedObjectIds)
+        }
     }
 
     resetSelectToolData() {
         this.setState({
             selectToolActive: false,
             selectToolStartPoint: {x: null, y: null},
-            selectToolSize: {x: null, y: null},
+            selectToolSize: {width: null, height: null},
             selectToolPosition: {x: null, y: null},
         });
     }
