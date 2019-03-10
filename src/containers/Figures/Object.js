@@ -20,6 +20,16 @@ class Vector extends React.Component {
         }
     }
 
+    resetMode() {
+        this.setState({
+            mode: 'default'
+        })
+    }
+
+    componentDidMount() {
+        this.props.onRef(this)
+    }
+
     onDoubleClick = (e) => {
         this.setState({
             mode: 'editText'
