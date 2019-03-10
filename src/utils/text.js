@@ -28,3 +28,19 @@ export const getTextWrapAttributes = (object) => {
         style: style
     }
 }
+
+export const getTextEditorAttributes = (object) => {
+    let style = {
+        textAlign: object.textProps.textAlign,
+        width: '100%',
+        background: 'transparent',
+        border: 'none',
+        outline: 'none',
+        padding: 0,
+        margin: 0
+    };
+
+    return {
+        style: style
+    }
+}

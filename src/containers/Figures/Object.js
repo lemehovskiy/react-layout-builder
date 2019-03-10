@@ -11,21 +11,40 @@ import {
     deselectAllObjectsExept
 } from '../../actions/index'
 
-const Vector = (props) => {
+class Vector extends React.Component {
 
-    const onMouseUp = (e) => {
-        const {object, mouseStartPosition, deselectAllObjectsExept} = props;
+    constructor(props) {
+        super(props);
+        this.state = {
+            mode: 'default'
+        }
+    }
+
+    onDoubleClick = (e) => {
+        this.setState({
+            mode: 'editText'
+        })
+    }
+
+    onMouseUp = (e) => {
+        const {object, mouseStartPosition, deselectAllObjectsExept} = this.props;
         let objectMoved = mouseStartPosition.x !== e.clientX || mouseStartPosition.y !== e.clientY;
 
         if (!e.shiftKey && !objectMoved) {
+            console.log('Vector onMouseUp')
             deselectAllObjectsExept(object.id);
         }
     }
 
-    const onMouseDown = (e) => {
+    onMouseDown = (e) => {
+        console.log('Vector onMouseDown')
 
-        const {object, selectObjects, selectedObjectsId, deselectAllObjects, setSelectedObjectsEditStartPosition} = props;
+        const {object, selectObjects, selectedObjectsId, deselectAllObjects, setSelectedObjectsEditStartPosition} = this.props;
         const objectSelected = selectedObjectsId.includes(object.id);
+
+        this.setState({
+            mode: 'default'
+        })
 
         if (!e.shiftKey && !objectSelected) {
             deselectAllObjects();
@@ -36,9 +55,22 @@ const Vector = (props) => {
 
         //TODO move setSelectedObjectsEditStartPosition to DraggableObject
         setSelectedObjectsEditStartPosition(e.clientX, e.clientY);
-        props.onMouseDown(e);
+        this.props.onMouseDown(e);
     }
-    return React.cloneElement(props.children, {onMouseUp: onMouseUp, onMouseDown: onMouseDown, object: props.object, selectedObjectsId: props.selectedObjectsId})
+
+    render() {
+        const {children, object, selectedObjectsId} = this.props;
+        const {mode} = this.state;
+        return React.cloneElement(children, {
+                onMouseUp: this.onMouseUp,
+                onMouseDown: this.onMouseDown,
+                onDoubleClick: this.onDoubleClick,
+                object: object,
+                selectedObjectsId: selectedObjectsId,
+                mode: mode
+            }
+        )
+    }
 }
 
 const mapStateToProps = ({layoutBuilder}) => ({

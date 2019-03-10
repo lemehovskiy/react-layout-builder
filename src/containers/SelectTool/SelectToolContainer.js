@@ -58,6 +58,7 @@ class SelectToolContainer extends React.Component {
     }
 
     startSelect({mouseX, mouseY}) {
+        console.log('start');
         this.setState({
             selectToolActive: true
         })
@@ -66,11 +67,14 @@ class SelectToolContainer extends React.Component {
     }
 
     endSelect() {
+        console.log('endSelect');
+        if (this.state.selectToolActive) return;
         this.resetSelectToolData();
         this.handleSelectTool();
     }
 
     handleSelectTool() {
+        console.log('handleSelectTool');
         const {selectToolPosition, selectToolSize} = this.state;
         const {deselectAllObjects, selectObjects, objectsById, objectsByHash} = this.props;
         if (selectToolSize.x === null || selectToolSize.y === null) return;
@@ -96,9 +100,7 @@ class SelectToolContainer extends React.Component {
 
         deselectAllObjects();
 
-        if (selectedObjectIds.length) {
-            selectObjects(selectedObjectIds)
-        }
+        if (selectedObjectIds.length) selectObjects(selectedObjectIds);
     }
 
     resetSelectToolData() {

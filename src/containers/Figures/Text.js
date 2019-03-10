@@ -13,7 +13,7 @@ const Text = ({object, textSize, setRef}) => {
                 <div {...getTextWrapAttributes(object)} ref={setRef}>
                     <div xmlns="http://www.w3.org/1999/xhtml" style={{display: 'inline-block'}}>
                         {object.text.split("\n").map((i, key) => {
-                            return <div key={key}>{i}</div>;
+                            return <div key={key}>{i === '' ? '\u00A0' : i}</div>;
                         })}
                     </div>
                 </div>

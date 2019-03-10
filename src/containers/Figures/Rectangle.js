@@ -2,9 +2,10 @@ import React from 'react'
 import ObjectRotateTool from '../ObjectRotateTool/ObjectRotateToolContainer.js';
 import ObjectResizeTool from '../ObjectResizeTool/ObjectResizeToolContainer.js';
 import Text from './TextContainer';
+import TextEditor from './../TextEditor/TextEditorContainer';
 import {getObjectAttributes} from '../../utils/vector.js';
 
-const Rectangle = ({object, onMouseDown, onMouseUp, selectedObjectsId}) => {
+const Rectangle = ({object, onMouseDown, onMouseUp, onDoubleClick, selectedObjectsId, mode}) => {
     return (
         <g>
             <rect {...getObjectAttributes(object)}
@@ -19,9 +20,11 @@ const Rectangle = ({object, onMouseDown, onMouseUp, selectedObjectsId}) => {
                   stroke={object.stroke}
                   onMouseDown={onMouseDown}
                   onMouseUp={onMouseUp}
+                  onDoubleClick={onDoubleClick}
             />
 
-            {object.text ? <Text object={object}/> : null}
+            {object.text && mode !== 'editText' ? <Text object={object}/> : null}
+            {mode === 'editText' ? <TextEditor object={object}/> : null}
 
             {selectedObjectsId.includes(object.id) ? <g><ObjectResizeTool object={object}/> <ObjectRotateTool object={object}/></g> : null}
 

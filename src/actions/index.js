@@ -13,7 +13,8 @@ import {
     SET_FILL_COLOR,
     SET_STROKE_COLOR,
     SET_STROKE_WIDTH,
-    ADD_NEW_OBJECT
+    ADD_NEW_OBJECT,
+    UPDATE_OBJECT_TEXT
 } from './../constants';
 
 
@@ -173,6 +174,18 @@ export const addNewObject = (object) => {
             id: object.id,
             payload: {
                 object: object
+            }
+        })
+    }
+}
+
+export const updateObjectText = ({id, text}) => {
+    return dispatch => {
+        dispatch({
+            type: UPDATE_OBJECT_TEXT,
+            id: id,
+            payload: {
+                text: text
             }
         })
     }

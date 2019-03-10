@@ -14,3 +14,4 @@ export const SET_STROKE_COLOR = 'textTool/SET_STROKE_COLOR';
 export const SET_STROKE_WIDTH = 'textTool/SET_STROKE_WIDTH';
 export const SET_NEW_FIGURE_DRAG_DATA = 'laoutBuilder/SET_NEW_FIGURE_DRAG_DATA';
 export const ADD_NEW_OBJECT = 'svgRender/ADD_NEW_OBJECT';
+export const UPDATE_OBJECT_TEXT = 'svgRender/UPDATE_OBJECT_TEXT';

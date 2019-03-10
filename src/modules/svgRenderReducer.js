@@ -11,7 +11,8 @@ import {
     SET_VERTICAL_ALIGN,
     SET_FILL_COLOR,
     SET_STROKE_COLOR,
-    SET_STROKE_WIDTH
+    SET_STROKE_WIDTH,
+    UPDATE_OBJECT_TEXT
 } from './../constants';
 
 function updateObjects(state, ids, payload) {
@@ -106,6 +107,9 @@ export default (state = initialState, action) => {
                     [action.id]: action.payload.object
                 }
             }
+
+        case UPDATE_OBJECT_TEXT:
+            return updateObjects(state, [action.id], action.payload);
 
         default:
             return state
