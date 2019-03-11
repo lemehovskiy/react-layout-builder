@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import SelectTool from './SelectTool'
 import {getSelectToolSize, getSelectToolPosition, checkRectRectCollision} from '../../utils/selectTool';
+import {getElement, getTargetAttributeName} from "../../utils/dataElements";
 
 import {
     deselectAllObjects,
@@ -32,6 +33,20 @@ class SelectToolContainer extends React.Component {
         }
     }
 
+    componentDidMount() {
+        let self = this;
+
+        self.svgRenderElement = getElement('layout-builder', 'svg-render');
+
+        self.svgRenderElement.addEventListener("mousemove", (e) => {
+            self.onMouseMove(e);
+        })
+
+        self.svgRenderElement.addEventListener("mousedown", (e) => {
+            self.onMouseDown(e);
+        })
+    }
+
     getSvgOffset = () => {
         const {x, y} = this.selectToolContainerRef.current.getBoundingClientRect();
         return {offsetX: x, offsetY: y}
@@ -48,7 +63,7 @@ class SelectToolContainer extends React.Component {
     }
 
     onMouseDown = (e) => {
-        if (e.target.id === 'svg-render') {
+        if (getTargetAttributeName(e) === 'svg-render') {
             this.setState({
                 selectToolActive: true
             })
@@ -147,8 +162,6 @@ class SelectToolContainer extends React.Component {
         const {selectToolActive, selectToolPosition, selectToolSize} = this.state;
         return (
             <div
-                onMouseDown={this.onMouseDown}
-                onMouseMove={this.onMouseMove}
                 onMouseUp={this.onMouseUp}
                 ref={this.selectToolContainerRef}
                 className="select-tool-wrap"

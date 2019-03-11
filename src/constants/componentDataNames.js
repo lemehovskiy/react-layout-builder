@@ -1,0 +1,1 @@
+export const SVG_RENDER = 'svg-render';

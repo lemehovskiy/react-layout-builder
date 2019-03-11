@@ -20,7 +20,7 @@ class SvgRender extends React.Component {
         const {objectsById, objectsByHash, selectedObjectsId} = this.props;
 
         return (
-            <svg id="svg-render" width='800' height='500' onMouseDown={this.onMouseDown.bind(this)}>
+            <svg id="svg-render" data-layout-builder-component="svg-render" width='800' height='500' onMouseDown={this.onMouseDown.bind(this)}>
 
                 <DraggableObject>
                     {objectsById.map((item, index) => {
