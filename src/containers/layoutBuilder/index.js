@@ -2,17 +2,18 @@ import React from 'react'
 import SvgRenderContainer from '../SvgRender/SvgRenderContainer';
 import ToolPanel from './../ToolPanel'
 import NewDraggableObject from '../NewDraggableObject/NewDraggableObjectContainer';
-import SelectToolContainer from './../SelectTool/SelectToolContainer';
 
 class LayoutBuilder extends React.Component {
     render() {
         return (
             <div className="layout-builder" id="layout-builder">
                 <NewDraggableObject>
-                    <SelectToolContainer ref="SelectToolContainer">
+                    <div className="main-col">
                         <SvgRenderContainer ref="SvgRenderContainer"/>
-                    </SelectToolContainer>
-                    <ToolPanel/>
+                    </div>
+                    <div className="tool-panel-col">
+                        <ToolPanel/>
+                    </div>
                 </NewDraggableObject>
             </div>
         )

@@ -14,8 +14,6 @@ class SelectToolContainer extends React.Component {
     constructor(props) {
         super(props);
 
-        this.selectToolContainerRef = React.createRef();
-
         this.state = {
             selectToolActive: false,
             selectToolStartPoint: {
@@ -33,14 +31,18 @@ class SelectToolContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidUnmount(){
         let self = this;
 
-        self.svgRenderElement = getElement('layout-builder', 'svg-render');
-
-        self.svgRenderElement.addEventListener("mousemove", (e) => {
-            self.onMouseMove(e);
+        self.svgRenderElement.addEventListener("mousedown", (e) => {
+            self.onMouseDown(e);
         })
+    }
+
+    componentDidMount() {
+        let self = this;
+        self.svgRenderElement = getElement('layout-builder', 'svg-render');
+        self.svgRenderWrapElement = getElement('layout-builder', 'svg-render-wrap');
 
         self.svgRenderElement.addEventListener("mousedown", (e) => {
             self.onMouseDown(e);
@@ -48,14 +50,22 @@ class SelectToolContainer extends React.Component {
     }
 
     getSvgOffset = () => {
-        const {x, y} = this.selectToolContainerRef.current.getBoundingClientRect();
+        const {x, y} = this.svgRenderElement.getBoundingClientRect();
         return {offsetX: x, offsetY: y}
     }
 
     onMouseMove = (e) => this.updateSelectToolData({x: e.clientX, y: e.clientY});
 
     onMouseUp = () => {
+        let self = this;
         const {selectToolActive} = this.state;
+
+        document.removeEventListener("mouseup", (e) => {
+            self.onMouseUp(e);
+        })
+        self.svgRenderWrapElement.removeEventListener("mousemove", (e) => {
+            self.onMouseMove(e);
+        })
 
         if (selectToolActive) {
             this.endSelect();
@@ -63,7 +73,16 @@ class SelectToolContainer extends React.Component {
     }
 
     onMouseDown = (e) => {
+        let self = this;
+
         if (getTargetAttributeName(e) === 'svg-render') {
+            self.svgRenderWrapElement.addEventListener("mousemove", (e) => {
+                self.onMouseMove(e);
+            })
+            document.addEventListener("mouseup", (e) => {
+                self.onMouseUp(e);
+            })
+
             this.setState({
                 selectToolActive: true
             })
@@ -115,6 +134,7 @@ class SelectToolContainer extends React.Component {
                         height: selectToolSize.height
                     })) {
                 selectedObjectIds.push(object.id);
+
             }
         })
 
@@ -158,19 +178,8 @@ class SelectToolContainer extends React.Component {
     }
 
     render() {
-        const {children} = this.props;
         const {selectToolActive, selectToolPosition, selectToolSize} = this.state;
-        return (
-            <div
-                onMouseUp={this.onMouseUp}
-                ref={this.selectToolContainerRef}
-                className="select-tool-wrap"
-            >
-                {children}
-                {selectToolActive ?
-                    <SelectTool selectToolPosition={selectToolPosition} selectToolSize={selectToolSize}/> : null}
-            </div>
-        )
+        return selectToolActive ? <SelectTool selectToolPosition={selectToolPosition} selectToolSize={selectToolSize}/> : null
     }
 }
 

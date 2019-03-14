@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import SvgRender from './SvgRender';
 
 const SvgRenderContainer = ({selectedObjectsId, objectsById, objectsByHash}) => {
-    return <SvgRender
+    return (<SvgRender
                 selectedObjectsId={selectedObjectsId}
                 objectsById={objectsById}
                 objectsByHash={objectsByHash}
-            />
+            />)
 }
 
 const mapStateToProps = ({svgRender, resizeTool, layoutBuilder}) => ({

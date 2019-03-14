@@ -36,3 +36,7 @@ button:disabled {
 .select-tool-wrap {
     position: relative;
 }
+
+.svg-render-wrap {
+    position: relative;
+}
