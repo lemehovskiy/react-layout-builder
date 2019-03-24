@@ -85,8 +85,8 @@ export const getObjectResizeValues = (mouse, direction, objectInitState, mouseSt
     return updatedObject;
 }
 
-export const getResizeObjectDotsConfig = (object) => {
-    return [
+export const getResizeObjectDotsConfig = (object, resizeDirection) => {
+    const config = [
         {
             name: 'nw',
             x: object.x,
@@ -128,4 +128,6 @@ export const getResizeObjectDotsConfig = (object) => {
             y: object.y + object.height
         }
     ]
+
+    return resizeDirection !== null ? config.filter(direction => direction.name === resizeDirection) : config
 }

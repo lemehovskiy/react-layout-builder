@@ -2,8 +2,8 @@ import React from 'react'
 import {getResizeObjectDotsConfig} from "../../utils/resizeTool";
 import {getObjectAttributes} from "../../utils/vector";
 
-const ObjectResizeTool = ({object, onMouseDown}) => {
-    const dotsConfig = getResizeObjectDotsConfig(object);
+const ObjectResizeTool = ({object, onMouseDown, resizeDirection}) => {
+    const dotsConfig = getResizeObjectDotsConfig(object, resizeDirection);
 
     return (
         <g {...getObjectAttributes(object)}>

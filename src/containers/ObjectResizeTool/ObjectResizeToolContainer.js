@@ -54,6 +54,7 @@ class ObjectResizeToolContainer extends React.PureComponent {
 
     onMouseUp = () =>{
         this.setState({
+            resizeDirection: null,
             isResizing: false,
             mouseStartPosition: {
                 x: null,
@@ -76,7 +77,7 @@ class ObjectResizeToolContainer extends React.PureComponent {
         })
     }
 
-    render = () => <ObjectResizeTool object={this.props.object} onMouseDown={this.onMouseDown}/>
+    render = () => <ObjectResizeTool object={this.props.object} onMouseDown={this.onMouseDown} resizeDirection={this.state.resizeDirection}/>
 }
 
 const mapDispatchToProps = dispatch =>
