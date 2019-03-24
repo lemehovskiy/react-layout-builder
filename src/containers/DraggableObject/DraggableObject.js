@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import SnapHelper from './../SnapHelper/SnapHelperContainer';
 
 import {
     moveObject
@@ -14,11 +15,15 @@ class FigureDragger extends React.PureComponent {
             mouseStartPosition: {
                 x: null,
                 y: null
+            },
+            objectPosition: {
+                x: null,
+                y: null
             }
         }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         if (this.state.isDrag) {
             document.addEventListener('mousemove', this.onMouseMove)
             document.addEventListener('mouseup', this.onMouseUp)
@@ -63,9 +68,14 @@ class FigureDragger extends React.PureComponent {
     }
 
     render() {
-        return React.Children.map(this.props.children, child => {
-                    return React.cloneElement(child, {onMouseDown: this.onChildMouseDown })
-                })
+        return (
+            <g>
+                <SnapHelper/>
+                {React.Children.map(this.props.children, child => {
+                    return React.cloneElement(child, {onMouseDown: this.onChildMouseDown})
+                })}
+            </g>
+        )
     }
 }
 
@@ -80,7 +90,6 @@ const mapDispatchToProps = dispatch =>
         },
         dispatch
     )
-
 
 export default connect(
     mapStateToProps,
